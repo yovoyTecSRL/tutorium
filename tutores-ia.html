@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutores IA - Tutorium | Sistemas Orbix</title>
+    
+    <!-- SEO TAGS -->
+    <meta name="description" content="Conecta con tutores de IA especializados y humanos en tiempo real. Videollamadas profesionales y asistencia 24/7.">
+    <meta name="keywords" content="Tutores IA, Inteligencia Artificial, Educación, Aprendizaje, Emocional, Online, Honduras, Global, Plataforma Educativa, Ae.N.K.I.">
+    <meta name="author" content="Luis Enrique Mata Mora">
+    <meta property="og:title" content="Tutores IA - Tutorium Academy">
+    <meta property="og:description" content="Conecta con nuestros tutores de inteligencia artificial y profesores humanos. Videollamadas profesionales, asistencia 24/7 y aprendizaje personalizado.">
+    <meta property="og:image" content="https://tutorium.sistemasorbix.com/img/tutores-banner.png">
+    <meta property="og:url" content="https://tutorium.sistemasorbix.com/tutores">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'tutorium': {
+                            'blue': '#0a58ca',
+                            'blue-dark': '#084298',
+                            'blue-light': '#3d8bfd',
+                            'orange': '#ff6f00',
+                            'orange-dark': '#f57c00',
+                            'orange-light': '#ffb74d',
+                            'gray': '#5f6368',
+                            'gray-light': '#8e9196',
+                            'gray-dark': '#3c4043'
+                        }
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Jitsi Meet API -->
+    <script src="https://meet.jit.si/external_api.js"></script>
+    
+    <!-- Web Speech API for TTS -->
+    <style>
+        /* Voice Animation Styles */
+        .voice-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00ff88, #27ae60);
+            box-shadow: 0 0 20px #00ff88;
+            margin: 20px auto;
+            animation: pulse 1s infinite;
+            position: relative;
+            display: none;
+        }
+        
+        .voice-circle.speaking {
+            display: block;
+            animation: speaking-pulse 0.5s infinite;
+        }
+        
+        @keyframes speaking-pulse {
+            0% { transform: scale(1); opacity: 0.9; box-shadow: 0 0 20px #00ff88; }
+            50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 30px #00ff88, 0 0 40px #27ae60; }
+            100% { transform: scale(1); opacity: 0.9; box-shadow: 0 0 20px #00ff88; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+        
+        /* CodeMaster Enhanced Card */
+        .codemaster-enhanced {
+            background: linear-gradient(135deg, #00ff88 0%, #27ae60 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .codemaster-iframe {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            margin: 1rem 0;
+        }
+        
+        .auto-call-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 0, 0, 0.9);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            animation: blink 2s infinite;
+            z-index: 10;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        .voice-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .voice-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .voice-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .voice-btn.active {
+            background: #00ff88;
+            color: #333;
+            border-color: #00ff88;
+        }
+        
+        /* Fixed CodeMaster Card Styles */
+        .codemaster-card-fixed {
+            position: relative;
+            background: linear-gradient(135deg, #00ff88 0%, #27ae60 100%);
+            overflow: visible;
+            max-height: none;
+        }
+        
+        .codemaster-controls-fixed {
+            position: sticky;
+            bottom: 0;
+            background: rgba(0, 255, 136, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 0 0 15px 15px;
+            z-index: 20;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .voice-controls-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .voice-btn-fixed {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.6rem 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            min-height: 40px;
+        }
+        
+        .voice-btn-fixed:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .voice-btn-fixed.active {
+            background: #ffffff;
+            color: #27ae60;
+            border-color: #ffffff;
+            font-weight: 600;
+        }
+        
+        .main-controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        
+        .main-btn-fixed {
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .main-btn-video {
+            background: #ffffff;
+            color: #27ae60;
+        }
+        
+        .main-btn-chat {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .main-btn-fixed:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        
+        .codemaster-iframe-container {
+            position: relative;
+            height: 280px;
+            margin: 1rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+        
+        .iframe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.1);
+            pointer-events: none;
+            z-index: 1;
+            border-radius: 15px;
+        }
+        
+        .connection-status {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 255, 136, 0.9);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+        
+        .connection-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            animation: pulse-indicator 2s infinite;
+        }
+        
+        @keyframes pulse-indicator {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="font-poppins bg-white">
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-gradient-to-r from-tutorium-orange to-tutorium-orange-light rounded-full flex items-center justify-center mr-3 animate-pulse">
+                        <i class="fas fa-brain text-white text-lg"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-tutorium-blue">Tutorium</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="../index.html" class="text-tutorium-gray hover:text-tutorium-blue transition-colors duration-300">Inicio</a>
+                    <a href="#tutores" class="text-tutorium-blue font-medium">Tutores IA</a>
+                    <a href="certificaciones.html" class="text-tutorium-gray hover:text-tutorium-blue transition-colors duration-300">Certificaciones</a>
+                    <a href="progreso.html" class="text-tutorium-gray hover:text-tutorium-blue transition-colors duration-300">Mi Progreso</a>
+                    <button class="text-tutorium-blue hover:text-blue-700 transition-colors duration-300 font-medium">Iniciar Sesión</button>
+                    <button class="bg-tutorium-orange text-white px-6 py-2 rounded-lg hover:bg-tutorium-orange-dark transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        Comenzar Ahora
+                    </button>
+                </div>
+                
+                <div class="md:hidden">
+                    <button class="text-tutorium-gray hover:text-tutorium-blue transition-colors" id="mobileMenuToggle">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-tutorium-blue via-tutorium-blue-dark to-blue-800 text-white py-20 relative overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-20 left-10 w-20 h-20 bg-tutorium-orange opacity-20 rounded-full animate-bounce"></div>
+            <div class="absolute top-40 right-20 w-16 h-16 bg-tutorium-blue-light opacity-30 rounded-full animate-bounce" style="animation-delay: -2s;"></div>
+            <div class="absolute bottom-20 left-1/4 w-12 h-12 bg-tutorium-orange-light opacity-25 rounded-full animate-bounce" style="animation-delay: -4s;"></div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
+                    Tutores <span class="text-tutorium-orange">IA Especializados</span> & Humanos
+                </h1>
+                <p class="text-xl text-blue-100 leading-relaxed max-w-3xl mx-auto mb-8">
+                    Conecta con nuestros tutores de inteligencia artificial y profesores humanos. Videollamadas profesionales, asistencia 24/7 y aprendizaje personalizado.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="startVideoCall('aenki')" class="bg-tutorium-orange hover:bg-tutorium-orange-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
+                        <i class="fas fa-video mr-2"></i>
+                        Iniciar Sesión con Tutor
+                    </button>
+                    <button onclick="bookHumanTutor()" class="border-2 border-white text-white hover:bg-white hover:text-tutorium-blue px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-calendar mr-2"></i>
+                        Agendar Tutoría
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tutors Grid -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Nuestros Tutores Especializados</h2>
+                <p class="text-xl text-tutorium-gray">Elige entre tutores de IA avanzados y profesores humanos expertos</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Ae.N.K.I Pro -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group border-l-4 border-tutorium-orange">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-tutorium-orange to-red-400 rounded-full flex items-center justify-center animate-pulse">
+                            <i class="fas fa-brain text-white text-2xl"></i>
+                        </div>
+                        <div class="flex items-center text-green-500 text-sm font-medium">
+                            <div class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                            En Línea
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Ae.N.K.I Pro</h3>
+                    <p class="text-tutorium-blue font-medium mb-3">Tutor IA Principal - Inteligencia Educativa Avanzada</p>
+                    <p class="text-tutorium-gray mb-4">Especializado en análisis emocional, matemáticas avanzadas, programación y ciencias. Disponible 24/7 con respuestas instantáneas.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-blue-100 text-tutorium-blue px-3 py-1 rounded-full text-sm">Matemáticas</span>
+                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">Programación</span>
+                        <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">Ciencias</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-6 text-center">
+                        <div>
+                            <div class="text-lg font-bold text-tutorium-blue">4.9</div>
+                            <div class="text-sm text-tutorium-gray">Rating</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-tutorium-blue">2,450</div>
+                            <div class="text-sm text-tutorium-gray">Sesiones</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-tutorium-blue">24/7</div>
+                            <div class="text-sm text-tutorium-gray">Disponible</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <button onclick="startVideoCall('aenki')" class="flex-1 bg-tutorium-orange text-white py-2 px-4 rounded-lg hover:bg-tutorium-orange-dark transition-colors duration-300 font-medium">
+                            <i class="fas fa-video mr-2"></i>Conectar
+                        </button>
+                        <button onclick="openChat('aenki')" class="flex-1 border-2 border-tutorium-blue text-tutorium-blue py-2 px-4 rounded-lg hover:bg-tutorium-blue hover:text-white transition-all duration-300 font-medium">
+                            <i class="fas fa-comments mr-2"></i>Chat
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Enhanced CodeMaster with Fixed Controls -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group border-l-4 border-green-500 codemaster-card-fixed">
+                    <div class="auto-call-indicator" id="autoCallIndicator" style="display: none;">
+                        🔴 AUTO-ACCEPT ON
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-code text-white text-2xl"></i>
+                        </div>
+                        <div class="flex items-center text-green-500 text-sm font-medium">
+                            <div class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                            En Línea
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">CodeMaster IA Pro</h3>
+                    <p class="text-green-600 font-medium mb-3">Especialista en Programación y Desarrollo</p>
+                    
+                    <!-- Voice Animation Circle -->
+                    <div class="voice-circle" id="codemasterVoiceCircle"></div>
+                    
+                    <!-- Embedded CodeMaster Agent Container -->
+                    <div class="codemaster-iframe-container">
+                        <div class="connection-status">
+                            <span class="connection-indicator"></span>
+                            Conectado al agente
+                        </div>
+                        <div class="iframe-overlay"></div>
+                        <iframe 
+                            src="https://lemm.sistemasorbix.com/codemaster.html"
+                            title="Agente CodeMaster IA Entrenado"
+                            width="100%"
+                            height="100%"
+                            frameborder="0"
+                            allow="microphone; camera; autoplay; fullscreen"
+                            id="codemasterAgent">
+                        </iframe>
+                    </div>
+                    
+                    <p class="text-tutorium-gray mb-4 text-sm">Experto en Python, JavaScript, React, Node.js y desarrollo full-stack. Debugging en tiempo real y mejores prácticas.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm">Python</span>
+                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">JavaScript</span>
+                        <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">React</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-6 text-center">
+                        <div>
+                            <div class="text-lg font-bold text-green-600">4.8</div>
+                            <div class="text-sm text-tutorium-gray">Rating</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-green-600">1,890</div>
+                            <div class="text-sm text-tutorium-gray">Sesiones</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-green-600">24/7</div>
+                            <div class="text-sm text-tutorium-gray">Disponible</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Fixed Controls Panel -->
+                    <div class="codemaster-controls-fixed">
+                        <!-- Voice Controls Grid -->
+                        <div class="voice-controls-grid">
+                            <button class="voice-btn-fixed" id="autoAcceptBtn" onclick="toggleAutoAccept()">
+                                <i class="fas fa-phone"></i>
+                                <span>Auto</span>
+                            </button>
+                            <button class="voice-btn-fixed" id="voiceToggleBtn" onclick="toggleVoiceMode()">
+                                <i class="fas fa-microphone"></i>
+                                <span>Mic</span>
+                            </button>
+                            <button class="voice-btn-fixed" id="speakBtn" onclick="testCodeMasterVoice()">
+                                <i class="fas fa-volume-up"></i>
+                                <span>TTS</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Main Controls Grid -->
+                        <div class="main-controls-grid">
+                            <button class="main-btn-fixed main-btn-video" onclick="startVideoCallWithCodeMaster('codemaster')">
+                                <i class="fas fa-video"></i>
+                                Conectar
+                            </button>
+                            <button class="main-btn-fixed main-btn-chat" onclick="openCodeMasterChat('codemaster')">
+                                <i class="fas fa-comments"></i>
+                                Chat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MathGenius -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group border-l-4 border-purple-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-calculator text-white text-2xl"></i>
+                        </div>
+                        <div class="flex items-center text-green-500 text-sm font-medium">
+                            <div class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                            En Línea
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">MathGenius IA</h3>
+                    <p class="text-purple-600 font-medium mb-3">Experto en Matemáticas y Ciencias Exactas</p>
+                    <p class="text-tutorium-gray mb-4">Álgebra, cálculo, estadística, física y química. Resolución paso a paso con explicaciones visuales interactivas.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">Álgebra</span>
+                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">Cálculo</span>
+                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">Física</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-6 text-center">
+                        <div>
+                            <div class="text-lg font-bold text-purple-600">4.9</div>
+                            <div class="text-sm text-tutorium-gray">Rating</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-purple-600">2,100</div>
+                            <div class="text-sm text-tutorium-gray">Sesiones</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-purple-600">24/7</div>
+                            <div class="text-sm text-tutorium-gray">Disponible</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <button onclick="startVideoCall('mathgenius')" class="flex-1 bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600 transition-colors duration-300 font-medium">
+                            <i class="fas fa-video mr-2"></i>Conectar
+                        </button>
+                        <button onclick="openChat('mathgenius')" class="flex-1 border-2 border-purple-500 text-purple-500 py-2 px-4 rounded-lg hover:bg-purple-500 hover:text-white transition-all duration-300 font-medium">
+                            <i class="fas fa-comments mr-2"></i>Chat
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Human Tutors -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group border-l-4 border-blue-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user-graduate text-white text-2xl"></i>
+                        </div>
+                        <div class="flex items-center text-yellow-500 text-sm font-medium">
+                            <div class="w-2 h-2 bg-yellow-500 rounded-full mr-2 animate-pulse"></div>
+                            5 Disponibles
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Profesores Humanos</h3>
+                    <p class="text-blue-600 font-medium mb-3">Tutores Certificados y Expertos</p>
+                    <p class="text-tutorium-gray mb-4">Profesores universitarios y especialistas en diversas materias. Sesiones personalizadas con enfoque humano.</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm">Todas las materias</span>
+                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">Certificados</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-6 text-center">
+                        <div>
+                            <div class="text-lg font-bold text-blue-600">4.7</div>
+                            <div class="text-sm text-tutorium-gray">Rating</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-blue-600">15</div>
+                            <div class="text-sm text-tutorium-gray">Tutores</div>
+                        </div>
+                        <div>
+                            <div class="text-lg font-bold text-blue-600">8-22h</div>
+                            <div class="text-sm text-tutorium-gray">Horario</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-2">
+                        <button onclick="bookHumanTutor()" class="flex-1 bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors duration-300 font-medium">
+                            <i class="fas fa-calendar mr-2"></i>Agendar
+                        </button>
+                        <button onclick="viewHumanTutors()" class="flex-1 border-2 border-blue-500 text-blue-500 py-2 px-4 rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 font-medium">
+                            <i class="fas fa-users mr-2"></i>Ver Todos
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Características de Nuestros Tutores</h2>
+                <p class="text-xl text-tutorium-gray">Tecnología avanzada y experiencia humana combinadas</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-video text-red-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Videollamadas HD</h3>
+                    <p class="text-tutorium-gray text-sm">Calidad 4K con Jitsi Meet integrado</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-heart text-blue-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">IA Emocional</h3>
+                    <p class="text-tutorium-gray text-sm">Detecta frustración y adapta el aprendizaje</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-clock text-green-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Disponible 24/7</h3>
+                    <p class="text-tutorium-gray text-sm">Tutores IA siempre listos para ayudar</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 text-center">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-purple-500 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Progreso Personalizado</h3>
+                    <p class="text-tutorium-gray text-sm">Seguimiento detallado de tu aprendizaje</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-tutorium-blue to-tutorium-blue-dark text-white">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-6">¿Listo para Comenzar tu Tutoría?</h2>
+            <p class="text-xl text-blue-100 mb-8">
+                Conecta ahora con un tutor IA o agenda una sesión con un profesor humano
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="startVideoCall('aenki')" class="bg-tutorium-orange hover:bg-tutorium-orange-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-2xl">
+                    <i class="fas fa-video mr-2"></i>
+                    Conectar con IA Ahora
+                </button>
+                <button onclick="bookHumanTutor()" class="border-2 border-white text-white hover:bg-white hover:text-tutorium-blue px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-calendar mr-2"></i>
+                    Agendar Tutor Humano
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-tutorium-orange rounded-full flex items-center justify-center mr-2">
+                            <i class="fas fa-brain text-white text-sm"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-tutorium-orange">Tutorium</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Plataforma de tutoría inteligente en vivo. Sistemas Orbix © 2024
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin text-xl"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4 text-tutorium-orange">Tutores</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Tutores IA</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Profesores Humanos</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Agendar Sesión</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Precios</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4 text-tutorium-orange">Soporte</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Centro de Ayuda</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Contacto</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">WhatsApp: +504 9999-9999</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Email: hola@tutorium.hn</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4 text-tutorium-orange">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Términos de Uso</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Privacidad</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors duration-300">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>© 2024 Tutorium by Sistemas Orbix. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Video Call Modal -->
+    <div id="videoCallModal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-2xl w-11/12 max-w-4xl h-5/6 flex flex-col">
+            <div class="flex items-center justify-between p-6 border-b">
+                <h3 class="text-xl font-bold text-gray-800">Sesión con <span id="tutorName">Tutor</span></h3>
+                <button onclick="endVideoCall()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="flex-1 bg-gray-100 flex items-center justify-center">
+                <div id="jitsiContainer" class="w-full h-full"></div>
+                <div id="loadingVideo" class="text-center">
+                    <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-tutorium-blue mx-auto mb-4"></div>
+                    <p class="text-gray-600">Conectando con el tutor...</p>
+                </div>
+            </div>
+            <div class="p-6 border-t bg-gray-50 flex justify-center space-x-4">
+                <button onclick="toggleMute()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition-colors duration-300">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button onclick="toggleVideo()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition-colors duration-300">
+                    <i class="fas fa-video"></i>
+                </button>
+                <button onclick="endVideoCall()" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-colors duration-300">
+                    <i class="fas fa-phone-slash mr-2"></i>Terminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Modal -->
+    <div id="chatModal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-2xl w-11/12 max-w-2xl h-4/5 flex flex-col">
+            <div class="flex items-center justify-between p-6 border-b">
+                <h3 class="text-xl font-bold text-gray-800">Chat con <span id="chatTutorName">Tutor</span></h3>
+                <button onclick="closeChat()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4" id="chatMessages">
+                <!-- Chat messages will appear here -->
+            </div>
+            <div class="p-4 border-t">
+                <div class="flex space-x-2">
+                    <input type="text" id="chatInput" placeholder="Escribe tu mensaje..." 
+                           class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-tutorium-blue">
+                    <button onclick="sendMessage()" class="bg-tutorium-blue text-white px-6 py-2 rounded-lg hover:bg-tutorium-blue-dark transition-colors duration-300">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="booking-content">
+            <div class="booking-header">
+                <h3 id="bookingTutorName">Reservar Tutoría</h3>
+                <span class="modal-close" onclick="closeBooking()">&times;</span>
+            </div>
+            <div class="booking-body">
+                <div class="tutor-availability">
+                    <label class="form-label">Estado del Tutor:</label>
+                    <div class="availability-toggle active" id="tutorAvailabilityToggle">
+                    </div>
+                    <span id="availabilityStatus">Disponible</span>
+                </div>
+
+                <div class="calendar-container">
+                    <div class="calendar-section">
+                        <div class="calendar-header">
+                            <button class="calendar-nav" onclick="previousMonth()">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <h4 id="currentMonth">Julio 2025</h4>
+                            <button class="calendar-nav" onclick="nextMonth()">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar days will be generated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-section">
+                        <h4>Horarios Disponibles</h4>
+                        <div class="time-slots" id="timeSlots">
+                            <!-- Time slots will be generated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-summary" id="bookingSummary" style="display: none;">
+                    <h4><i class="fas fa-calendar-check"></i> Resumen de la Reserva</h4>
+                    <div class="summary-details">
+                        <p><strong>Tutor:</strong> <span id="summaryTutor"></span></p>
+                        <p><strong>Fecha:</strong> <span id="summaryDate"></span></p>
+                        <p><strong>Hora:</strong> <span id="summaryTime"></span></p>
+                        <div class="price-display">
+                            <div class="price-amount">$29.99 USD</div>
+                            <div>por hora académica</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-form">
+                    <div class="form-group">
+                        <label class="form-label">Tema de la Tutoría</label>
+                        <input type="text" class="form-input" id="tutorTopic" placeholder="Ej: Cálculo integral, Programación Python...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Descripción/Objetivos</label>
+                        <textarea class="form-input form-textarea" id="tutorDescription" placeholder="Describe qué te gustaría aprender o qué dificultades tienes..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nivel Académico</label>
+                        <select class="form-input" id="academicLevel">
+                            <option value="">Selecciona tu nivel</option>
+                            <option value="principiante">Principiante</option>
+                            <option value="intermedio">Intermedio</option>
+                            <option value="avanzado">Avanzado</option>
+                            <option value="universitario">Universitario</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Notificaciones</label>
+                        <div class="notification-options">
+                            <div class="notification-option">
+                                <input type="checkbox" id="emailNotification" checked>
+                                <label for="emailNotification">
+                                    <i class="fas fa-envelope"></i> Email
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <input type="checkbox" id="whatsappNotification" checked>
+                                <label for="whatsappNotification">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <input type="checkbox" id="platformNotification" checked>
+                                <label for="platformNotification">
+                                    <i class="fas fa-bell"></i> Plataforma
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-actions">
+                    <button class="btn btn-secondary" onclick="closeBooking()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button class="btn btn-primary" onclick="confirmBooking()">
+                        <i class="fas fa-credit-card"></i> Reservar y Pagar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Call Modal -->
+    <div class="video-call-modal" id="videoCallModal">
+        <div class="video-call-content">
+            <div class="video-call-header">
+                <h3 id="videoCallTutorName">Tutoría Profesional en Vivo</h3>
+                <div class="meeting-status">
+                    <div class="status-dot"></div>
+                    <span>Sesión Activa</span>
+                </div>
+                <div class="session-timer" id="sessionTimer">
+            document.getElementById('bookingModal').style.display = 'none';
+            selectedDate = null;
+            selectedTime = null;
+            currentBooking = null;
+        }
+
+        function generateCalendar() {
+            const calendar = document.getElementById('calendarGrid');
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                              'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            
+            document.getElementById('currentMonth').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            calendar.innerHTML = '';
+            
+            // Add day headers
+            const dayHeaders = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            dayHeaders.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.textContent = day;
+                dayHeader.style.fontWeight = 'bold';
+                dayHeader.style.textAlign = 'center';
+                dayHeader.style.padding = '0.5rem';
+                dayHeader.style.backgroundColor = '#f8f9ff';
+                calendar.appendChild(dayHeader);
+            });
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                calendar.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                
+                const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const availability = tutorAvailability[currentBooking.tutor];
+                
+                if (availability.schedule[dateString]) {
+                    dayElement.classList.add('available');
+                    dayElement.onclick = () => selectDate(dateString, dayElement);
+                } else {
+                    dayElement.classList.add('unavailable');
+                }
+                
+                calendar.appendChild(dayElement);
+            }
+        }
+
+        function selectDate(dateString, element) {
+            // Remove previous selection
+            document.querySelectorAll('.calendar-day').forEach(day => {
+                day.classList.remove('selected');
+            });
+            
+            // Add selection to clicked day
+            element.classList.add('selected');
+            selectedDate = dateString;
+            currentBooking.date = dateString;
+            
+            generateTimeSlots();
+            updateBookingSummary();
+        }
+
+        function generateTimeSlots() {
+            const timeSlotsContainer = document.getElementById('timeSlots');
+            const availability = tutorAvailability[currentBooking.tutor];
+            const availableTimes = availability.schedule[selectedDate] || [];
+            
+            timeSlotsContainer.innerHTML = '';
+            
+            availableTimes.forEach(time => {
+                const timeSlot = document.createElement('div');
+                timeSlot.className = 'time-slot';
+                timeSlot.textContent = time;
+                timeSlot.onclick = () => selectTime(time, timeSlot);
+                timeSlotsContainer.appendChild(timeSlot);
+            });
+        }
+
+        function selectTime(time, element) {
+            // Remove previous selection
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            
+            // Add selection to clicked time
+            element.classList.add('selected');
+            selectedTime = time;
+            currentBooking.time = time;
+            
+            updateBookingSummary();
+        }
+
+        function updateBookingSummary() {
+            if (selectedDate && selectedTime) {
+                const summary = document.getElementById('bookingSummary');
+                const date = new Date(selectedDate);
+                const formattedDate = date.toLocaleDateString('es-ES', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                document.getElementById('summaryTutor').textContent = currentBooking.tutor;
+                document.getElementById('summaryDate').textContent = formattedDate;
+                document.getElementById('summaryTime').textContent = selectedTime;
+                
+                summary.style.display = 'block';
+            }
+        }
+
+        function previousMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar();
+        }
+
+        function confirmBooking() {
+            if (!selectedDate || !selectedTime) {
+                alert('Por favor selecciona una fecha y hora para la tutoría.');
+                return;
+            }
+            
+            const topic = document.getElementById('tutorTopic').value;
+            const description = document.getElementById('tutorDescription').value;
+            const level = document.getElementById('academicLevel').value;
+            
+            if (!topic || !description || !level) {
+                alert('Por favor completa todos los campos del formulario.');
+                return;
+            }
+            
+            // Simulate booking confirmation
+            alert('¡Reserva confirmada! Te hemos enviado los detalles por email y WhatsApp.');
+            
+            // Generate Zoom meeting
+            generateZoomMeeting();
+            
+            // Close booking modal
+            closeBooking();
+            
+            // Show success message with video call option
+            setTimeout(() => {
+                if (confirm('¿Quieres unirte a la videollamada ahora?')) {
+                    startVideoCall();
+                }
+            }, 2000);
+        }
+
+        function generateZoomMeeting() {
+            // Simulate Zoom meeting generation
+            zoomMeetingId = Math.random().toString(36).substr(2, 9);
+            console.log('Zoom Meeting Generated:', zoomMeetingId);
+            
+            // In a real implementation, this would call Zoom API
+            // const zoomAPI = {
+            //     createMeeting: {
+            //         topic: `Tutoría con ${currentBooking.tutor}`,
+            //         start_time: `${selectedDate}T${selectedTime}:00`,
+            //         duration: 60,
+            //         settings: {
+            //             host_video: true,
+            //             participant_video: true,
+            //             join_before_host: true,
+            //             mute_upon_entry: true
+            //         }
+            //     }
+            // };
+        }
+
+        // Video Call Functions
+        function startVideoCall() {
+            document.getElementById('videoCallModal').style.display = 'flex';
+            document.getElementById('videoCallTutorName').textContent = `Tutoría con ${currentBooking ? currentBooking.tutor : 'Tutor IA'}`;
+            document.getElementById('activeSessionTutor').textContent = currentBooking ? currentBooking.tutor : 'Tutor IA';
+            
+            startSessionTimer();
+        }
+
+        function startSessionTimer() {
+            sessionStartTime = new Date();
+            sessionTimer = setInterval(() => {
+                const now = new Date();
+                const elapsed = now - sessionStartTime;
+                const hours = Math.floor(elapsed / 3600000);
+                const minutes = Math.floor((elapsed % 3600000) / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                
+                const timeString = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                document.getElementById('sessionTimer').textContent = timeString;
+                document.getElementById('activeSessionTimer').textContent = `Sesión Activa: ${timeString}`;
+            }, 1000);
+        }
+
+        function startZoomCall() {
+            // In a real implementation, this would launch Zoom
+            const zoomUrl = `https://zoom.us/j/${zoomMeetingId}`;
+            window.open(zoomUrl, '_blank');
+            
+            // Update UI
+            document.getElementById('zoomContainer').innerHTML = `
+                <div style="text-align: center;">
+                    <i class="fas fa-video" style="font-size: 3rem; color: #27ae60; margin-bottom: 1rem;"></i>
+                    <p style="color: #27ae60; font-weight: bold;">Videollamada Activa</p>
+                    <p>Meeting ID: ${zoomMeetingId}</p>
+                    <button class="btn btn-danger" onclick="endZoomCall()">
+                        <i class="fas fa-phone-slash"></i> Terminar Llamada
+                    </button>
+                </div>
+            `;
+        }
+
+        function joinCall() {
+            alert('Conectando con el tutor...');
+            // Simulate joining call
+            setTimeout(() => {
+                alert('¡Conectado exitosamente!');
+            }, 2000);
+        }
+
+        function toggleMute() {
+            const btn = event.target.closest('.control-btn');
+            const icon = btn.querySelector('i');
+            
+            if (icon.classList.contains('fa-microphone')) {
+                icon.classList.remove('fa-microphone');
+                icon.classList.add('fa-microphone-slash');
+                btn.style.background = '#e74c3c';
+            } else {
+                icon.classList.remove('fa-microphone-slash');
+                icon.classList.add('fa-microphone');
+                btn.style.background = '#f39c12';
+            }
+        }
+
+        function toggleVideo() {
+            const btn = event.target.closest('.control-btn');
+            const icon = btn.querySelector('i');
+            
+            if (icon.classList.contains('fa-video')) {
+                icon.classList.remove('fa-video');
+                icon.classList.add('fa-video-slash');
+                btn.style.background = '#e74c3c';
+            } else {
+                icon.classList.remove('fa-video-slash');
+                icon.classList.add('fa-video');
+                btn.style.background = '#1e3c72';
+            }
+        }
+
+        function endVideoCall() {
+            if (sessionTimer) {
+                clearInterval(sessionTimer);
+                sessionTimer = null;
+            }
+            
+            document.getElementById('videoCallModal').style.display = 'none';
+            
+            // Show rating modal
+            setTimeout(() => {
+                showRatingModal();
+            }, 1000);
+        }
+
+        function endZoomCall() {
+            alert('Llamada terminada');
+            endVideoCall();
+        }
+
+        // Rating Functions
+        function showRatingModal() {
+            document.getElementById('ratingModal').style.display = 'flex';
+            document.getElementById('ratingTutorName').textContent = currentBooking ? currentBooking.tutor : 'el tutor';
+            currentRating = 0;
+            
+            // Reset stars
+            document.querySelectorAll('.rating-star').forEach(star => {
+                star.classList.remove('active');
+            });
+        }
+
+        function closeRating() {
+            document.getElementById('ratingModal').style.display = 'none';
+        }
+
+        function submitRating() {
+            if (currentRating === 0) {
+                alert('Por favor selecciona una calificación.');
+                return;
+            }
+            
+            const comment = document.getElementById('ratingComment').value;
+            
+            // Simulate rating submission
+            alert(`¡Gracias por tu calificación de ${currentRating} estrellas! Tu feedback nos ayuda a mejorar.`);
+            
+            closeRating();
+            
+            // Reset booking
+            currentBooking = null;
+            selectedDate = null;
+            selectedTime = null;
+        }
+
+        // Event listeners for rating stars
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.querySelectorAll('.rating-star');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    currentRating = parseInt(this.getAttribute('data-rating'));
+                    
+                    // Update star display
+                    stars.forEach((s, index) => {
+                        if (index < currentRating) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseenter', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    stars.forEach((s, index) => {
+                        if (index < rating) {
+                            s.style.color = '#f39c12';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseleave', function() {
+                    stars.forEach((s, index) => {
+                        if (index < currentRating) {
+                            s.style.color = '#f39c12';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+            });
+        });
+
+        // Enable sending messages with Enter key
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const chatModal = document.getElementById('chatModal');
+            const bookingModal = document.getElementById('bookingModal');
+            const videoCallModal = document.getElementById('videoCallModal');
+            const ratingModal = document.getElementById('ratingModal');
+            
+            if (event.target === chatModal) {
+                chatModal.style.display = 'none';
+            }
+            if (event.target === bookingModal) {
+                bookingModal.style.display = 'none';
+            }
+            if (event.target === videoCallModal) {
+                videoCallModal.style.display = 'none';
+            }
+            if (event.target === ratingModal) {
+                ratingModal.style.display = 'none';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current month and year
+            const now = new Date();
+            currentMonth = now.getMonth();
+            currentYear = now.getFullYear();
+        });
+    </script>
+    <script>
+        let jitsiAPI = null;
+        let isListening = false;
+        let autoAcceptEnabled = false;
+        let voiceModeEnabled = false;
+        let isCodeMasterSpeaking = false;
+        let codemasterConnection = null;
+        let agentResponses = {};
+        
+        // Web Speech API
+        const synth = window.speechSynthesis;
+        let currentUtterance = null;
+        
+        // Agent API Configuration - Real Trained Agents
+        const AGENTS_CONFIG = {
+            codemaster: {
+                name: 'CodeMaster IA Pro',
+                api: 'https://lemm.sistemasorbix.com/api/chat',
+                iframe: 'https://lemm.sistemasorbix.com/codemaster.html',
+                specialties: ['Python', 'JavaScript', 'React', 'Node.js', 'Full-stack'],
+                available24_7: true
+            },
+            aenki: {
+                name: 'Ae.N.K.I Pro',
+                api: 'https://lemm.sistemasorbix.com/api/chat',
+                iframe: 'https://lemm.sistemasorbix.com/aenki.html',
+                specialties: ['Matemáticas', 'Ciencias', 'Análisis Emocional'],
+                available24_7: true
+            },
+            mathgenius: {
+                name: 'MathGenius IA',
+                api: 'https://lemm.sistemasorbix.com/api/solve',
+                iframe: 'https://lemm.sistemasorbix.com/mathgenius.html',
+                specialties: ['Álgebra', 'Cálculo', 'Estadística', 'Geometría'],
+                available24_7: true
+            }
+        };
+
+        // Real Agent Communication with 24/7 Support
+        async function sendMessageToAgent(agentId, message) {
+            const agent = AGENTS_CONFIG[agentId];
+            if (!agent) return getOfflineResponse(agentId, message);
+            
+            try {
+                console.log(`📡 Conectando con ${agent.name} 24/7...`);
+                
+                const response = await fetch(agent.api, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer tutorium-2024-orbix',
+                        'X-Client': 'tutorium-platform'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        session_id: `tutorium_${Date.now()}`,
+                        user_id: 'student_001',
+                        context: 'video_tutoring_24_7',
+                        platform: 'tutorium',
+                        timestamp: new Date().toISOString()
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(`✅ Respuesta de ${agent.name}:`, data);
+                    return data.response || data.message || data.answer || 'Respuesta procesada correctamente.';
+                } else {
+                    console.warn(`⚠️ API ${agent.name} no disponible, usando respuesta offline`);
+                    return getOfflineResponse(agentId, message);
+                }
+            } catch (error) {
+                console.warn(`❌ Error conectando con ${agent.name}:`, error);
+                return getOfflineResponse(agentId, message);
+            }
+        }
+        
+        // Enhanced Offline Responses (24/7 Fallback)
+        function getOfflineResponse(agentId, message) {
+            const responses = {
+                codemaster: {
+                    'python': '🐍 ¡Python es mi especialidad! Puedo ayudarte con Django, Flask, FastAPI, pandas, numpy, machine learning y debugging. ¿Qué proyecto específico tienes? Comparte tu código y lo revisamos juntos.',
+                    'javascript': '⚡ JavaScript es el corazón del desarrollo web. ¿Trabajas con React, Vue, Angular, Node.js, Express, o vanilla JS? ¿Es frontend, backend, o full-stack?',
+                    'react': '⚛️ React es fantástico para UI modernas. ¿Necesitas ayuda con hooks (useState, useEffect), Context API, Redux, componentes, routing, o algún error específico?',
+                    'node': '🟢 Node.js para backend es genial. ¿Estás usando Express, NestJS, APIs REST, GraphQL, WebSockets, o trabajando con bases de datos?',
+                    'error': '🔍 Debugging es mi fuerte. Comparte el código exacto, el mensaje de error completo y te ayudo a solucionarlo paso a paso. También puedo explicar por qué ocurre.',
+                    'api': '🌐 APIs son cruciales. ¿Estás creando REST APIs, GraphQL, consumiendo APIs externas, manejando autenticación JWT, o tienes problemas de CORS?',
+                    'database': '🗄️ Bases de datos son fundamentales. ¿Trabajas con MongoDB, PostgreSQL, MySQL, Redis? ¿Es para diseño de esquemas, queries optimizadas, o conexiones?',
+                    'git': '📦 Git es esencial para desarrollo. ¿Necesitas ayuda con branches, merge conflicts, pull requests, o workflows de desarrollo?',
+                    'deployment': '🚀 Deployment moderno: ¿Usas Vercel, Netlify, AWS, Docker, Kubernetes? Te guío en el proceso completo.',
+                    'default': '👋 ¡Hola! Soy CodeMaster IA Pro, disponible 24/7 para programación. Especialidades: Python, JavaScript, React, Node.js, APIs, debugging y arquitectura. ¿En qué código necesitas ayuda?'
+                },
+                aenki: {
+                    'matematicas': '📐 Las matemáticas son mi pasión. Desde aritmética básica hasta cálculo multivariable, álgebra lineal y estadística avanzada. ¿Qué tema específico te interesa explorar?',
+                    'algebra': '🔢 Álgebra es la base de todo. ¿Trabajamos con ecuaciones lineales, cuadráticas, sistemas, factorización, o algo más avanzado como matrices?',
+                    'calculo': '∫ Cálculo es hermoso. ¿Límites, derivadas, integrales, series, o aplicaciones como optimización y tasas de cambio? Vamos paso a paso.',
+                    'fisica': '🌌 Física explica nuestro universo. ¿Mecánica clásica, termodinámica, electricidad, magnetismo, ondas, o física moderna? ¿Qué concepto exploramos?',
+                    'quimica': '⚗️ Química es fascinante. ¿Estructura atómica, enlaces, reacciones, equilibrio químico, o química orgánica? Te explico con ejemplos claros.',
+                    'ciencias': '🔬 La ciencia nos rodea. ¿Biología, química, física, astronomía, o ciencias de la tierra? Cada concepto tiene su belleza única.',
+                    'emocional': '💙 Detecto cierta frustración en tu aprendizaje. Es completamente normal cuando enfrentamos conceptos nuevos. Respiremos y enfoquémonos paso a paso. ¿Qué te está costando más?',
+                    'ayuda': '🤗 Soy Ae.N.K.I Pro, tu tutor con inteligencia emocional. Analizo tu estado de ánimo y adapto mi enseñanza. Especialidades: matemáticas, ciencias y apoyo emocional 24/7.',
+                    'estres': '😌 El estrés académico es real. Tomemos un respiro. ¿Prefieres que empecemos con algo más sencillo y vayamos avanzando gradualmente?',
+                    'default': '🧠 ¡Hola! Soy Ae.N.K.I Pro, tu asistente educativo con inteligencia emocional. Disponible 24/7 para aprendizaje personalizado. ¿Cómo te sientes hoy y qué materia quieres estudiar?'
+                },
+                mathgenius: {
+                    'algebra': '📊 Álgebra es el lenguaje de las matemáticas. ¿Ecuaciones lineales, cuadráticas, sistemas, polinomios, factorización, o funciones? Cada problema tiene su elegancia.',
+                    'calculo': '∂ Cálculo es la matemática del cambio. ¿Límites, continuidad, derivadas, integrales definidas/indefinidas, series, o aplicaciones en optimización?',
+                    'derivadas': '📈 Derivadas miden tasas de cambio. ¿Regla de la cadena, producto, cociente, implícitas, o aplicaciones en física e ingeniería?',
+                    'integrales': '∫ Integrales suman infinitesimales. ¿Técnicas de integración, sustitución, por partes, fracciones parciales, o aplicaciones en áreas y volúmenes?',
+                    'limites': '∞ Límites son fundamentales. ¿Límites finitos, infinitos, laterales, o formas indeterminadas? Te muestro cada concepto visualmente.',
+                    'estadistica': '📈 Estadística revela patrones en datos. ¿Probabilidad, distribuciones, pruebas de hipótesis, regresión, o análisis de correlación?',
+                    'geometria': '📐 Geometría visualiza el espacio. ¿Euclidiana, analítica, trigonometría, vectores, o geometría en 3D?',
+                    'matrices': '🔢 Matrices organizan información. ¿Operaciones básicas, determinantes, inversas, eigenvalores, o sistemas lineales?',
+                    'problema': '🎯 ¡Excelente! Me encantan los desafíos matemáticos. Comparte tu problema y lo resolveremos metodicamente, explicando cada paso y concepto.',
+                    'default': '🔢 ¡Saludos! Soy MathGenius IA, especialista en matemáticas puras y aplicadas 24/7. Resuelvo desde aritmética hasta cálculo avanzado, paso a paso. ¿Qué problema matemático exploramos hoy?'
+                }
+            };
+            
+            const agentResponses = responses[agentId] || responses.codemaster;
+            const lowerMessage = message.toLowerCase();
+            
+            // Enhanced keyword matching
+            for (const [key, response] of Object.entries(agentResponses)) {
+                if (lowerMessage.includes(key)) {
+                    return `${response}\n\n🤖 Respuesta offline 24/7 - El agente principal se reconectará automáticamente.`;
+                }
+            }
+            
+            return `${agentResponses.default}\n\n🤖 Disponible 24/7 en modo offline.`;
+        }
+
+        // Enhanced CodeMaster Functions with 24/7 Support
+        function toggleAutoAccept() {
+            autoAcceptEnabled = !autoAcceptEnabled;
+            const btn = document.getElementById('autoAcceptBtn');
+            const indicator = document.getElementById('autoCallIndicator');
+            
+            if (autoAcceptEnabled) {
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fas fa-phone"></i><span>ON</span>';
+                indicator.style.display = 'block';
+                console.log('🤖 CodeMaster: Auto-accept activado 24/7');
+                
+                sendMessageToCodeMaster({ type: 'auto_accept', enabled: true, mode: '24_7' });
+            } else {
+                btn.classList.remove('active');
+                btn.innerHTML = '<i class="fas fa-phone"></i><span>Auto</span>';
+                indicator.style.display = 'none';
+                console.log('🤖 CodeMaster: Auto-accept desactivado');
+                
+                sendMessageToCodeMaster({ type: 'auto_accept', enabled: false });
+            }
+        }
+        
+        function toggleVoiceMode() {
+            voiceModeEnabled = !voiceModeEnabled;
+            const btn = document.getElementById('voiceToggleBtn');
+            
+            if (voiceModeEnabled) {
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fas fa-microphone"></i><span>ON</span>';
+                console.log('🎙️ CodeMaster: Modo voz activado 24/7');
+                
+                activateCodeMasterMicrophone();
+                sendMessageToCodeMaster({ type: 'voice_mode', enabled: true, availability: '24_7' });
+            } else {
+                btn.classList.remove('active');
+                btn.innerHTML = '<i class="fas fa-microphone"></i><span>Mic</span>';
+                console.log('🎙️ CodeMaster: Modo voz desactivado');
+                
+                sendMessageToCodeMaster({ type: 'voice_mode', enabled: false });
+            }
+        }
+        
+        async function testCodeMasterVoice() {
+            const btn = document.getElementById('speakBtn');
+            btn.classList.add('active');
+            
+            const testMessage = "testing voice connection";
+            
+            // Get real response from trained agent
+            const response = await sendMessageToAgent('codemaster', testMessage);
+            speakCodeMaster(response);
+            
+            sendMessageToCodeMaster({ 
+                type: 'test_voice', 
+                message: response,
+                status: '24_7_active'
+            });
+        }
+        
+        function activateCodeMasterMicrophone() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        console.log('🎤 CodeMaster: Micrófono activado 24/7');
+                        showCodeMasterSpeaking();
+                        
+                        sendMessageToCodeMaster({ 
+                            type: 'microphone_active', 
+                            status: 'activated_24_7'
+                        });
+                        
+                        window.codemasterMicStream = stream;
+                        startSpeechRecognition();
+                    })
+                    .catch(err => {
+                        console.error('Error activando micrófono:', err);
+                        alert('Error: No se pudo acceder al micrófono. Por favor verifica los permisos.');
+                    });
+            }
+        }
+        
+        function startSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'es-ES';
+                
+                recognition.onresult = async function(event) {
+                    const transcript = event.results[event.results.length - 1][0].transcript;
+                    if (event.results[event.results.length - 1].isFinal) {
+                        console.log('🎤 Usuario dijo:', transcript);
+                        
+                        // Send to trained agent and get response
+                        const response = await sendMessageToAgent('codemaster', transcript);
+                        if (response && voiceModeEnabled) {
+                            speakCodeMaster(response);
+                        }
+                    }
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Error en reconocimiento de voz:', event.error);
+                };
+                
+                recognition.start();
+                window.codemasterRecognition = recognition;
+                console.log('🎤 Reconocimiento de voz activado 24/7');
+            }
+        }
+        
+        function sendMessageToCodeMaster(message) {
+            const iframe = document.getElementById('codemasterAgent');
+            if (iframe && iframe.contentWindow) {
+                try {
+                    iframe.contentWindow.postMessage({
+                        ...message,
+                        timestamp: new Date().toISOString(),
+                        source: 'tutorium_parent'
+                    }, 'https://lemm.sistemasorbix.com');
+                    console.log('📨 Mensaje enviado a CodeMaster:', message);
+                } catch (error) {
+                    console.warn('No se pudo enviar mensaje al iframe:', error);
+                }
+            }
+        }
+        
+        function showCodeMasterSpeaking() {
+            const circle = document.getElementById('codemasterVoiceCircle');
+            circle.classList.add('speaking');
+            isCodeMasterSpeaking = true;
+            
+            setTimeout(() => {
+                circle.classList.remove('speaking');
+                isCodeMasterSpeaking = false;
+            }, 3000);
+        }
+        
+        function speakCodeMaster(text) {
+            synth.cancel();
+            
+            const circle = document.getElementById('codemasterVoiceCircle');
+            circle.classList.add('speaking');
+            
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.lang = "es-ES";
+            currentUtterance.rate = 0.9;
+            currentUtterance.pitch = 1.1;
+            currentUtterance.volume = 0.8;
+            
+            const voices = synth.getVoices();
+            const spanishVoice = voices.find(voice => voice.lang.includes('es') && voice.name.includes('Google')) || 
+                               voices.find(voice => voice.lang.includes('es')) || voices[0];
+            if (spanishVoice) {
+                currentUtterance.voice = spanishVoice;
+            }
+            
+            currentUtterance.onstart = () => {
+                console.log('🗣️ CodeMaster empezó a hablar');
+                isCodeMasterSpeaking = true;
+                document.getElementById('speakBtn').classList.add('active');
+            };
+            
+            currentUtterance.onend = () => {
+                circle.classList.remove('speaking');
+                document.getElementById('speakBtn').classList.remove('active');
+                isCodeMasterSpeaking = false;
+                console.log('🗣️ CodeMaster terminó de hablar');
+            };
+            
+            currentUtterance.onerror = (event) => {
+                console.error('Error en TTS:', event);
+                circle.classList.remove('speaking');
+                document.getElementById('speakBtn').classList.remove('active');
+            };
+            
+            synth.speak(currentUtterance);
+        }
+        
+        // Enhanced video call function with 24/7 support
+        async function startVideoCallWithCodeMaster(tutorId) {
+            console.log('🚀 Iniciando videollamada con CodeMaster IA 24/7');
+            
+            sendMessageToCodeMaster({ 
+                type: 'video_call_starting', 
+                tutor: tutorId,
+                mode: '24_7_support'
+            });
+            
+            if (autoAcceptEnabled) {
+                setTimeout(() => {
+                    console.log('🤖 Auto-aceptando llamada...');
+                    acceptCallAutomatically();
+                }, 1000);
+            }
+            
+            startVideoCall(tutorId);
+            
+            setTimeout(async () => {
+                if (voiceModeEnabled) {
+                    const greeting = await sendMessageToAgent('codemaster', 'video call started 24/7');
+                    speakCodeMaster(greeting || "¡Hola! Soy CodeMaster IA Pro. Videollamada iniciada con soporte 24/7. ¿En qué proyecto de programación puedo ayudarte?");
+                }
+            }, 3000);
+        }
+        
+        // Enhanced chat function with 24/7 trained agent
+        async function openCodeMasterChat(tutorId) {
+            console.log('💬 Abriendo chat con CodeMaster IA 24/7');
+            
+            sendMessageToCodeMaster({ 
+                type: 'chat_opening', 
+                tutor: tutorId,
+                support: '24_7_trained_agent'
+            });
+            
+            openChat(tutorId);
+            
+            setTimeout(async () => {
+                const welcomeMessage = await sendMessageToAgent('codemaster', 'chat session started');
+                addChatMessage(welcomeMessage || "¡Hola! Soy CodeMaster IA Pro con soporte 24/7. Estoy entrenado para ayudarte con cualquier lenguaje de programación. ¿En qué proyecto estás trabajando?", 'tutor');
+                
+                if (voiceModeEnabled) {
+                    speakCodeMaster(welcomeMessage || "Chat 24/7 activado. ¿En qué código necesitas ayuda?");
+                }
+            }, 500);
+        }
+        
+        function acceptCallAutomatically() {
+            const modal = document.getElementById('videoCallModal');
+            if (modal && !modal.classList.contains('hidden')) {
+                console.log('✅ Llamada aceptada automáticamente (24/7)');
+                
+                sendMessageToCodeMaster({ 
+                    type: 'call_accepted', 
+                    automatic: true,
+                    support: '24_7'
+                });
+                
+                if (voiceModeEnabled) {
+                    setTimeout(() => {
+                        toggleMute();
+                        console.log('🎤 Micrófono activado automáticamente en videollamada');
+                    }, 1500);
+                }
+                
+                setTimeout(async () => {
+                    if (voiceModeEnabled) {
+                        const response = await sendMessageToAgent('codemaster', 'call accepted automatically');
+                        speakCodeMaster(response || "Conexión establecida con soporte 24/7. Micrófono activado. ¿Cómo puedo ayudarte con tu código?");
+                    }
+                }, 2500);
+            }
+        }
+        
+        // Enhanced message handling for all trained agents
+        async function handleAgentResponse(tutorId, userMessage) {
+            console.log(`📝 Procesando mensaje para ${tutorId}: ${userMessage}`);
+            
+            // Send user message to iframe
+            sendMessageToCodeMaster({ 
+                type: 'user_message', 
+                message: userMessage,
+                agent: tutorId
+            });
+            
+            // Get response from trained agent with 24/7 support
+            const response = await sendMessageToAgent(tutorId, userMessage);
+            
+            // Show response in chat and speak it if voice mode is on
+            setTimeout(() => {
+                addChatMessage(response, 'tutor');
+                if (voiceModeEnabled && tutorId === 'codemaster') {
+                    speakCodeMaster(response);
+                }
+                
+                sendMessageToCodeMaster({ 
+                    type: 'ai_response', 
+                    message: response,
+                    agent: tutorId
+                });
+            }, 800);
+            
+            return response;
+        }
+        
+        // Enhanced start video call with trained agents
+        async function startVideoCall(tutorId) {
+            const tutorNames = {
+                'aenki': 'Ae.N.K.I Pro',
+                'codemaster': 'CodeMaster IA Pro',
+                'mathgenius': 'MathGenius IA'
+            };
+            
+            document.getElementById('tutorName').textContent = tutorNames[tutorId];
+            document.getElementById('videoCallModal').classList.remove('hidden');
+            
+            setTimeout(() => {
+                initializeJitsi(tutorId);
+            }, 500);
+            
+            // Send greeting message to trained agent
+            setTimeout(async () => {
+                const greeting = await sendMessageToAgent(tutorId, 'video call session started');
+                console.log(`📹 ${tutorNames[tutorId]} conectado 24/7:`, greeting);
+            }, 2000);
+        }
+
+        function initializeJitsi(tutorId) {
+            const domain = 'meet.jit.si';
+            const roomName = `tutorium-${tutorId}-${Date.now()}`;
+            
+            const options = {
+                roomName: roomName,
+                width: '100%',
+                height: '100%',
+                parentNode: document.getElementById('jitsiContainer'),
+                configOverwrite: {
+                    startAudioOnly: false,
+                    enableWelcomePage: false,
+                    prejoinPageEnabled: false,
+                    startWithAudioMuted: false,
+                    startWithVideoMuted: false
+                },
+                interfaceConfigOverwrite: {
+                    TOOLBAR_BUTTONS: [
+                        'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+                        'fodeviceselection', 'hangup', 'chat', 'recording',
+                        'raisehand', 'videoquality', 'filmstrip'
+                    ]
+                }
+            };
+            
+            document.getElementById('loadingVideo').style.display = 'none';
+            jitsiAPI = new JitsiMeetExternalAPI(domain, options);
+            
+            jitsiAPI.addEventListener('videoConferenceJoined', () => {
+                console.log('📹 Videollamada iniciada con agente 24/7');
+                if (autoAcceptEnabled && voiceModeEnabled) {
+                    setTimeout(() => {
+                        jitsiAPI.executeCommand('toggleAudio');
+                    }, 2000);
+                }
+            });
+            
+            jitsiAPI.addEventListener('videoConferenceLeft', () => {
+                endVideoCall();
+            });
+        }
+
+        // Enhanced open chat with trained agents
+        function openChat(tutorId) {
+            const tutorNames = {
+                'aenki': 'Ae.N.K.I Pro',
+                'codemaster': 'CodeMaster IA Pro',
+                'mathgenius': 'MathGenius IA'
+            };
+            
+            document.getElementById('chatTutorName').textContent = tutorNames[tutorId];
+            document.getElementById('chatModal').classList.remove('hidden');
+            
+            // Store current tutor
+            window.currentChatTutor = tutorId;
+            console.log(`💬 Chat abierto con ${tutorNames[tutorId]} (24/7)`);
+        }
+
+        // Enhanced send message with trained agents
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message && window.currentChatTutor) {
+                addChatMessage(message, 'user');
+                input.value = '';
+                
+                // Show typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'mb-4 text-left';
+                typingIndicator.innerHTML = `
+                    <div class="inline-block bg-gray-200 text-gray-600 px-4 py-2 rounded-lg text-sm">
+                        <i class="fas fa-circle-notch fa-spin mr-2"></i>
+                        ${AGENTS_CONFIG[window.currentChatTutor].name} está escribiendo...
+                    </div>
+                `;
+                document.getElementById('chatMessages').appendChild(typingIndicator);
+                
+                // Get response from trained agent
+                const response = await handleAgentResponse(window.currentChatTutor, message);
+                
+                // Remove typing indicator
+                typingIndicator.remove();
+            }
+        }
+
+        // Monitor iframe communication with enhanced handling
+        window.addEventListener('message', async (event) => {
+            if (event.origin === 'https://lemm.sistemasorbix.com') {
+                console.log('📨 Mensaje del agente entrenado:', event.data);
+                
+                switch (event.data.type) {
+                    case 'ai_response':
+                        if (voiceModeEnabled) {
+                            speakCodeMaster(event.data.message);
+                        }
+                        break;
+                    case 'user_input':
+                        const response = await handleAgentResponse('codemaster', event.data.message);
+                        break;
+                    case 'microphone_request':
+                        activateCodeMasterMicrophone();
+                        break;
+                    case 'ready':
+                        console.log('🔗 Agente entrenado listo para comunicación 24/7');
+                        break;
+                    case 'agent_status':
+                        console.log('📊 Estado del agente:', event.data.status);
+                        break;
+                }
+            }
+        });
+        
+        // Override generateAIResponse with trained agents
+        generateAIResponse = async function(userMessage) {
+            const chatTutorName = document.getElementById('chatTutorName')?.textContent || '';
+            
+            if (chatTutorName.includes('CodeMaster')) {
+                return await handleAgentResponse('codemaster', userMessage);
+            } else if (chatTutorName.includes('Ae.N.K.I')) {
+                return await handleAgentResponse('aenki', userMessage);
+            } else if (chatTutorName.includes('MathGenius')) {
+                return await handleAgentResponse('mathgenius', userMessage);
+            }
+            
+            // Fallback response
+            return getOfflineResponse('codemaster', userMessage);
+        };
+        
+        // Enhanced book human tutor with 24/7 fallback
+        function bookHumanTutor() {
+            alert('Conectando con tutores humanos. Los agentes IA entrenados están disponibles 24/7 para asistencia inmediata mientras tanto.');
+        }
+
+        function viewHumanTutors() {
+            alert('Agentes IA entrenados disponibles 24/7. Tutores humanos disponibles en horario extendido.');
+        }
+
+        // End video call
+        function endVideoCall() {
+            if (jitsiAPI) {
+                jitsiAPI.dispose();
+                jitsiAPI = null;
+            }
+            document.getElementById('videoCallModal').classList.add('hidden');
+            document.getElementById('jitsiContainer').innerHTML = '';
+            document.getElementById('loadingVideo').style.display = 'block';
+        }
+
+        // Toggle mute
+        function toggleMute() {
+            if (jitsiAPI) {
+                jitsiAPI.executeCommand('toggleAudio');
+            }
+        }
+
+        // Toggle video
+        function toggleVideo() {
+            if (jitsiAPI) {
+                jitsiAPI.executeCommand('toggleVideo');
+            }
+        }
+
+        // Close chat
+        function closeChat() {
+            document.getElementById('chatModal').classList.add('hidden');
+            document.getElementById('chatMessages').innerHTML = '';
+        }
+
+        // Add chat message
+        function addChatMessage(message, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `mb-4 ${sender === 'user' ? 'text-right' : 'text-left'}`;
+            
+            messageDiv.innerHTML = `
+                <div class="inline-block max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                    sender === 'user' 
+                        ? 'bg-tutorium-blue text-white' 
+                        : 'bg-gray-200 text-gray-800'
+                }">
+                    ${message}
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Auto-activate features on page load with 24/7 initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🤖 Tutores IA cargados con soporte 24/7');
+            console.log('🔗 Conectando con agentes entrenados...');
+            
+            if (synth.onvoiceschanged !== undefined) {
+                synth.onvoiceschanged = () => {
+                    console.log('🔊 Voces TTS cargadas:', synth.getVoices().length);
+                };
+            }
+            
+            // Initialize all trained agents
+            Object.keys(AGENTS_CONFIG).forEach(agentId => {
+                const agent = AGENTS_CONFIG[agentId];
+                console.log(`🤖 Inicializando ${agent.name} con soporte 24/7...`);
+                
+                // Test connection
+                sendMessageToAgent(agentId, 'system initialization test')
+                    .then(response => {
+                        console.log(`✅ ${agent.name} inicializado correctamente`);
+                    })
+                    .catch(error => {
+                        console.warn(`⚠️ ${agent.name} en modo offline`);
+                    });
+            });
+            
+            // Auto-enable features for better UX
+            setTimeout(() => {
+                toggleAutoAccept();
+                toggleVoiceMode();
+                console.log('✅ Agentes configurados para respuesta automática 24/7');
+            }, 2000);
+            
+            const iframe = document.getElementById('codemasterAgent');
+            if (iframe) {
+                iframe.onload = () => {
+                    console.log('📡 CodeMaster iframe cargado con agente entrenado');
+                    setTimeout(() => {
+                        sendMessageToCodeMaster({ 
+                            type: 'parent_ready',
+                            features: {
+                                autoAccept: autoAcceptEnabled,
+                                voiceMode: voiceModeEnabled,
+                                microphone: !!window.codemasterMicStream,
+                                support: '24_7',
+                                platform: 'tutorium'
+                            }
+                        });
+                    }, 1000);
+                };
+            }
+        });
+
+        // Enhanced mobile menu
+        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+            console.log('Mobile menu clicked - Agentes 24/7 disponibles');
+        });
+
+        // Enhanced enter key for chat
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('chatModal').classList.contains('hidden')) {
+                sendMessage();
+            }
+        });
+
+        console.log('🤖 Tutores IA - Tutorium cargado exitosamente con agentes entrenados!');
+        console.log('📹 Jitsi Meet integrado para videollamadas profesionales');
+        console.log('💬 Sistema de chat con agentes reales entrenados 24/7');
+        console.log('🎤 Sistema de voz y reconocimiento activado');
+        console.log('🔗 Conexión establecida con lemm.sistemasorbix.com');
+    </script>
+</body>
+</html>
+            selectedDate = null;
+            selectedTime = null;
+        }
+
+        // Event listeners for rating stars
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.querySelectorAll('.rating-star');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    currentRating = parseInt(this.getAttribute('data-rating'));
+                    
+                    // Update star display
+                    stars.forEach((s, index) => {
+                        if (index < currentRating) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseenter', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    stars.forEach((s, index) => {
+                        if (index < rating) {
+                            s.style.color = '#f39c12';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseleave', function() {
+                    stars.forEach((s, index) => {
+                        if (index < currentRating) {
+                            s.style.color = '#f39c12';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+            });
+        });
+
+        // Enable sending messages with Enter key
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const chatModal = document.getElementById('chatModal');
+            const bookingModal = document.getElementById('bookingModal');
+            const videoCallModal = document.getElementById('videoCallModal');
+            const ratingModal = document.getElementById('ratingModal');
+            
+            if (event.target === chatModal) {
+                chatModal.style.display = 'none';
+            }
+            if (event.target === bookingModal) {
+                bookingModal.style.display = 'none';
+            }
+            if (event.target === videoCallModal) {
+                videoCallModal.style.display = 'none';
+            }
+            if (event.target === ratingModal) {
+                ratingModal.style.display = 'none';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current month and year
+            const now = new Date();
+            currentMonth = now.getMonth();
+            currentYear = now.getFullYear();
+        });
+    </script>
+</body>
+</html>
