@@ -1,0 +1,8 @@
+# OpenAI key en .env / configs (sustituye el valor por <REDACTED>)
+regex:(?i)\bOPENAI_API_KEY\s*[:=]\s*([^\s'"]+)==>OPENAI_API_KEY=<REDACTED>
+# JSON: "OPENAI_API_KEY": "..."
+regex:(?i)(["'])OPENAI_API_KEY\1\s*:\s*(["'])([^"']+)\2==>"OPENAI_API_KEY":"<REDACTED>"
+# Campos genéricos apiKey / api-key / api_key
+regex:(?i)(["']api[_-]?key["']\s*[:=]\s*)(["']?)[A-Za-z0-9_\-\.\~:/+=]{10,}\2==>\1"<REDACTED>"
+# Cualquier token estilo sk-XXXXXXXX...
+regex:\bsk-[A-Za-z0-9_-]{10,}\b==>sk-REDACTED

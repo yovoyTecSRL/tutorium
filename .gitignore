@@ -1,64 +1,18 @@
-# Archivos Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
 
-# Entornos virtuales
-.venv/
-venv/
-ENV/
-env/
+# secretos y entornos
 .env
+*.env
+*.env.*
 
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
 
-# Sistema operativo
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
+# backups y reportes
+backup/
+playwright-report/
+test-results/
 
-# Logs
-*.log
-logs/
-
-# Archivos temporales
-*.tmp
-*.temp
-*.cache
-
-# Pytest
-.pytest_cache/
-.coverage
-htmlcov/
-
+# dependencias/build
+node_modules/
+dist/
 # Jupyter Notebooks
 .ipynb_checkpoints
 

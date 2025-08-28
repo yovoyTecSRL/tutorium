@@ -1,0 +1,2 @@
+regex:\bsk-[A-Za-z0-9_-]{10,}\b==>sk-REDACTED
+regex:(?i)\bOPENAI_API_KEY[^\r\n]*==>OPENAI_API_KEY=<REDACTED>
