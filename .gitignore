@@ -81,3 +81,13 @@ yarn-error.log*
 # Archivos de QA reports generados
 qa_report.md
 plan.md
+
+/*
+
+!/OneDrive/Escritorio/tutorium.sistemasorbix.com/
+
+# Dentro del proyecto: ignora artefactos
+/OneDrive/Escritorio/tutorium.sistemasorbix.com/node_modules/
+/OneDrive/Escritorio/tutorium.sistemasorbix.com/dist/
+/OneDrive/Escritorio/tutorium.sistemasorbix.com/playwright-report/
+/OneDrive/Escritorio/tutorium.sistemasorbix.com/test-results/
