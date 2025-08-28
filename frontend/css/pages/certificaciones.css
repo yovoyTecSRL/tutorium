@@ -1,0 +1,345 @@
+/* ============================================
+   TUTORIUM - SISTEMAS ORBIX
+   CSS específico para certificaciones.html
+   ============================================ */
+
+/* Importar estilos comunes */
+@import url('../common.css');
+
+/* Certificaciones Page Styles */
+.certificaciones-hero {
+    padding: 80px 0;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(69, 183, 209, 0.1), rgba(78, 205, 196, 0.1));
+    border-radius: 20px;
+    margin-bottom: 60px;
+}
+
+.certificaciones-hero h1 {
+    font-size: 3.5em;
+    font-weight: 800;
+    background: linear-gradient(45deg, var(--accent-color), var(--secondary-color), var(--primary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+}
+
+.certificaciones-hero p {
+    font-size: 1.3em;
+    color: var(--text-light);
+    opacity: var(--text-opacity);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Stats de Certificaciones */
+.cert-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.cert-stat-card {
+    text-align: center;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
+    border: 2px solid rgba(69, 183, 209, 0.2);
+}
+
+.cert-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(69, 183, 209, 0.2);
+    border-color: var(--accent-color);
+}
+
+.cert-stat-number {
+    font-size: 2.5em;
+    font-weight: 800;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(69, 183, 209, 0.3);
+}
+
+.cert-stat-label {
+    font-size: 1em;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Grid de Certificaciones */
+.certificaciones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+.certificacion-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid rgba(69, 183, 209, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.certificacion-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(69, 183, 209, 0.3);
+    border-color: var(--accent-color);
+}
+
+.cert-header {
+    background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+    padding: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.cert-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+}
+
+.cert-icon {
+    font-size: 3em;
+    color: var(--text-light);
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.cert-title {
+    font-size: 1.5em;
+    color: var(--text-light);
+    font-weight: 700;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.cert-provider {
+    color: var(--text-light);
+    opacity: 0.9;
+    font-size: 0.9em;
+    position: relative;
+    z-index: 1;
+}
+
+.cert-content {
+    padding: 30px;
+}
+
+.cert-description {
+    color: var(--text-light);
+    opacity: var(--text-opacity);
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.cert-features {
+    list-style: none;
+    margin-bottom: 25px;
+}
+
+.cert-features li {
+    color: var(--text-light);
+    opacity: var(--text-opacity);
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.cert-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.cert-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.cert-duration {
+    background: rgba(69, 183, 209, 0.2);
+    color: var(--accent-color);
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.cert-difficulty {
+    background: rgba(255, 107, 107, 0.2);
+    color: var(--primary-color);
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.cert-price {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.cert-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.cert-btn {
+    flex: 1;
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.cert-btn-primary {
+    background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+    color: var(--text-light);
+}
+
+.cert-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(69, 183, 209, 0.4);
+}
+
+.cert-btn-secondary {
+    background: transparent;
+    color: var(--text-light);
+    border-color: var(--accent-color);
+}
+
+.cert-btn-secondary:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+/* Certificaciones Obtenidas */
+.mis-certificaciones {
+    background: rgba(15, 15, 35, 0.3);
+    border-radius: 20px;
+    padding: 60px 0;
+    margin-bottom: 80px;
+    backdrop-filter: blur(10px);
+}
+
+.cert-obtenida {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 2px solid rgba(69, 183, 209, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s ease;
+}
+
+.cert-obtenida:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(69, 183, 209, 0.2);
+    border-color: var(--accent-color);
+}
+
+.cert-badge {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    color: var(--text-light);
+    flex-shrink: 0;
+}
+
+.cert-info {
+    flex: 1;
+}
+
+.cert-info h4 {
+    color: var(--text-light);
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.cert-info p {
+    color: var(--text-light);
+    opacity: 0.7;
+    font-size: 0.9em;
+}
+
+.cert-download {
+    background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+    color: var(--text-light);
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cert-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(69, 183, 209, 0.4);
+}
+
+/* Responsive para Certificaciones */
+@media (max-width: 768px) {
+    .certificaciones-hero h1 {
+        font-size: 2.5em;
+    }
+
+    .certificaciones-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cert-actions {
+        flex-direction: column;
+    }
+
+    .cert-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cert-obtenida {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cert-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

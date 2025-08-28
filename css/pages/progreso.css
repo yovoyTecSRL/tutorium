@@ -1,0 +1,475 @@
+/* ============================================
+   TUTORIUM - SISTEMAS ORBIX
+   CSS específico para progreso.html
+   ============================================ */
+
+/* Importar estilos comunes */
+@import url('../common.css');
+
+/* Progreso Page Styles */
+.progreso-hero {
+    padding: 80px 0;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(69, 183, 209, 0.1));
+    border-radius: 20px;
+    margin-bottom: 60px;
+}
+
+.progreso-hero h1 {
+    font-size: 3.5em;
+    font-weight: 800;
+    background: linear-gradient(45deg, var(--secondary-color), var(--accent-color), var(--primary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+}
+
+.progreso-hero p {
+    font-size: 1.3em;
+    color: var(--text-light);
+    opacity: var(--text-opacity);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Estadísticas de Progreso */
+.progreso-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.progreso-stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    border: 2px solid rgba(78, 205, 196, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progreso-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(69, 183, 209, 0.1));
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.progreso-stat-card:hover::before {
+    opacity: 1;
+}
+
+.progreso-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(78, 205, 196, 0.2);
+    border-color: var(--secondary-color);
+}
+
+.stat-icon {
+    font-size: 2.5em;
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+}
+
+.stat-value {
+    font-size: 2.2em;
+    font-weight: 800;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 1em;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.stat-description {
+    color: var(--text-light);
+    opacity: 0.7;
+    font-size: 0.9em;
+}
+
+/* Progreso Circular */
+.circular-progress {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+}
+
+.circular-progress svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.circular-progress circle {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+}
+
+.progress-bg {
+    stroke: rgba(78, 205, 196, 0.2);
+}
+
+.progress-fill {
+    stroke: var(--secondary-color);
+    stroke-dasharray: 377;
+    stroke-dashoffset: 377;
+    transition: stroke-dashoffset 2s ease-in-out;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+/* Cursos en Progreso */
+.cursos-progreso {
+    margin-bottom: 60px;
+}
+
+.curso-progreso-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 25px;
+    border: 2px solid rgba(78, 205, 196, 0.2);
+    transition: all 0.3s ease;
+}
+
+.curso-progreso-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(78, 205, 196, 0.2);
+    border-color: var(--secondary-color);
+}
+
+.curso-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.curso-info h3 {
+    font-size: 1.5em;
+    color: var(--text-light);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.curso-info p {
+    color: var(--text-light);
+    opacity: 0.7;
+    line-height: 1.5;
+}
+
+.curso-stats {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.curso-stat {
+    text-align: center;
+    padding: 10px 15px;
+    background: rgba(78, 205, 196, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(78, 205, 196, 0.2);
+}
+
+.curso-stat-value {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+}
+
+.curso-stat-label {
+    font-size: 0.8em;
+    color: var(--text-light);
+    opacity: 0.8;
+}
+
+.progress-bar-container {
+    margin-bottom: 20px;
+}
+
+.progress-bar-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.progress-bar-label span {
+    color: var(--text-light);
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(78, 205, 196, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill-bar {
+    height: 100%;
+    background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+    border-radius: 6px;
+    transition: width 1s ease-in-out;
+    position: relative;
+}
+
+.progress-fill-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: progressShine 2s ease-in-out infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.curso-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.curso-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.curso-btn-primary {
+    background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+    color: var(--text-light);
+}
+
+.curso-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(78, 205, 196, 0.4);
+}
+
+.curso-btn-secondary {
+    background: transparent;
+    color: var(--text-light);
+    border-color: var(--secondary-color);
+}
+
+.curso-btn-secondary:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* Logros y Certificados */
+.logros-section {
+    margin-bottom: 60px;
+}
+
+.logros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.logro-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    border: 2px solid rgba(255, 215, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.logro-card.completado {
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.logro-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2);
+}
+
+.logro-icon {
+    font-size: 2.5em;
+    color: #ffd700;
+    margin-bottom: 15px;
+}
+
+.logro-title {
+    font-size: 1.2em;
+    color: var(--text-light);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.logro-description {
+    color: var(--text-light);
+    opacity: 0.7;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
+
+.logro-progress {
+    font-size: 0.9em;
+    color: #ffd700;
+    font-weight: 600;
+}
+
+.logro-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ffd700;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Actividad Reciente */
+.actividad-reciente {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    padding: 30px;
+    border: 2px solid rgba(78, 205, 196, 0.2);
+}
+
+.actividad-lista {
+    list-style: none;
+}
+
+.actividad-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(78, 205, 196, 0.1);
+}
+
+.actividad-item:last-child {
+    border-bottom: none;
+}
+
+.actividad-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    font-size: 1.1em;
+    flex-shrink: 0;
+}
+
+.actividad-content {
+    flex: 1;
+}
+
+.actividad-titulo {
+    color: var(--text-light);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.actividad-descripcion {
+    color: var(--text-light);
+    opacity: 0.7;
+    font-size: 0.9em;
+}
+
+.actividad-tiempo {
+    color: var(--secondary-color);
+    font-size: 0.8em;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* Responsive para Progreso */
+@media (max-width: 768px) {
+    .progreso-hero h1 {
+        font-size: 2.5em;
+    }
+
+    .progreso-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .curso-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .curso-stats {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .curso-actions {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .logros-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .actividad-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+}

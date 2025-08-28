@@ -1,0 +1,402 @@
+/* ============================================
+   TUTORIUM - SISTEMAS ORBIX
+   CSS específico para registro.html
+   ============================================ */
+
+/* Importar estilos comunes */
+@import url('../common.css');
+
+/* Registro Page Styles */
+.registro-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+}
+
+.registro-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 50px;
+    max-width: 550px;
+    width: 100%;
+    text-align: center;
+    border: 2px solid rgba(78, 205, 196, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.registro-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(69, 183, 209, 0.1));
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.registro-title {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+.registro-subtitle {
+    color: var(--text-light);
+    opacity: 0.8;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+.registro-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    text-align: left;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-label {
+    color: var(--text-light);
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    font-size: 0.95em;
+}
+
+.form-input {
+    width: 100%;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(78, 205, 196, 0.2);
+    border-radius: 10px;
+    color: var(--text-light);
+    font-size: 1em;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+}
+
+.form-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.form-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-color);
+    font-size: 1.2em;
+}
+
+.form-select {
+    width: 100%;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(78, 205, 196, 0.2);
+    border-radius: 10px;
+    color: var(--text-light);
+    font-size: 1em;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+}
+
+.form-select option {
+    background: #1a1a2e;
+    color: var(--text-light);
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.form-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--secondary-color);
+    cursor: pointer;
+}
+
+.form-checkbox label {
+    color: var(--text-light);
+    opacity: 0.9;
+    font-size: 0.95em;
+    cursor: pointer;
+}
+
+.form-checkbox a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.form-checkbox a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.password-strength {
+    margin-top: 8px;
+    font-size: 0.85em;
+}
+
+.strength-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.strength-fill {
+    height: 100%;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.strength-weak {
+    background: #f44336;
+    width: 25%;
+}
+
+.strength-fair {
+    background: #ff9800;
+    width: 50%;
+}
+
+.strength-good {
+    background: #ffeb3b;
+    width: 75%;
+}
+
+.strength-strong {
+    background: #4caf50;
+    width: 100%;
+}
+
+.strength-text {
+    color: var(--text-light);
+    opacity: 0.7;
+}
+
+.registro-btn {
+    background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+    color: var(--text-light);
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(78, 205, 196, 0.4);
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.registro-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.registro-btn:hover::before {
+    left: 100%;
+}
+
+.registro-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(78, 205, 196, 0.6);
+}
+
+.registro-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.registro-links {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.registro-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+    font-size: 0.95em;
+}
+
+.registro-links a:hover {
+    color: var(--secondary-color);
+    opacity: 1;
+}
+
+.divider {
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.social-register {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.social-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 2px solid rgba(78, 205, 196, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.95em;
+    font-weight: 500;
+}
+
+.social-btn:hover {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.social-btn i {
+    font-size: 1.2em;
+}
+
+/* Validation Messages */
+.validation-message {
+    margin-top: 5px;
+    font-size: 0.85em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.validation-error {
+    color: #f44336;
+}
+
+.validation-success {
+    color: #4caf50;
+}
+
+.validation-warning {
+    color: #ff9800;
+}
+
+/* Loading State */
+.loading {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid var(--text-light);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive para Registro */
+@media (max-width: 768px) {
+    .registro-card {
+        padding: 30px 25px;
+        margin: 20px;
+    }
+
+    .registro-title {
+        font-size: 2em;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .social-register {
+        flex-direction: column;
+    }
+
+    .social-btn {
+        min-width: auto;
+    }
+
+    .registro-links {
+        flex-direction: column;
+        text-align: center;
+    }
+}

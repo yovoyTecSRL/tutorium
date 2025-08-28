@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Respaldos - Tutorium Academy</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .backup-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .backup-header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .backup-title {
+            font-size: 2.5rem;
+            color: #00ff88;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .backup-subtitle {
+            color: #8892b0;
+            font-size: 1.1rem;
+        }
+
+        .backup-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .backup-card {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .backup-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #00ff88, #00d4aa);
+            color: #000;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .action-btn.danger {
+            background: linear-gradient(135deg, #ff4757, #ff3838);
+            color: #fff;
+        }
+
+        .action-btn.warning {
+            background: linear-gradient(135deg, #ffa502, #ff6348);
+            color: #fff;
+        }
+
+        .backup-schedule {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .schedule-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            color: #00ff88;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-input, .form-select {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.2);
+        }
+
+        .backup-history {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .history-table th {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-success {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
+        .status-failed {
+            background: rgba(255, 71, 87, 0.2);
+            color: #ff4757;
+        }
+
+        .status-running {
+            background: rgba(255, 165, 2, 0.2);
+            color: #ffa502;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #00d4aa);
+            transition: width 0.3s ease;
+        }
+
+        .backup-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00ff88;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #8892b0;
+            font-size: 0.9rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: #00ff88;
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #00ff88;
+        }
+
+        .real-time-monitor {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .monitor-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .aenki-integration {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .aenki-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .mic-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mic-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .mic-btn.active {
+            background: linear-gradient(135deg, #00ff88, #00d4aa);
+            animation: recording 1s infinite;
+        }
+
+        @keyframes recording {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .voice-status {
+            color: #8892b0;
+            font-size: 1rem;
+        }
+
+        .voice-response {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            color: #00ff88;
+        }
+
+        @media (max-width: 768px) {
+            .backup-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .schedule-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .backup-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="backup-container">
+        <!-- Header -->
+        <div class="backup-header">
+            <h1 class="backup-title">
+                <i class="fas fa-database"></i>
+                Sistema de Respaldos
+            </h1>
+            <p class="backup-subtitle">
+                Gestión automatizada de respaldos con IA integrada - Tutorium Academy
+            </p>
+        </div>
+
+        <!-- Ae.N.K.I Integration -->
+        <div class="aenki-integration">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-microphone"></i>
+                    Ae.N.K.I - Asistente de Respaldos
+                </h3>
+            </div>
+            <div class="aenki-controls">
+                <button class="mic-btn" id="micBtn">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <div class="voice-status" id="voiceStatus">
+                    Presiona para hablar con Ae.N.K.I sobre respaldos
+                </div>
+            </div>
+            <div class="voice-response" id="voiceResponse" style="display: none;">
+                <p><strong>Ae.N.K.I:</strong> <span id="aiResponse"></span></p>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="action-btn" onclick="createBackupNow()">
+                <i class="fas fa-play"></i>
+                Crear Respaldo Ahora
+            </button>
+            <button class="action-btn" onclick="openScheduleModal()">
+                <i class="fas fa-calendar-alt"></i>
+                Programar Respaldo
+            </button>
+            <button class="action-btn warning" onclick="viewRunningJobs()">
+                <i class="fas fa-tasks"></i>
+                Trabajos Activos
+            </button>
+            <button class="action-btn danger" onclick="emergencyBackup()">
+                <i class="fas fa-exclamation-triangle"></i>
+                Respaldo de Emergencia
+            </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="backup-stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalBackups">0</div>
+                <div class="stat-label">Respaldos Completados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="successRate">0%</div>
+                <div class="stat-label">Tasa de Éxito</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalSize">0 GB</div>
+                <div class="stat-label">Tamaño Total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="lastBackup">--</div>
+                <div class="stat-label">Último Respaldo</div>
+            </div>
+        </div>
+
+        <!-- Real-time Monitor -->
+        <div class="real-time-monitor">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-line"></i>
+                    Monitor en Tiempo Real
+                </h3>
+            </div>
+            <div class="monitor-indicator">
+                <div class="status-dot"></div>
+                <span>Sistema operativo - Monitoreando respaldos automáticamente</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="systemProgress" style="width: 85%"></div>
+            </div>
+            <div id="currentJobs">
+                <!-- Los trabajos activos se cargarán aquí -->
+            </div>
+        </div>
+
+        <!-- Backup Grid -->
+        <div class="backup-grid">
+            <!-- Scheduled Backups -->
+            <div class="backup-card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-calendar-check"></i>
+                        Respaldos Programados
+                    </h3>
+                </div>
+                <div id="scheduledBackups">
+                    <!-- Los respaldos programados se cargarán aquí -->
+                </div>
+            </div>
+
+            <!-- Backup Configuration -->
+            <div class="backup-card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-cog"></i>
+                        Configuración Rápida
+                    </h3>
+                </div>
+                <div class="schedule-form">
+                    <div class="form-group">
+                        <label class="form-label">Tipo de Respaldo</label>
+                        <select class="form-select" id="backupType">
+                            <option value="database">Base de Datos</option>
+                            <option value="files">Archivos</option>
+                            <option value="full_system">Sistema Completo</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Frecuencia</label>
+                        <select class="form-select" id="frequency">
+                            <option value="hourly">Cada Hora</option>
+                            <option value="daily">Diario</option>
+                            <option value="weekly">Semanal</option>
+                            <option value="monthly">Mensual</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hora Específica</label>
+                        <input type="time" class="form-input" id="specificTime" value="02:00">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Retención (días)</label>
+                        <input type="number" class="form-input" id="retention" value="7" min="1" max="365">
+                    </div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="compression" checked>
+                    <label for="compression">Comprimir respaldos</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="encryption" checked>
+                    <label for="encryption">Encriptar respaldos</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="notifications" checked>
+                    <label for="notifications">Notificaciones por email</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="cloudSync">
+                    <label for="cloudSync">Sincronizar con la nube</label>
+                </div>
+                <button class="action-btn" onclick="saveBackupConfig()" style="margin-top: 15px;">
+                    <i class="fas fa-save"></i>
+                    Guardar Configuración
+                </button>
+            </div>
+        </div>
+
+        <!-- Backup History -->
+        <div class="backup-history">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-history"></i>
+                    Historial de Respaldos
+                </h3>
+                <button class="action-btn" onclick="refreshHistory()">
+                    <i class="fas fa-sync"></i>
+                    Actualizar
+                </button>
+            </div>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Trabajo</th>
+                        <th>Tipo</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+                        <th>Tamaño</th>
+                        <th>Duración</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <!-- Los datos del historial se cargarán aquí -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal para programar respaldo -->
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Programar Nuevo Respaldo</h2>
+                <button class="close-btn" onclick="closeScheduleModal()">&times;</button>
+            </div>
+            <div class="schedule-form">
+                <div class="form-group">
+                    <label class="form-label">Nombre del Trabajo</label>
+                    <input type="text" class="form-input" id="jobName" placeholder="Ej: Respaldo Diario BD">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tipo de Respaldo</label>
+                    <select class="form-select" id="modalBackupType">
+                        <option value="database">Base de Datos</option>
+                        <option value="files">Archivos</option>
+                        <option value="full_system">Sistema Completo</option>
+                        <option value="custom">Personalizado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Expresión Cron</label>
+                    <input type="text" class="form-input" id="cronExpression" placeholder="0 2 * * *">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Rutas a Incluir</label>
+                    <input type="text" class="form-input" id="includePaths" placeholder="/var/www/tutorium,/opt/orbix/storage">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Patrones a Excluir</label>
+                    <input type="text" class="form-input" id="excludePatterns" placeholder="*.tmp,*.log,node_modules">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Destino</label>
+                    <input type="text" class="form-input" id="destination" placeholder="/opt/orbix/backups">
+                </div>
+            </div>
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <button class="action-btn" onclick="createScheduledBackup()">
+                    <i class="fas fa-plus"></i>
+                    Crear Respaldo
+                </button>
+                <button class="action-btn danger" onclick="closeScheduleModal()">
+                    <i class="fas fa-times"></i>
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Estado global
+        let isRecording = false;
+        let recognition;
+        let backupJobs = [];
+        let backupHistory = [];
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            startRealTimeMonitoring();
+            loadBackupData();
+        });
+
+        function initializeApp() {
+            // Inicializar reconocimiento de voz
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'es-ES';
+
+                recognition.onstart = function() {
+                    isRecording = true;
+                    document.getElementById('micBtn').classList.add('active');
+                    document.getElementById('voiceStatus').textContent = 'Escuchando... Habla ahora';
+                };
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    processVoiceCommand(transcript);
+                };
+
+                recognition.onend = function() {
+                    isRecording = false;
+                    document.getElementById('micBtn').classList.remove('active');
+                    document.getElementById('voiceStatus').textContent = 'Presiona para hablar con Ae.N.K.I';
+                };
+            }
+
+            // Event listeners
+            document.getElementById('micBtn').addEventListener('click', toggleRecording);
+        }
+
+        function toggleRecording() {
+            if (isRecording) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }
+
+        async function processVoiceCommand(command) {
+            document.getElementById('voiceResponse').style.display = 'block';
+            document.getElementById('aiResponse').textContent = 'Procesando...';
+
+            try {
+                const response = await fetch('/api/aenki/voice-command', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        command: command,
+                        context: 'backup_system'
+                    })
+                });
+
+                const data = await response.json();
+                
+                document.getElementById('aiResponse').textContent = data.response;
+                
+                // Ejecutar acción si es necesario
+                if (data.action) {
+                    executeAIAction(data.action);
+                }
+                
+                // Respuesta por voz
+                if (data.voice_response) {
+                    speakResponse(data.voice_response);
+                }
+            } catch (error) {
+                console.error('Error processing voice command:', error);
+                document.getElementById('aiResponse').textContent = 'Error al procesar el comando de voz.';
+            }
+        }
+
+        function speakResponse(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function executeAIAction(action) {
+            switch (action.type) {
+                case 'create_backup':
+                    createBackupNow();
+                    break;
+                case 'schedule_backup':
+                    openScheduleModal();
+                    break;
+                case 'view_history':
+                    refreshHistory();
+                    break;
+                case 'emergency_backup':
+                    emergencyBackup();
+                    break;
+            }
+        }
+
+        async function createBackupNow() {
+            const backupType = document.getElementById('backupType').value;
+            
+            try {
+                const response = await fetch('/api/backup/execute-now', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: backupType,
+                        name: `Respaldo_Manual_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}`,
+                        compression: document.getElementById('compression').checked,
+                        encryption: document.getElementById('encryption').checked,
+                        notifications: document.getElementById('notifications').checked
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Respaldo iniciado exitosamente', 'success');
+                    updateRealTimeMonitor();
+                } else {
+                    showNotification('Error al iniciar respaldo: ' + data.error, 'error');
+                }
+            } catch (error) {
+                console.error('Error creating backup:', error);
+                showNotification('Error al crear respaldo', 'error');
+            }
+        }
+
+        function openScheduleModal() {
+            document.getElementById('scheduleModal').style.display = 'block';
+        }
+
+        function closeScheduleModal() {
+            document.getElementById('scheduleModal').style.display = 'none';
+        }
+
+        async function createScheduledBackup() {
+            const jobData = {
+                name: document.getElementById('jobName').value,
+                type: document.getElementById('modalBackupType').value,
+                schedule: document.getElementById('cronExpression').value,
+                include_paths: document.getElementById('includePaths').value.split(','),
+                exclude_patterns: document.getElementById('excludePatterns').value.split(','),
+                destination: document.getElementById('destination').value,
+                compression: document.getElementById('compression').checked,
+                encryption: document.getElementById('encryption').checked,
+                notifications: document.getElementById('notifications').checked,
+                cloud_sync: document.getElementById('cloudSync').checked
+            };
+
+            try {
+                const response = await fetch('/api/backup/jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(jobData)
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showNotification('Respaldo programado exitosamente', 'success');
+                    closeScheduleModal();
+                    loadBackupData();
+                } else {
+                    showNotification('Error al programar respaldo: ' + data.detail, 'error');
+                }
+            } catch (error) {
+                console.error('Error creating scheduled backup:', error);
+                showNotification('Error al crear respaldo programado', 'error');
+            }
+        }
+
+        async function emergencyBackup() {
+            if (confirm('¿Está seguro de que desea crear un respaldo de emergencia? Esto incluirá todos los datos críticos.')) {
+                try {
+                    const response = await fetch('/api/backup/emergency', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            type: 'full_system',
+                            priority: 'high',
+                            compression: true,
+                            encryption: true
+                        })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showNotification('Respaldo de emergencia iniciado', 'success');
+                        updateRealTimeMonitor();
+                    } else {
+                        showNotification('Error en respaldo de emergencia: ' + data.error, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error creating emergency backup:', error);
+                    showNotification('Error al crear respaldo de emergencia', 'error');
+                }
+            }
+        }
+
+        async function loadBackupData() {
+            try {
+                // Cargar trabajos programados
+                const jobsResponse = await fetch('/api/backup/jobs');
+                const jobs = await jobsResponse.json();
+                displayScheduledBackups(jobs);
+
+                // Cargar historial
+                const historyResponse = await fetch('/api/backup/history');
+                const history = await historyResponse.json();
+                displayBackupHistory(history);
+
+                // Actualizar estadísticas
+                updateStats(history);
+            } catch (error) {
+                console.error('Error loading backup data:', error);
+            }
+        }
+
+        function displayScheduledBackups(jobs) {
+            const container = document.getElementById('scheduledBackups');
+            container.innerHTML = '';
+
+            jobs.forEach(job => {
+                const jobElement = document.createElement('div');
+                jobElement.className = 'backup-job';
+                jobElement.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <strong>${job.name}</strong>
+                        <span class="status-badge ${job.enabled ? 'status-success' : 'status-failed'}">
+                            ${job.enabled ? 'Activo' : 'Inactivo'}
+                        </span>
+                    </div>
+                    <div style="font-size: 0.9rem; color: #8892b0;">
+                        <div>Tipo: ${job.type}</div>
+                        <div>Programación: ${job.schedule}</div>
+                        <div>Retención: ${job.retention_days} días</div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <button class="action-btn" onclick="executeJob(${job.id})" style="font-size: 0.8rem; padding: 5px 10px;">
+                            <i class="fas fa-play"></i> Ejecutar
+                        </button>
+                        <button class="action-btn danger" onclick="deleteJob(${job.id})" style="font-size: 0.8rem; padding: 5px 10px;">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                `;
+                container.appendChild(jobElement);
+            });
+        }
+
+        function displayBackupHistory(history) {
+            const tbody = document.getElementById('historyTableBody');
+            tbody.innerHTML = '';
+
+            history.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.job_name}</td>
+                    <td>${item.type || 'N/A'}</td>
+                    <td>
+                        <span class="status-badge status-${item.status}">
+                            ${item.status}
+                        </span>
+                    </td>
+                    <td>${new Date(item.started_at).toLocaleString()}</td>
+                    <td>${item.file_size ? (item.file_size / 1024 / 1024).toFixed(2) + ' MB' : 'N/A'}</td>
+                    <td>${item.duration_seconds ? item.duration_seconds.toFixed(2) + 's' : 'N/A'}</td>
+                    <td>
+                        <button class="action-btn" onclick="downloadBackup('${item.file_path}')" style="font-size: 0.8rem; padding: 5px 10px;">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateStats(history) {
+            const totalBackups = history.length;
+            const successfulBackups = history.filter(item => item.status === 'completed').length;
+            const successRate = totalBackups > 0 ? (successfulBackups / totalBackups * 100).toFixed(1) : 0;
+            const totalSize = history.reduce((sum, item) => sum + (item.file_size || 0), 0);
+            const lastBackup = history.length > 0 ? new Date(history[0].started_at).toLocaleString() : '--';
+
+            document.getElementById('totalBackups').textContent = totalBackups;
+            document.getElementById('successRate').textContent = successRate + '%';
+            document.getElementById('totalSize').textContent = (totalSize / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+            document.getElementById('lastBackup').textContent = lastBackup;
+        }
+
+        function startRealTimeMonitoring() {
+            setInterval(updateRealTimeMonitor, 5000); // Actualizar cada 5 segundos
+        }
+
+        async function updateRealTimeMonitor() {
+            try {
+                const response = await fetch('/api/backup/status');
+                const status = await response.json();
+                
+                const currentJobs = document.getElementById('currentJobs');
+                currentJobs.innerHTML = '';
+                
+                Object.entries(status.running_jobs).forEach(([jobId, job]) => {
+                    const jobElement = document.createElement('div');
+                    jobElement.innerHTML = `
+                        <div style="margin-bottom: 10px;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>${job.config.name}</span>
+                                <span class="status-badge status-running">${job.status}</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${job.progress}%"></div>
+                            </div>
+                        </div>
+                    `;
+                    currentJobs.appendChild(jobElement);
+                });
+            } catch (error) {
+                console.error('Error updating real-time monitor:', error);
+            }
+        }
+
+        function showNotification(message, type) {
+            // Crear notificación toast
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 5px;
+                color: white;
+                font-weight: 600;
+                z-index: 1001;
+                animation: slideIn 0.3s ease;
+                ${type === 'success' ? 'background: #00ff88;' : 'background: #ff4757;'}
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        async function executeJob(jobId) {
+            try {
+                const response = await fetch(`/api/backup/execute/${jobId}`, {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                showNotification(data.message, 'success');
+                updateRealTimeMonitor();
+            } catch (error) {
+                console.error('Error executing job:', error);
+                showNotification('Error al ejecutar trabajo', 'error');
+            }
+        }
+
+        async function deleteJob(jobId) {
+            if (confirm('¿Está seguro de que desea eliminar este trabajo de respaldo?')) {
+                try {
+                    const response = await fetch(`/api/backup/jobs/${jobId}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    const data = await response.json();
+                    showNotification(data.message, 'success');
+                    loadBackupData();
+                } catch (error) {
+                    console.error('Error deleting job:', error);
+                    showNotification('Error al eliminar trabajo', 'error');
+                }
+            }
+        }
+
+        function refreshHistory() {
+            loadBackupData();
+            showNotification('Historial actualizado', 'success');
+        }
+
+        function viewRunningJobs() {
+            updateRealTimeMonitor();
+            document.querySelector('.real-time-monitor').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function saveBackupConfig() {
+            const config = {
+                type: document.getElementById('backupType').value,
+                frequency: document.getElementById('frequency').value,
+                time: document.getElementById('specificTime').value,
+                retention: document.getElementById('retention').value,
+                compression: document.getElementById('compression').checked,
+                encryption: document.getElementById('encryption').checked,
+                notifications: document.getElementById('notifications').checked,
+                cloudSync: document.getElementById('cloudSync').checked
+            };
+            
+            localStorage.setItem('backupConfig', JSON.stringify(config));
+            showNotification('Configuración guardada', 'success');
+        }
+
+        function downloadBackup(filePath) {
+            if (filePath && filePath !== 'null') {
+                window.location.href = `/api/backup/download?file=${encodeURIComponent(filePath)}`;
+            } else {
+                showNotification('Archivo no disponible para descarga', 'error');
+            }
+        }
+
+        // Cargar configuración guardada al iniciar
+        window.addEventListener('load', function() {
+            const savedConfig = localStorage.getItem('backupConfig');
+            if (savedConfig) {
+                const config = JSON.parse(savedConfig);
+                document.getElementById('backupType').value = config.type || 'database';
+                document.getElementById('frequency').value = config.frequency || 'daily';
+                document.getElementById('specificTime').value = config.time || '02:00';
+                document.getElementById('retention').value = config.retention || 7;
+                document.getElementById('compression').checked = config.compression !== false;
+                document.getElementById('encryption').checked = config.encryption !== false;
+                document.getElementById('notifications').checked = config.notifications !== false;
+                document.getElementById('cloudSync').checked = config.cloudSync === true;
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+<footer><a href="/index.html" class="btn-regresar">← Volver al Inicio</a></footer>

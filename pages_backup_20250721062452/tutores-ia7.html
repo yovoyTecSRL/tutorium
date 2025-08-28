@@ -1,0 +1,2083 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutores IA - Tutorium Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .ai-tutors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .tutor-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tutor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .tutor-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+        }
+
+        .tutor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .tutor-name {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .tutor-speciality {
+            color: #1e3c72;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .tutor-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .tutor-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tag {
+            background: #e6f3ff;
+            color: #1e3c72;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .tutor-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.3rem;
+        }
+
+        .tutor-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            flex: 1;
+            justify-content: center;
+            min-width: 80px;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #1e3c72;
+            border: 2px solid #1e3c72;
+        }
+
+        .btn-secondary:hover {
+            background: #1e3c72;
+            color: white;
+        }
+
+        .online-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #27ae60;
+            font-size: 0.8rem;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #27ae60;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .features-section {
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .features-title {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .chat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .chat-area {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #f8f9ff;
+        }
+
+        .chat-message {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .chat-message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1e3c72;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .message-content {
+            background: white;
+            padding: 0.8rem 1rem;
+            border-radius: 15px;
+            max-width: 70%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-message.user .message-content {
+            background: #1e3c72;
+            color: white;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+        }
+
+        .chat-input:focus {
+            border-color: #1e3c72;
+        }
+
+        .send-btn {
+            padding: 0.8rem 1.5rem;
+            background: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .voice-btn {
+            padding: 0.8rem;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-btn.recording {
+            background: #e74c3c;
+            animation: pulse 1s infinite;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .tutor-actions {
+                flex-direction: column;
+            }
+            
+            .modal-content {
+                width: 95%;
+                height: 90%;
+            }
+        }
+
+        /* Estilos para el sistema de reservas */
+        .booking-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .booking-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .booking-header {
+            padding: 2rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .booking-body {
+            padding: 2rem;
+        }
+
+        .calendar-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-section {
+            background: #f8f9ff;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 2px solid #e1e8ed;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-nav {
+            background: #1e3c72;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-day {
+            padding: 0.8rem;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day.available {
+            background: #e8f5e8;
+            color: #27ae60;
+            border-color: #27ae60;
+        }
+
+        .calendar-day.selected {
+            background: #1e3c72;
+            color: white;
+        }
+
+        .calendar-day.unavailable {
+            background: #f8d7da;
+            color: #721c24;
+            cursor: not-allowed;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .time-slot {
+            padding: 0.8rem;
+            background: #e8f5e8;
+            border: 2px solid #27ae60;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-slot:hover {
+            background: #27ae60;
+            color: white;
+        }
+
+        .time-slot.selected {
+            background: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+
+        .time-slot.unavailable {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #721c24;
+            cursor: not-allowed;
+        }
+
+        .booking-summary {
+            background: #f8f9ff;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 2px solid #1e3c72;
+            margin: 2rem 0;
+        }
+
+        .booking-form {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .form-input {
+            padding: 0.8rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .notification-options {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .notification-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .video-call-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1002;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-call-content {
+            background: white;
+            border-radius: 20px;
+            width: 95%;
+            max-width: 1200px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .video-call-header {
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1e3c72;
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .video-call-area {
+            flex: 1;
+            padding: 1rem;
+            background: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-call-controls {
+            padding: 1rem 2rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            background: #f8f9ff;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .control-btn {
+            padding: 1rem;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn.call {
+            background: #27ae60;
+            color: white;
+        }
+
+        .control-btn.hang-up {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .control-btn.mute {
+            background: #f39c12;
+            color: white;
+        }
+
+        .rating-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1003;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rating-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .rating-stars {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+        }
+
+        .rating-star {
+            font-size: 2rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .rating-star:hover,
+        .rating-star.active {
+            color: #f39c12;
+        }
+
+        .tutor-availability {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .availability-toggle {
+            width: 50px;
+            height: 25px;
+            background: #ddd;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .availability-toggle.active {
+            background: #27ae60;
+        }
+
+        .availability-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 21px;
+            height: 21px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .availability-toggle.active::after {
+            transform: translateX(25px);
+        }
+
+        .price-display {
+            background: #e8f5e8;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border: 2px solid #27ae60;
+        }
+
+        .price-amount {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #27ae60;
+        }
+
+        .active-session {
+            background: #e8f5e8;
+            border: 2px solid #27ae60;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .session-timer {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #27ae60;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Tutorium Academy
+            </a>
+            <nav class="nav-links">
+                <a href="../index.html">Inicio</a>
+                <a href="cursos.html">Cursos</a>
+                <a href="certificaciones.html">Certificaciones</a>
+                <a href="tutores-ia.html" class="active">Tutores IA</a>
+                <a href="progreso.html">Mi Progreso</a>
+                <a href="panel-admin.html">Panel Admin</a>
+                <a href="login.html">Iniciar Sesión</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-robot"></i> Tutores IA</h1>
+            <p>Interactúa con nuestros tutores de inteligencia artificial especializados en diferentes áreas del conocimiento</p>
+        </div>
+
+        <div class="ai-tutors-grid">
+            <div class="tutor-card">
+                <div class="online-indicator">
+                    <div class="online-dot"></div>
+                    <span>En línea</span>
+                </div>
+                <div class="tutor-avatar">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="tutor-name">Ae.N.K.I</h3>
+                <p class="tutor-speciality">Tutor General - Inteligencia Artificial</p>
+                <p class="tutor-description">
+                    Soy tu asistente educativo principal. Puedo ayudarte con cualquier materia, explicar conceptos complejos y guiarte en tu proceso de aprendizaje.
+                </p>
+                <div class="tutor-skills">
+                    <span class="skill-tag">Matemáticas</span>
+                    <span class="skill-tag">Ciencias</span>
+                    <span class="skill-tag">Programación</span>
+                    <span class="skill-tag">Idiomas</span>
+                </div>
+                <div class="tutor-stats">
+                    <div class="stat">
+                        <div class="stat-value">4.9</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">1.2K</div>
+                        <div class="stat-label">Estudiantes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Disponible</div>
+                    </div>
+                </div>
+                <div class="tutor-actions">
+                    <button class="btn btn-primary" onclick="startChat('Ae.N.K.I', 'Tutor General')">
+                        <i class="fas fa-comments"></i>
+                        Chat
+                    </button>
+                    <button class="btn btn-secondary" onclick="startVoiceChat('Ae.N.K.I')">
+                        <i class="fas fa-microphone"></i>
+                        Voz
+                    </button>
+                    <button class="btn btn-success" onclick="bookTutoring('Ae.N.K.I', 'Tutor General')">
+                        <i class="fas fa-calendar-plus"></i>
+                        Reservar
+                    </button>
+                </div>
+            </div>
+
+            <div class="tutor-card">
+                <div class="online-indicator">
+                    <div class="online-dot"></div>
+                    <span>En línea</span>
+                </div>
+                <div class="tutor-avatar">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="tutor-name">CodeMaster</h3>
+                <p class="tutor-speciality">Especialista en Programación</p>
+                <p class="tutor-description">
+                    Experto en múltiples lenguajes de programación. Te ayudo con algoritmos, estructuras de datos y mejores prácticas de desarrollo.
+                </p>
+                <div class="tutor-skills">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Java</span>
+                    <span class="skill-tag">C++</span>
+                </div>
+                <div class="tutor-stats">
+                    <div class="stat">
+                        <div class="stat-value">4.8</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">856</div>
+                        <div class="stat-label">Estudiantes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Disponible</div>
+                    </div>
+                </div>
+                <div class="tutor-actions">
+                    <button class="btn btn-primary" onclick="startChat('CodeMaster', 'Especialista en Programación')">
+                        <i class="fas fa-comments"></i>
+                        Chat
+                    </button>
+                    <button class="btn btn-secondary" onclick="startVoiceChat('CodeMaster')">
+                        <i class="fas fa-microphone"></i>
+                        Voz
+                    </button>
+                    <button class="btn btn-success" onclick="bookTutoring('CodeMaster', 'Especialista en Programación')">
+                        <i class="fas fa-calendar-plus"></i>
+                        Reservar
+                    </button>
+                </div>
+            </div>
+
+            <div class="tutor-card">
+                <div class="online-indicator">
+                    <div class="online-dot"></div>
+                    <span>En línea</span>
+                </div>
+                <div class="tutor-avatar">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3 class="tutor-name">MathGenius</h3>
+                <p class="tutor-speciality">Especialista en Matemáticas</p>
+                <p class="tutor-description">
+                    Desde álgebra básica hasta cálculo avanzado. Te explico paso a paso cualquier problema matemático que tengas.
+                </p>
+                <div class="tutor-skills">
+                    <span class="skill-tag">Álgebra</span>
+                    <span class="skill-tag">Cálculo</span>
+                    <span class="skill-tag">Estadística</span>
+                    <span class="skill-tag">Geometría</span>
+                </div>
+                <div class="tutor-stats">
+                    <div class="stat">
+                        <div class="stat-value">4.9</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">943</div>
+                        <div class="stat-label">Estudiantes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Disponible</div>
+                    </div>
+                </div>
+                <div class="tutor-actions">
+                    <button class="btn btn-primary" onclick="startChat('MathGenius', 'Especialista en Matemáticas')">
+                        <i class="fas fa-comments"></i>
+                        Chat
+                    </button>
+                    <button class="btn btn-secondary" onclick="startVoiceChat('MathGenius')">
+                        <i class="fas fa-microphone"></i>
+                        Voz
+                    </button>
+                    <button class="btn btn-success" onclick="bookTutoring('MathGenius', 'Especialista en Matemáticas')">
+                        <i class="fas fa-calendar-plus"></i>
+                        Reservar
+                    </button>
+                </div>
+            </div>
+
+            <div class="tutor-card">
+                <div class="online-indicator">
+                    <div class="online-dot"></div>
+                    <span>En línea</span>
+                </div>
+                <div class="tutor-avatar">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <h3 class="tutor-name">ScienceBot</h3>
+                <p class="tutor-speciality">Especialista en Ciencias</p>
+                <p class="tutor-description">
+                    Física, química, biología y más. Te ayudo a comprender los conceptos científicos más complejos de manera sencilla.
+                </p>
+                <div class="tutor-skills">
+                    <span class="skill-tag">Física</span>
+                    <span class="skill-tag">Química</span>
+                    <span class="skill-tag">Biología</span>
+                    <span class="skill-tag">Astronomía</span>
+                </div>
+                <div class="tutor-stats">
+                    <div class="stat">
+                        <div class="stat-value">4.7</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">672</div>
+                        <div class="stat-label">Estudiantes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Disponible</div>
+                    </div>
+                </div>
+                <div class="tutor-actions">
+                    <button class="btn btn-primary" onclick="startChat('ScienceBot', 'Especialista en Ciencias')">
+                        <i class="fas fa-comments"></i>
+                        Chat
+                    </button>
+                    <button class="btn btn-secondary" onclick="startVoiceChat('ScienceBot')">
+                        <i class="fas fa-microphone"></i>
+                        Voz
+                    </button>
+                    <button class="btn btn-success" onclick="bookTutoring('ScienceBot', 'Especialista en Ciencias')">
+                        <i class="fas fa-calendar-plus"></i>
+                        Reservar
+                    </button>
+                </div>
+            </div>
+
+            <div class="tutor-card">
+                <div class="online-indicator">
+                    <div class="online-dot"></div>
+                    <span>En línea</span>
+                </div>
+                <div class="tutor-avatar">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3 class="tutor-name">LinguaBot</h3>
+                <p class="tutor-speciality">Especialista en Idiomas</p>
+                <p class="tutor-description">
+                    Aprende idiomas de manera natural. Te ayudo con gramática, vocabulario y conversación en múltiples idiomas.
+                </p>
+                <div class="tutor-skills">
+                    <span class="skill-tag">Inglés</span>
+                    <span class="skill-tag">Francés</span>
+                    <span class="skill-tag">Alemán</span>
+                    <span class="skill-tag">Italiano</span>
+                </div>
+                <div class="tutor-stats">
+                    <div class="stat">
+                        <div class="stat-value">4.8</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">1.1K</div>
+                        <div class="stat-label">Estudiantes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Disponible</div>
+                    </div>
+                </div>
+                <div class="tutor-actions">
+                    <button class="btn btn-primary" onclick="startChat('LinguaBot', 'Especialista en Idiomas')">
+                        <i class="fas fa-comments"></i>
+                        Chat
+                    </button>
+                    <button class="btn btn-secondary" onclick="startVoiceChat('LinguaBot')">
+                        <i class="fas fa-microphone"></i>
+                        Voz
+                    </button>
+                    <button class="btn btn-success" onclick="bookTutoring('LinguaBot', 'Especialista en Idiomas')">
+                        <i class="fas fa-calendar-plus"></i>
+                        Reservar
+                    </button>
+                </div>
+            </div>
+
+            <div class="tutor-card">
+                <div class="online-indicator">
+                    <div class="online-dot"></div>
+                    <span>En línea</span>
+                </div>
+                <div class="tutor-avatar">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="tutor-name">BusinessAI</h3>
+                <p class="tutor-speciality">Especialista en Negocios</p>
+                <p class="tutor-description">
+                    Marketing, finanzas, administración y emprendimiento. Te guío en el mundo de los negocios con estrategias efectivas.
+                </p>
+                <div class="tutor-skills">
+                    <span class="skill-tag">Marketing</span>
+                    <span class="skill-tag">Finanzas</span>
+                    <span class="skill-tag">Administración</span>
+                    <span class="skill-tag">Emprendimiento</span>
+                </div>
+                <div class="tutor-stats">
+                    <div class="stat">
+                        <div class="stat-value">4.6</div>
+                        <div class="stat-label">Rating</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">534</div>
+                        <div class="stat-label">Estudiantes</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Disponible</div>
+                    </div>
+                </div>
+                <div class="tutor-actions">
+                    <button class="btn btn-primary" onclick="startChat('BusinessAI', 'Especialista en Negocios')">
+                        <i class="fas fa-comments"></i>
+                        Chat
+                    </button>
+                    <button class="btn btn-secondary" onclick="startVoiceChat('BusinessAI')">
+                        <i class="fas fa-microphone"></i>
+                        Voz
+                    </button>
+                    <button class="btn btn-success" onclick="bookTutoring('BusinessAI', 'Especialista en Negocios')">
+                        <i class="fas fa-calendar-plus"></i>
+                        Reservar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h2 class="features-title">
+                <i class="fas fa-star"></i> Características de Nuestros Tutores IA
+            </h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="feature-title">Disponible 24/7</h3>
+                    <p class="feature-description">
+                        Nuestros tutores están disponibles las 24 horas del día, los 7 días de la semana para ayudarte cuando lo necesites.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3 class="feature-title">Personalizado</h3>
+                    <p class="feature-description">
+                        Cada tutor adapta su enseñanza a tu estilo de aprendizaje y ritmo personal para maximizar tu comprensión.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3 class="feature-title">Interacción por Voz</h3>
+                    <p class="feature-description">
+                        Comunícate naturalmente con nuestros tutores mediante texto o voz para una experiencia más fluida.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="feature-title">Seguimiento del Progreso</h3>
+                    <p class="feature-description">
+                        Cada tutor lleva un registro de tu progreso y te proporciona retroalimentación constante y constructiva.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Modal -->
+    <div class="chat-modal" id="chatModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="chatTutorName">Chat con Tutor</h3>
+                <span class="modal-close" onclick="closeChat()">&times;</span>
+            </div>
+            <div class="chat-area" id="chatArea">
+                <!-- Chat messages will be displayed here -->
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu mensaje aquí...">
+                <button class="voice-btn" id="voiceBtn" onclick="toggleVoiceRecording()">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="booking-content">
+            <div class="booking-header">
+                <h3 id="bookingTutorName">Reservar Tutoría</h3>
+                <span class="modal-close" onclick="closeBooking()">&times;</span>
+            </div>
+            <div class="booking-body">
+                <div class="tutor-availability">
+                    <label class="form-label">Estado del Tutor:</label>
+                    <div class="availability-toggle active" id="tutorAvailabilityToggle">
+                    </div>
+                    <span id="availabilityStatus">Disponible</span>
+                </div>
+
+                <div class="calendar-container">
+                    <div class="calendar-section">
+                        <div class="calendar-header">
+                            <button class="calendar-nav" onclick="previousMonth()">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <h4 id="currentMonth">Julio 2025</h4>
+                            <button class="calendar-nav" onclick="nextMonth()">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar days will be generated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-section">
+                        <h4>Horarios Disponibles</h4>
+                        <div class="time-slots" id="timeSlots">
+                            <!-- Time slots will be generated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-summary" id="bookingSummary" style="display: none;">
+                    <h4><i class="fas fa-calendar-check"></i> Resumen de la Reserva</h4>
+                    <div class="summary-details">
+                        <p><strong>Tutor:</strong> <span id="summaryTutor"></span></p>
+                        <p><strong>Fecha:</strong> <span id="summaryDate"></span></p>
+                        <p><strong>Hora:</strong> <span id="summaryTime"></span></p>
+                        <div class="price-display">
+                            <div class="price-amount">$29.99 USD</div>
+                            <div>por hora académica</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-form">
+                    <div class="form-group">
+                        <label class="form-label">Tema de la Tutoría</label>
+                        <input type="text" class="form-input" id="tutorTopic" placeholder="Ej: Cálculo integral, Programación Python...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Descripción/Objetivos</label>
+                        <textarea class="form-input form-textarea" id="tutorDescription" placeholder="Describe qué te gustaría aprender o qué dificultades tienes..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Nivel Académico</label>
+                        <select class="form-input" id="academicLevel">
+                            <option value="">Selecciona tu nivel</option>
+                            <option value="principiante">Principiante</option>
+                            <option value="intermedio">Intermedio</option>
+                            <option value="avanzado">Avanzado</option>
+                            <option value="universitario">Universitario</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Notificaciones</label>
+                        <div class="notification-options">
+                            <div class="notification-option">
+                                <input type="checkbox" id="emailNotification" checked>
+                                <label for="emailNotification">
+                                    <i class="fas fa-envelope"></i> Email
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <input type="checkbox" id="whatsappNotification" checked>
+                                <label for="whatsappNotification">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </label>
+                            </div>
+                            <div class="notification-option">
+                                <input type="checkbox" id="platformNotification" checked>
+                                <label for="platformNotification">
+                                    <i class="fas fa-bell"></i> Plataforma
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-actions">
+                    <button class="btn btn-secondary" onclick="closeBooking()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button class="btn btn-primary" onclick="confirmBooking()">
+                        <i class="fas fa-credit-card"></i> Reservar y Pagar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Call Modal -->
+    <div class="video-call-modal" id="videoCallModal">
+        <div class="video-call-content">
+            <div class="video-call-header">
+                <h3 id="videoCallTutorName">Tutoría en Vivo</h3>
+                <div class="session-timer" id="sessionTimer">00:00:00</div>
+                <span class="modal-close" onclick="endVideoCall()">&times;</span>
+            </div>
+            <div class="video-call-area">
+                <div class="active-session">
+                    <div class="session-timer" id="activeSessionTimer">Sesión Activa: 00:00:00</div>
+                    <p>Tutoría personalizada con <span id="activeSessionTutor">Tutor IA</span></p>
+                </div>
+                <div id="zoomContainer" style="width: 100%; height: 400px; background: #f0f2f5; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center;">
+                        <i class="fas fa-video" style="font-size: 3rem; color: #1e3c72; margin-bottom: 1rem;"></i>
+                        <p>Conexión con Zoom iniciándose...</p>
+                        <button class="btn btn-primary" onclick="startZoomCall()">
+                            <i class="fas fa-video"></i> Iniciar Videollamada
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="video-call-controls">
+                <button class="control-btn call" onclick="joinCall()">
+                    <i class="fas fa-phone"></i>
+                </button>
+                <button class="control-btn mute" onclick="toggleMute()">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="control-btn" onclick="toggleVideo()">
+                    <i class="fas fa-video"></i>
+                </button>
+                <button class="control-btn hang-up" onclick="endVideoCall()">
+                    <i class="fas fa-phone-slash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rating Modal -->
+    <div class="rating-modal" id="ratingModal">
+        <div class="rating-content">
+            <h3>Califica tu Tutoría</h3>
+            <p>¿Cómo fue tu experiencia con <span id="ratingTutorName">el tutor</span>?</p>
+            
+            <div class="rating-stars" id="ratingStars">
+                <span class="rating-star" data-rating="1">★</span>
+                <span class="rating-star" data-rating="2">★</span>
+                <span class="rating-star" data-rating="3">★</span>
+                <span class="rating-star" data-rating="4">★</span>
+                <span class="rating-star" data-rating="5">★</span>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Comentarios (opcional)</label>
+                <textarea class="form-input form-textarea" id="ratingComment" placeholder="Comparte tu experiencia con otros estudiantes..."></textarea>
+            </div>
+            
+            <div class="rating-actions">
+                <button class="btn btn-secondary" onclick="closeRating()">
+                    <i class="fas fa-times"></i> Saltar
+                </button>
+                <button class="btn btn-primary" onclick="submitRating()">
+                    <i class="fas fa-star"></i> Enviar Calificación
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentTutor = null;
+        let isRecording = false;
+        let recognition = null;
+        let currentBooking = null;
+        let selectedDate = null;
+        let selectedTime = null;
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let sessionTimer = null;
+        let sessionStartTime = null;
+        let zoomMeetingId = null;
+        let currentRating = 0;
+
+        // Datos simulados de disponibilidad de tutores
+        const tutorAvailability = {
+            'Ae.N.K.I': {
+                available: true,
+                schedule: {
+                    '2025-07-16': ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'],
+                    '2025-07-17': ['09:00', '10:00', '13:00', '14:00', '15:00'],
+                    '2025-07-18': ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00'],
+                    '2025-07-19': ['09:00', '10:00', '11:00', '13:00', '14:00']
+                },
+                price: 29.99,
+                currency: 'USD'
+            },
+            'CodeMaster': {
+                available: true,
+                schedule: {
+                    '2025-07-16': ['10:00', '11:00', '14:00', '15:00', '16:00', '17:00'],
+                    '2025-07-17': ['09:00', '10:00', '11:00', '14:00', '15:00'],
+                    '2025-07-18': ['10:00', '11:00', '14:00', '15:00', '16:00'],
+                    '2025-07-19': ['09:00', '10:00', '11:00', '15:00', '16:00']
+                },
+                price: 34.99,
+                currency: 'USD'
+            },
+            'MathGenius': {
+                available: true,
+                schedule: {
+                    '2025-07-16': ['08:00', '09:00', '10:00', '11:00', '13:00', '14:00'],
+                    '2025-07-17': ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'],
+                    '2025-07-18': ['08:00', '09:00', '10:00', '13:00', '14:00', '15:00'],
+                    '2025-07-19': ['09:00', '10:00', '11:00', '14:00', '15:00']
+                },
+                price: 31.99,
+                currency: 'USD'
+            },
+            'ScienceBot': {
+                available: true,
+                schedule: {
+                    '2025-07-16': ['09:00', '10:00', '11:00', '14:00', '15:00'],
+                    '2025-07-17': ['08:00', '09:00', '10:00', '13:00', '14:00', '15:00'],
+                    '2025-07-18': ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'],
+                    '2025-07-19': ['08:00', '09:00', '10:00', '11:00', '14:00']
+                },
+                price: 32.99,
+                currency: 'USD'
+            },
+            'LinguaBot': {
+                available: true,
+                schedule: {
+                    '2025-07-16': ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00'],
+                    '2025-07-17': ['08:00', '09:00', '10:00', '11:00', '14:00', '15:00'],
+                    '2025-07-18': ['09:00', '10:00', '13:00', '14:00', '15:00', '16:00'],
+                    '2025-07-19': ['09:00', '10:00', '11:00', '14:00', '15:00']
+                },
+                price: 28.99,
+                currency: 'USD'
+            },
+            'BusinessAI': {
+                available: true,
+                schedule: {
+                    '2025-07-16': ['10:00', '11:00', '14:00', '15:00', '16:00'],
+                    '2025-07-17': ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'],
+                    '2025-07-18': ['10:00', '11:00', '13:00', '14:00', '15:00'],
+                    '2025-07-19': ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00']
+                },
+                price: 39.99,
+                currency: 'USD'
+            }
+        };
+
+        // Initialize speech recognition if available
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'es-ES';
+            
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('chatInput').value = transcript;
+                sendMessage();
+            };
+            
+            recognition.onend = function() {
+                isRecording = false;
+                document.getElementById('voiceBtn').classList.remove('recording');
+                document.getElementById('voiceBtn').innerHTML = '<i class="fas fa-microphone"></i>';
+            };
+        }
+
+        // Chat Functions
+        function startChat(tutorName, tutorSpeciality) {
+            currentTutor = { name: tutorName, speciality: tutorSpeciality };
+            document.getElementById('chatTutorName').textContent = `Chat con ${tutorName}`;
+            document.getElementById('chatModal').style.display = 'flex';
+            
+            // Clear previous chat
+            const chatArea = document.getElementById('chatArea');
+            chatArea.innerHTML = '';
+            
+            // Add welcome message
+            addMessage('tutor', `¡Hola! Soy ${tutorName}, tu ${tutorSpeciality}. ¿En qué puedo ayudarte hoy?`);
+        }
+
+        function startVoiceChat(tutorName) {
+            startChat(tutorName, 'Especialista');
+            toggleVoiceRecording();
+        }
+
+        function closeChat() {
+            document.getElementById('chatModal').style.display = 'none';
+        }
+
+        function addMessage(sender, message) {
+            const chatArea = document.getElementById('chatArea');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.innerHTML = sender === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            content.textContent = message;
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+            chatArea.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage('user', message);
+            input.value = '';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = getAIResponse(message);
+                addMessage('tutor', responses);
+            }, 1000);
+        }
+
+        function getAIResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            const tutorName = currentTutor ? currentTutor.name : 'Tutor';
+            
+            // Personalized greetings
+            if (message.includes('hola') || message.includes('hello') || message.includes('hi')) {
+                const greetings = {
+                    'Ae.N.K.I': '¡Hola! Soy Ae.N.K.I, tu asistente educativo principal. ¿En qué aventura de aprendizaje te acompaño hoy?',
+                    'CodeMaster': '¡Hola, desarrollador! Soy CodeMaster. ¿Qué código vamos a dominar hoy?',
+                    'MathGenius': '¡Hola! Soy MathGenius. ¿Qué problema matemático resolvemos juntos?',
+                    'ScienceBot': '¡Hola, científico! Soy ScienceBot. ¿Qué misterio del universo exploramos hoy?',
+                    'LinguaBot': '¡Hello/Hola! Soy LinguaBot. ¿En qué idioma conversamos hoy?',
+                    'BusinessAI': '¡Hola, emprendedor! Soy BusinessAI. ¿Qué estrategia de negocio desarrollamos?'
+                };
+                return greetings[tutorName] || '¡Hola! ¿En qué puedo ayudarte hoy?';
+            }
+            
+            // Subject-specific responses
+            if (message.includes('matemáticas') || message.includes('math') || message.includes('ecuación')) {
+                if (tutorName === 'MathGenius') {
+                    return 'Excelente, las matemáticas son mi pasión. ¿Trabajamos con álgebra, cálculo, geometría o estadística? Te explico paso a paso.';
+                }
+                return 'Para matemáticas, te recomiendo hablar con mi colega MathGenius. Pero puedo ayudarte con conceptos básicos.';
+            }
+            
+            if (message.includes('programación') || message.includes('code') || message.includes('python') || message.includes('javascript')) {
+                if (tutorName === 'CodeMaster') {
+                    return 'Perfecto, la programación es arte y ciencia. ¿Qué lenguaje dominas? ¿Python, JavaScript, Java? ¿O empezamos desde cero?';
+                }
+                return 'Para programación, CodeMaster es el experto. Pero puedo darte conceptos básicos de lógica.';
+            }
+            
+            return 'Entiendo tu consulta. ¿Te gustaría reservar una tutoría personalizada conmigo? Podemos profundizar mucho más en el tema.';
+        }
+
+        function toggleVoiceRecording() {
+            if (!recognition) {
+                alert('Lo siento, tu navegador no soporta reconocimiento de voz.');
+                return;
+            }
+            
+            if (isRecording) {
+                recognition.stop();
+                isRecording = false;
+                document.getElementById('voiceBtn').classList.remove('recording');
+                document.getElementById('voiceBtn').innerHTML = '<i class="fas fa-microphone"></i>';
+            } else {
+                recognition.start();
+                isRecording = true;
+                document.getElementById('voiceBtn').classList.add('recording');
+                document.getElementById('voiceBtn').innerHTML = '<i class="fas fa-stop"></i>';
+            }
+        }
+
+        // Booking Functions
+        function bookTutoring(tutorName, speciality) {
+            currentBooking = {
+                tutor: tutorName,
+                speciality: speciality,
+                date: null,
+                time: null
+            };
+            
+            document.getElementById('bookingTutorName').textContent = `Reservar Tutoría con ${tutorName}`;
+            document.getElementById('bookingModal').style.display = 'flex';
+            
+            // Update availability toggle
+            const availability = tutorAvailability[tutorName];
+            const toggle = document.getElementById('tutorAvailabilityToggle');
+            const status = document.getElementById('availabilityStatus');
+            
+            if (availability.available) {
+                toggle.classList.add('active');
+                status.textContent = 'Disponible';
+                status.style.color = '#27ae60';
+            } else {
+                toggle.classList.remove('active');
+                status.textContent = 'No disponible';
+                status.style.color = '#e74c3c';
+            }
+            
+            // Update price display
+            const priceDisplay = document.querySelector('.price-amount');
+            priceDisplay.textContent = `$${availability.price} ${availability.currency}`;
+            
+            generateCalendar();
+        }
+
+        function closeBooking() {
+            document.getElementById('bookingModal').style.display = 'none';
+            selectedDate = null;
+            selectedTime = null;
+            currentBooking = null;
+        }
+
+        function generateCalendar() {
+            const calendar = document.getElementById('calendarGrid');
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                              'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            
+            document.getElementById('currentMonth').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            calendar.innerHTML = '';
+            
+            // Add day headers
+            const dayHeaders = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            dayHeaders.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.textContent = day;
+                dayHeader.style.fontWeight = 'bold';
+                dayHeader.style.textAlign = 'center';
+                dayHeader.style.padding = '0.5rem';
+                dayHeader.style.backgroundColor = '#f8f9ff';
+                calendar.appendChild(dayHeader);
+            });
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                calendar.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                
+                const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const availability = tutorAvailability[currentBooking.tutor];
+                
+                if (availability.schedule[dateString]) {
+                    dayElement.classList.add('available');
+                    dayElement.onclick = () => selectDate(dateString, dayElement);
+                } else {
+                    dayElement.classList.add('unavailable');
+                }
+                
+                calendar.appendChild(dayElement);
+            }
+        }
+
+        function selectDate(dateString, element) {
+            // Remove previous selection
+            document.querySelectorAll('.calendar-day').forEach(day => {
+                day.classList.remove('selected');
+            });
+            
+            // Add selection to clicked day
+            element.classList.add('selected');
+            selectedDate = dateString;
+            currentBooking.date = dateString;
+            
+            generateTimeSlots();
+            updateBookingSummary();
+        }
+
+        function generateTimeSlots() {
+            const timeSlotsContainer = document.getElementById('timeSlots');
+            const availability = tutorAvailability[currentBooking.tutor];
+            const availableTimes = availability.schedule[selectedDate] || [];
+            
+            timeSlotsContainer.innerHTML = '';
+            
+            availableTimes.forEach(time => {
+                const timeSlot = document.createElement('div');
+                timeSlot.className = 'time-slot';
+                timeSlot.textContent = time;
+                timeSlot.onclick = () => selectTime(time, timeSlot);
+                timeSlotsContainer.appendChild(timeSlot);
+            });
+        }
+
+        function selectTime(time, element) {
+            // Remove previous selection
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            
+            // Add selection to clicked time
+            element.classList.add('selected');
+            selectedTime = time;
+            currentBooking.time = time;
+            
+            updateBookingSummary();
+        }
+
+        function updateBookingSummary() {
+            if (selectedDate && selectedTime) {
+                const summary = document.getElementById('bookingSummary');
+                const date = new Date(selectedDate);
+                const formattedDate = date.toLocaleDateString('es-ES', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                document.getElementById('summaryTutor').textContent = currentBooking.tutor;
+                document.getElementById('summaryDate').textContent = formattedDate;
+                document.getElementById('summaryTime').textContent = selectedTime;
+                
+                summary.style.display = 'block';
+            }
+        }
+
+        function previousMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar();
+        }
+
+        function confirmBooking() {
+            if (!selectedDate || !selectedTime) {
+                alert('Por favor selecciona una fecha y hora para la tutoría.');
+                return;
+            }
+            
+            const topic = document.getElementById('tutorTopic').value;
+            const description = document.getElementById('tutorDescription').value;
+            const level = document.getElementById('academicLevel').value;
+            
+            if (!topic || !description || !level) {
+                alert('Por favor completa todos los campos del formulario.');
+                return;
+            }
+            
+            // Simulate booking confirmation
+            alert('¡Reserva confirmada! Te hemos enviado los detalles por email y WhatsApp.');
+            
+            // Generate Zoom meeting
+            generateZoomMeeting();
+            
+            // Close booking modal
+            closeBooking();
+            
+            // Show success message with video call option
+            setTimeout(() => {
+                if (confirm('¿Quieres unirte a la videollamada ahora?')) {
+                    startVideoCall();
+                }
+            }, 2000);
+        }
+
+        function generateZoomMeeting() {
+            // Simulate Zoom meeting generation
+            zoomMeetingId = Math.random().toString(36).substr(2, 9);
+            console.log('Zoom Meeting Generated:', zoomMeetingId);
+            
+            // In a real implementation, this would call Zoom API
+            // const zoomAPI = {
+            //     createMeeting: {
+            //         topic: `Tutoría con ${currentBooking.tutor}`,
+            //         start_time: `${selectedDate}T${selectedTime}:00`,
+            //         duration: 60,
+            //         settings: {
+            //             host_video: true,
+            //             participant_video: true,
+            //             join_before_host: true,
+            //             mute_upon_entry: true
+            //         }
+            //     }
+            // };
+        }
+
+        // Video Call Functions
+        function startVideoCall() {
+            document.getElementById('videoCallModal').style.display = 'flex';
+            document.getElementById('videoCallTutorName').textContent = `Tutoría con ${currentBooking ? currentBooking.tutor : 'Tutor IA'}`;
+            document.getElementById('activeSessionTutor').textContent = currentBooking ? currentBooking.tutor : 'Tutor IA';
+            
+            startSessionTimer();
+        }
+
+        function startSessionTimer() {
+            sessionStartTime = new Date();
+            sessionTimer = setInterval(() => {
+                const now = new Date();
+                const elapsed = now - sessionStartTime;
+                const hours = Math.floor(elapsed / 3600000);
+                const minutes = Math.floor((elapsed % 3600000) / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                
+                const timeString = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                document.getElementById('sessionTimer').textContent = timeString;
+                document.getElementById('activeSessionTimer').textContent = `Sesión Activa: ${timeString}`;
+            }, 1000);
+        }
+
+        function startZoomCall() {
+            // In a real implementation, this would launch Zoom
+            const zoomUrl = `https://zoom.us/j/${zoomMeetingId}`;
+            window.open(zoomUrl, '_blank');
+            
+            // Update UI
+            document.getElementById('zoomContainer').innerHTML = `
+                <div style="text-align: center;">
+                    <i class="fas fa-video" style="font-size: 3rem; color: #27ae60; margin-bottom: 1rem;"></i>
+                    <p style="color: #27ae60; font-weight: bold;">Videollamada Activa</p>
+                    <p>Meeting ID: ${zoomMeetingId}</p>
+                    <button class="btn btn-danger" onclick="endZoomCall()">
+                        <i class="fas fa-phone-slash"></i> Terminar Llamada
+                    </button>
+                </div>
+            `;
+        }
+
+        function joinCall() {
+            alert('Conectando con el tutor...');
+            // Simulate joining call
+            setTimeout(() => {
+                alert('¡Conectado exitosamente!');
+            }, 2000);
+        }
+
+        function toggleMute() {
+            const btn = event.target.closest('.control-btn');
+            const icon = btn.querySelector('i');
+            
+            if (icon.classList.contains('fa-microphone')) {
+                icon.classList.remove('fa-microphone');
+                icon.classList.add('fa-microphone-slash');
+                btn.style.background = '#e74c3c';
+            } else {
+                icon.classList.remove('fa-microphone-slash');
+                icon.classList.add('fa-microphone');
+                btn.style.background = '#f39c12';
+            }
+        }
+
+        function toggleVideo() {
+            const btn = event.target.closest('.control-btn');
+            const icon = btn.querySelector('i');
+            
+            if (icon.classList.contains('fa-video')) {
+                icon.classList.remove('fa-video');
+                icon.classList.add('fa-video-slash');
+                btn.style.background = '#e74c3c';
+            } else {
+                icon.classList.remove('fa-video-slash');
+                icon.classList.add('fa-video');
+                btn.style.background = '#1e3c72';
+            }
+        }
+
+        function endVideoCall() {
+            if (sessionTimer) {
+                clearInterval(sessionTimer);
+                sessionTimer = null;
+            }
+            
+            document.getElementById('videoCallModal').style.display = 'none';
+            
+            // Show rating modal
+            setTimeout(() => {
+                showRatingModal();
+            }, 1000);
+        }
+
+        function endZoomCall() {
+            alert('Llamada terminada');
+            endVideoCall();
+        }
+
+        // Rating Functions
+        function showRatingModal() {
+            document.getElementById('ratingModal').style.display = 'flex';
+            document.getElementById('ratingTutorName').textContent = currentBooking ? currentBooking.tutor : 'el tutor';
+            currentRating = 0;
+            
+            // Reset stars
+            document.querySelectorAll('.rating-star').forEach(star => {
+                star.classList.remove('active');
+            });
+        }
+
+        function closeRating() {
+            document.getElementById('ratingModal').style.display = 'none';
+        }
+
+        function submitRating() {
+            if (currentRating === 0) {
+                alert('Por favor selecciona una calificación.');
+                return;
+            }
+            
+            const comment = document.getElementById('ratingComment').value;
+            
+            // Simulate rating submission
+            alert(`¡Gracias por tu calificación de ${currentRating} estrellas! Tu feedback nos ayuda a mejorar.`);
+            
+            closeRating();
+            
+            // Reset booking
+            currentBooking = null;
+            selectedDate = null;
+            selectedTime = null;
+        }
+
+        // Event listeners for rating stars
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.querySelectorAll('.rating-star');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    currentRating = parseInt(this.getAttribute('data-rating'));
+                    
+                    // Update star display
+                    stars.forEach((s, index) => {
+                        if (index < currentRating) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseenter', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    stars.forEach((s, index) => {
+                        if (index < rating) {
+                            s.style.color = '#f39c12';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseleave', function() {
+                    stars.forEach((s, index) => {
+                        if (index < currentRating) {
+                            s.style.color = '#f39c12';
+                        } else {
+                            s.style.color = '#ddd';
+                        }
+                    });
+                });
+            });
+        });
+
+        // Enable sending messages with Enter key
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const chatModal = document.getElementById('chatModal');
+            const bookingModal = document.getElementById('bookingModal');
+            const videoCallModal = document.getElementById('videoCallModal');
+            const ratingModal = document.getElementById('ratingModal');
+            
+            if (event.target === chatModal) {
+                chatModal.style.display = 'none';
+            }
+            if (event.target === bookingModal) {
+                bookingModal.style.display = 'none';
+            }
+            if (event.target === videoCallModal) {
+                videoCallModal.style.display = 'none';
+            }
+            if (event.target === ratingModal) {
+                ratingModal.style.display = 'none';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current month and year
+            const now = new Date();
+            currentMonth = now.getMonth();
+            currentYear = now.getFullYear();
+        });
+    </script>
+</body>
+</html>
+
+
+<footer><a href="/index.html" class="btn-regresar">← Volver al Inicio</a></footer>

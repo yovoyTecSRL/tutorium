@@ -1,0 +1,106 @@
+name: "Tutorium — QA Nocturno (sin Odoo)"
+
+on:
+  schedule:
+    # Diario 06:00 UTC = 00:00 Costa Rica (UTC-6)
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Permite ejecución manual
+
+env:
+  CHECK_URLS: |
+    https://tutorium.sistemasorbix.com/
+    https://api.tutorium.sistemasorbix.com/health
+
+jobs:
+  qa-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r tools/requirements.txt
+        
+    - name: Run QA checks
+      run: |
+        python tools/qa_runner.py \
+          --urls "$CHECK_URLS" \
+          --timeout 10 \
+          --retries 2 \
+          --report qa_report.md
+      continue-on-error: true # No fallar el workflow si QA detecta problemas
+      
+    - name: Upload QA report as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: qa-report
+        path: qa_report.md
+        retention-days: 30
+        
+    - name: Create issue on QA failures
+      if: failure()
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          
+          let reportContent = '';
+          try {
+            reportContent = fs.readFileSync('qa_report.md', 'utf8');
+          } catch (error) {
+            reportContent = 'Error al leer el reporte de QA.';
+          }
+          
+          const issueTitle = '🚨 QA Nocturno — Fallas Detectadas (sin Odoo)';
+          const issueBody = `${reportContent}\n\n---\n*Issue creado automáticamente por QA nocturno*`;
+          
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: issueTitle,
+            body: issueBody,
+            labels: ['tutorium', 'qa-failure', 'urgent']
+          });
+          
+    - name: Comment success on latest QA issue
+      if: success()
+      uses: actions/github-script@v6
+      with:
+        script: |
+          // Buscar issues de QA fallidos abiertos
+          const issues = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            labels: 'qa-failure',
+            state: 'open'
+          });
+          
+          const qaIssues = issues.data.filter(issue => 
+            issue.title.includes('QA Nocturno — Fallas Detectadas')
+          );
+          
+          if (qaIssues.length > 0) {
+            const latestIssue = qaIssues[0];
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: latestIssue.number,
+              body: '✅ QA nocturno ejecutado exitosamente. Las fallas anteriores han sido resueltas.'
+            });
+            
+            // Cerrar el issue
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: latestIssue.number,
+              state: 'closed'
+            });
+          }

@@ -1,0 +1,191 @@
+# Page snapshot
+
+```yaml
+- navigation "Navegación principal":
+  - link "🎓 Tutorium":
+    - /url: "#"
+  - list:
+    - listitem:
+      - link "Inicio":
+        - /url: "#inicio"
+    - listitem:
+      - link "Cómo Funciona":
+        - /url: "#como-funciona"
+    - listitem:
+      - link "Tutores IA":
+        - /url: "#tutores"
+    - listitem:
+      - link "Cursos":
+        - /url: "#cursos"
+    - listitem:
+      - link "Contacto":
+        - /url: "#contacto"
+    - listitem:
+      - link "Iniciar Sesión":
+        - /url: login.html
+  - button "Abrir menú"
+- heading "Conecta con Tutores IA y Profesores Expertos" [level=1]
+- paragraph: Accede a nuestra plataforma de tutores especializados en IA y profesores humanos certificados. Videollamadas profesionales, asistencia 24/7 y aprendizaje personalizado.
+- button "Conectar Ahora"
+- button "Ver Demo"
+- text: 24/7 Disponibilidad 50+ Tutores IA 1000+ Estudiantes AI Tutor Maya En línea Sesión en Vivo Matemáticas Avanzadas
+- heading "Nuestros Tutores Especializados" [level=2]
+- paragraph: Conoce a nuestro equipo de tutores IA y profesores humanos, cada uno especializado en diferentes áreas del conocimiento.
+- button "Todos los Tutores"
+- button "Tutores IA"
+- button "Profesores Humanos"
+- heading "Maya AI" [level=3]
+- paragraph: Matemáticas & Física
+- text: En línea 4.9/5 • 2,341 sesiones Disponible 24/7 Español, Inglés
+- button "Conectar Ahora"
+- heading "Alex AI" [level=3]
+- paragraph: Programación & IA
+- text: En línea 4.8/5 • 1,856 sesiones Disponible 24/7 Español, Inglés, Python
+- button "Conectar Ahora"
+- heading "Dr. García" [level=3]
+- paragraph: Química & Biología
+- text: Ocupado 4.9/5 • 987 sesiones PhD en Química Español, Inglés
+- button "Disponible en 2h"
+- heading "Luna AI" [level=3]
+- paragraph: Idiomas & Literatura
+- text: En línea 4.7/5 • 3,102 sesiones Disponible 24/7 15 idiomas
+- button "Conectar Ahora"
+- heading "Prof. Martínez" [level=3]
+- paragraph: Historia & Filosofía
+- text: En línea 4.8/5 • 654 sesiones MA en Historia Español, Francés
+- button "Conectar Ahora"
+- heading "Neo AI" [level=3]
+- paragraph: Ciencias & Ingeniería
+- text: En línea 4.9/5 • 1,678 sesiones Disponible 24/7 Español, Inglés
+- button "Conectar Ahora"
+- heading "Dra. López" [level=3]
+- paragraph: Psicología & Desarrollo
+- text: En línea 5.0/5 • 432 sesiones PhD en Psicología Español, Inglés
+- button "Conectar Ahora"
+- heading "Zara AI" [level=3]
+- paragraph: Arte & Creatividad
+- text: En línea 4.8/5 • 1,234 sesiones Disponible 24/7 Español, Inglés
+- button "Conectar Ahora"
+- button "Ver Más Tutores"
+- heading "¿Por qué elegir nuestros Tutores?" [level=2]
+- paragraph: Combina la innovación de la IA con la experiencia humana para una educación personalizada y efectiva.
+- heading "Tutores IA Avanzados" [level=3]
+- paragraph: Nuestros tutores de inteligencia artificial están entrenados con las últimas técnicas de aprendizaje automático.
+- heading "Disponibilidad 24/7" [level=4]
+- paragraph: Accede a tutorías en cualquier momento del día, sin restricciones de horario.
+- heading "Aprendizaje Adaptativo" [level=4]
+- paragraph: Se adaptan a tu ritmo y estilo de aprendizaje para maximizar tu progreso.
+- heading "Paciencia Infinita" [level=4]
+- paragraph: Repite conceptos tantas veces como necesites, sin presión ni juicios.
+- heading "Multiidioma" [level=4]
+- paragraph: Aprende en tu idioma nativo o practica idiomas extranjeros.
+- text: Maya AI • En línea 14:32 ¡Hola! ¿En qué tema te gustaría trabajar hoy? Necesito ayuda con derivadas Perfecto! Empecemos con conceptos básicos. ¿Recuerdas qué representa una derivada?
+- button
+- button
+- button
+- text: 98% Satisfacción 24/7 Disponible Dr. García • En videollamada Sesión activa Videollamada en curso Química Orgánica
+- button
+- button
+- button
+- button
+- text: Certificado
+- heading "Profesores Humanos Expertos" [level=3]
+- paragraph: Profesionales certificados con años de experiencia en educación y especialización en sus áreas.
+- heading "Certificaciones Verificadas" [level=4]
+- paragraph: Todos nuestros profesores tienen títulos y certificaciones verificadas en sus áreas de expertise.
+- heading "Conexión Emocional" [level=4]
+- paragraph: Comprenden las emociones del aprendizaje y proporcionan apoyo motivacional real.
+- heading "Experiencia Real" [level=4]
+- paragraph: Años de experiencia práctica en sus campos, con ejemplos del mundo real.
+- heading "Mentorship Personal" [level=4]
+- paragraph: Relaciones a largo plazo que van más allá de las sesiones de tutoría.
+- heading "Comparación de Servicios" [level=3]
+- table:
+  - rowgroup:
+    - row "Característica Tutores IA Profesores Humanos":
+      - cell "Característica"
+      - cell "Tutores IA"
+      - cell "Profesores Humanos"
+  - rowgroup:
+    - row "Disponibilidad 24/7 Horarios programados":
+      - cell "Disponibilidad"
+      - cell "24/7"
+      - cell "Horarios programados"
+    - row "Respuesta inmediata":
+      - cell "Respuesta inmediata"
+      - cell
+      - cell
+    - row "Conexión emocional Limitada":
+      - cell "Conexión emocional"
+      - cell "Limitada"
+      - cell
+    - row "Costo Económico Premium":
+      - cell "Costo"
+      - cell "Económico"
+      - cell "Premium"
+    - row "Especialización":
+      - cell "Especialización"
+      - cell
+      - cell
+- heading "¿Listo para Transformar tu Aprendizaje?" [level=2]
+- paragraph: Únete a miles de estudiantes hondureños que ya están aprendiendo con IA
+- link "Comenzar Ahora":
+  - /url: html/registro.html
+- link "Conocer Tutores":
+  - /url: html/tutores-ia.html
+- contentinfo:
+  - heading "Tutorium" [level=4]
+  - paragraph: Revolucionando la educación con IA avanzada y tutores virtuales especializados.
+  - link "Email":
+    - /url: "#"
+    - text: 📧
+  - link "Teléfono":
+    - /url: "#"
+    - text: 📱
+  - link "Sitio web":
+    - /url: "#"
+    - text: 🌐
+  - heading "Tutores IA" [level=4]
+  - list:
+    - listitem:
+      - link "Profesor de Inglés":
+        - /url: html/profedeingles.html
+    - listitem:
+      - link "Math Genius":
+        - /url: html/mathgenius.html
+    - listitem:
+      - link "Mini Me":
+        - /url: html/minime.html
+    - listitem:
+      - link "Ver Todos":
+        - /url: html/tutores-ia.html
+  - heading "Plataforma" [level=4]
+  - list:
+    - listitem:
+      - link "Cursos":
+        - /url: html/cursos.html
+    - listitem:
+      - link "Certificaciones":
+        - /url: html/certificaciones.html
+    - listitem:
+      - link "Mi Progreso":
+        - /url: html/progreso.html
+    - listitem:
+      - link "Panel Admin":
+        - /url: html/backup-panel.html
+  - heading "Soporte" [level=4]
+  - list:
+    - listitem:
+      - link "Centro de Ayuda":
+        - /url: "#ayuda"
+    - listitem:
+      - link "Contacto":
+        - /url: "#contacto"
+    - listitem:
+      - link "Privacidad":
+        - /url: "#privacidad"
+    - listitem:
+      - link "Términos":
+        - /url: "#terminos"
+  - paragraph: © 2024 Tutorium - Sistemas Orbix. Todos los derechos reservados. Honduras 🇭🇳
+```

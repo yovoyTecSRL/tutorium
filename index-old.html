@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorium - Tutoría Inteligente en Vivo | Sistemas Orbix</title>
+    <meta name="description" content="Tutorium te conecta en minutos con un tutor humano real. Tutoría emocionalmente inteligente en cualquier materia.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'tutorium': {
+                            'blue': '#0a58ca',
+                            'blue-dark': '#084298',
+                            'blue-light': '#3d8bfd',
+                            'orange': '#ff9800',
+                            'orange-dark': '#f57c00',
+                            'orange-light': '#ffb74d',
+                            'gray': '#5f6368',
+                            'gray-light': '#8e9196',
+                            'gray-dark': '#3c4043'
+                        }
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="font-poppins bg-white">
+    
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-tutorium-orange rounded-full flex items-center justify-center mr-3">
+                        <i class="fas fa-brain text-white text-lg"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-tutorium-blue">Tutorium</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#como-funciona" class="text-tutorium-gray hover:text-tutorium-blue transition-colors">Cómo Funciona</a>
+                    <a href="#tutores" class="text-tutorium-gray hover:text-tutorium-blue transition-colors">Tutores</a>
+                    <a href="#precios" class="text-tutorium-gray hover:text-tutorium-blue transition-colors">Precios</a>
+                    <button class="text-tutorium-blue hover:text-blue-700 transition-colors">Iniciar Sesión</button>
+                    <button class="bg-tutorium-orange text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors">
+                        Comenzar Ahora
+                    </button>
+                </div>
+                
+                <div class="md:hidden">
+                    <button class="text-tutorium-gray hover:text-tutorium-blue" id="mobileMenuToggle">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-tutorium-blue to-blue-700 text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
+                        Tutorium te conecta en <span class="text-tutorium-orange">minutos</span> con un tutor humano real
+                    </h1>
+                    <p class="text-xl text-blue-100 mb-8 leading-relaxed">
+                        La primera plataforma en Honduras que ofrece tutoría en vivo, emocionalmente inteligente, en cualquier materia y en menos de 2 minutos.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <button class="bg-tutorium-orange hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-105">
+                            <i class="fas fa-video mr-2"></i>
+                            Iniciar Tutoría Ahora
+                        </button>
+                        <button class="border-2 border-white text-white hover:bg-white hover:text-tutorium-blue px-8 py-4 rounded-xl font-semibold text-lg transition-all">
+                            <i class="fas fa-play mr-2"></i>
+                            Ver Cómo Funciona
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center space-x-8 text-blue-100">
+                        <div class="flex items-center">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>Disponible 24/7</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-heart mr-2"></i>
+                            <span>IA Emocional</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-globe mr-2"></i>
+                            <span>Bilingüe</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <div class="bg-white rounded-2xl p-8 shadow-2xl">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-tutorium-orange rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-brain text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Ae.N.K.I. Assistant</h3>
+                            <p class="text-tutorium-gray mb-4">Tu asistente de IA emocional</p>
+                            <div class="bg-gray-50 rounded-lg p-4 text-left">
+                                <p class="text-sm text-gray-600">
+                                    "¡Hola! Soy Ae.N.K.I. ¿En qué materia necesitas ayuda hoy? Te conectaré con el mejor tutor en menos de 2 minutos."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-4xl font-bold text-tutorium-blue mb-2" data-counter="1250">0</div>
+                    <p class="text-tutorium-gray">Estudiantes Activos</p>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-tutorium-blue mb-2" data-counter="89">0</div>
+                    <p class="text-tutorium-gray">Tutores Expertos</p>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-tutorium-blue mb-2" data-counter="15">0</div>
+                    <p class="text-tutorium-gray">Materias Disponibles</p>
+                </div>
+                <div>
+                    <div class="text-4xl font-bold text-tutorium-blue mb-2">4.9</div>
+                    <p class="text-tutorium-gray">Rating Promedio</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section id="como-funciona" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Cómo Funciona Tutorium</h2>
+                <p class="text-xl text-tutorium-gray">Conéctate con un tutor en 3 simples pasos</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-tutorium-blue rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Selecciona tu Materia</h3>
+                    <p class="text-tutorium-gray">Elige la materia y nivel en el que necesitas ayuda. Nuestro sistema te recomendará el mejor tutor.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-tutorium-orange rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Conéctate al Instante</h3>
+                    <p class="text-tutorium-gray">En menos de 2 minutos estarás en videollamada con un tutor experto listo para ayudarte.</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-white text-2xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Aprende y Mejora</h3>
+                    <p class="text-tutorium-gray">Recibe tutoría personalizada, resumen de la sesión y seguimiento de tu progreso académico.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">¿Por Qué Elegir Tutorium?</h2>
+                <p class="text-xl text-tutorium-gray">Diferenciadores que nos hacen únicos</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-red-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-heart text-red-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Inteligencia Emocional</h3>
+                    <p class="text-tutorium-gray">Nuestros tutores cuentan con soporte de IA para detectar frustración y brindar apoyo emocional.</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-clock text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Acceso Inmediato</h3>
+                    <p class="text-tutorium-gray">Sin esperas. Conecta con un tutor en menos de 2 minutos, 24 horas al día, 7 días a la semana.</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-green-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Seguimiento Personalizado</h3>
+                    <p class="text-tutorium-gray">Dashboard con tu progreso académico, salud emocional y recomendaciones personalizadas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-tutorium-blue text-white">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <h2 class="text-4xl font-bold mb-6">¿Listo para Transformar tu Aprendizaje?</h2>
+            <p class="text-xl text-blue-100 mb-8">
+                Únete a más de 1,250 estudiantes que ya están mejorando sus notas con Tutorium
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-tutorium-orange hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-105">
+                    <i class="fas fa-rocket mr-2"></i>
+                    Comenzar Gratis
+                </button>
+                <button class="border-2 border-white text-white hover:bg-white hover:text-tutorium-blue px-8 py-4 rounded-xl font-semibold text-lg transition-all">
+                    <i class="fas fa-calendar mr-2"></i>
+                    Agendar Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <span class="text-2xl font-bold text-tutorium-orange">Tutorium</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Plataforma de tutoría inteligente en vivo. Sistemas Orbix © 2024
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Plataforma</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Cómo Funciona</a></li>
+                        <li><a href="#" class="hover:text-white">Tutores</a></li>
+                        <li><a href="#" class="hover:text-white">Precios</a></li>
+                        <li><a href="#" class="hover:text-white">Materias</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Soporte</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Centro de Ayuda</a></li>
+                        <li><a href="#" class="hover:text-white">Contacto</a></li>
+                        <li><a href="#" class="hover:text-white">WhatsApp: +504 9999-9999</a></li>
+                        <li><a href="#" class="hover:text-white">Email: hola@tutorium.hn</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Términos de Uso</a></li>
+                        <li><a href="#" class="hover:text-white">Privacidad</a></li>
+                        <li><a href="#" class="hover:text-white">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>© 2024 Tutorium by Sistemas Orbix. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Counter animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const counters = document.querySelectorAll('[data-counter]');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-counter'));
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
+                
+                const updateCounter = () => {
+                    current += increment;
+                    if (current < target) {
+                        counter.textContent = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                
+                // Start animation when element is in view
+                const observer = new IntersectionObserver(entries => {
+                    if (entries[0].isIntersecting) {
+                        updateCounter();
+                        observer.disconnect();
+                    }
+                });
+                
+                observer.observe(counter);
+            });
+
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            if (mobileMenuToggle) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    console.log('Mobile menu clicked');
+                });
+            }
+
+            // Smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+<footer><a href="/index.html" class="btn-regresar">← Volver al Inicio</a></footer>
+    
+</body>
+</html>
+        }
+
+        .hero-btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #4ecdc4;
+        }
+
+        .hero-btn-secondary:hover {
+            background: #4ecdc4;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(78, 205, 196, 0.4);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 80px 0;
+            background: rgba(15, 15, 35, 0.3);
+            border-radius: 20px;
+            margin-bottom: 80px;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 3em;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 107, 107, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.3);
+            border-color: #ff6b6b;
+        }
+
+        .feature-icon {
+            font-size: 3.5em;
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .feature-card h3 {
+            font-size: 1.5em;
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #ffffff;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            border-radius: 20px;
+            margin-bottom: 80px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3.5em;
+            font-weight: 800;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(15, 15, 35, 0.95);
+            padding: 60px 0 20px;
+            border-top: 3px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            color: #ff6b6b;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #ffffff;
+            opacity: 0.9;
+            text-decoration: none;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ff6b6b;
+            opacity: 1;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 107, 107, 0.2);
+            margin-top: 40px;
+            color: #ffffff;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 15, 35, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                gap: 10px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .hero-title {
+                font-size: 2.5em;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2em;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-title {
+                font-size: 2.2em;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Scroll animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-animate.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="particles-bg"></div>
+    <div class="bg-element"></div>
+    <div class="bg-element"></div>
+    <div class="bg-element"></div>
+
+    <!-- Audio Control -->
+    <div class="audio-control" id="audioControl">
+        <i class="fas fa-volume-up" id="audioIcon"></i>
+        <audio id="backgroundAudio" loop>
+            <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+        </audio>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Tutorium</h1>
+                    <p>Sistemas Orbix</p>
+                </div>
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <a href="#inicio">Inicio</a>
+                <a href="pages/cursos.html">Cursos</a>
+                <a href="pages/certificaciones.html">Certificaciones</a>
+                <a href="pages/tutores-ia.html">Tutores IA</a>
+                <a href="pages/progreso.html">Progreso</a>
+                <a href="pages/backup-panel.html">Panel Admin</a>
+                <a href="pages/login.html" class="register-btn">Acceder</a>
+            </nav>
+            <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section" id="inicio">
+            <h1 class="hero-title">Aprende con IA Avanzada</h1>
+            <p class="hero-subtitle">Plataforma de aprendizaje interactivo con tecnología de inteligencia artificial</p>
+            <div class="hero-buttons">
+                <a href="pages/cursos.html" class="hero-btn hero-btn-primary">
+                    <i class="fas fa-play"></i> Comenzar Ahora
+                </a>
+                <a href="pages/certificaciones.html" class="hero-btn hero-btn-secondary">
+                    <i class="fas fa-certificate"></i> Ver Certificaciones
+                </a>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section scroll-animate">
+            <h2 class="section-title">Características Principales</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Tutores IA Personalizados</h3>
+                    <p>Cada estudiante tiene un tutor IA dedicado que se adapta a su estilo de aprendizaje y ritmo personal.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progreso en Tiempo Real</h3>
+                    <p>Seguimiento detallado de tu progreso con analytics avanzados y recomendaciones personalizadas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Certificaciones Oficiales</h3>
+                    <p>Obtén certificados reconocidos por la industria al completar nuestros cursos especializados.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Comunidad Global</h3>
+                    <p>Conecta con estudiantes de todo el mundo, colabora en proyectos y comparte conocimientos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Acceso Multiplataforma</h3>
+                    <p>Aprende desde cualquier dispositivo, en cualquier momento y lugar con sincronización automática.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Seguridad Avanzada</h3>
+                    <p>Protección de datos de nivel empresarial con encriptación end-to-end y backup automático.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section scroll-animate">
+            <h2 class="section-title">Nuestra Comunidad</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">15,000+</div>
+                    <div class="stat-label">Estudiantes Activos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Cursos Disponibles</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Tasa de Satisfacción</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Soporte Disponible</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Tutorium</h3>
+                <p>Plataforma de e-learning con IA avanzada para transformar la educación digital.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <p><a href="pages/cursos.html">Cursos</a></p>
+                <p><a href="pages/certificaciones.html">Certificaciones</a></p>
+                <p><a href="pages/tutores-ia.html">Tutores IA</a></p>
+                <p><a href="pages/progreso.html">Progreso</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Soporte</h3>
+                <p><a href="pages/login.html">Acceder</a></p>
+                <p><a href="pages/backup-panel.html">Panel Admin</a></p>
+                <p><a href="mailto:soporte@sistemasorbix.com">Contacto</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Síguenos</h3>
+                <p><a href="#"><i class="fab fa-facebook"></i> Facebook</a></p>
+                <p><a href="#"><i class="fab fa-twitter"></i> Twitter</a></p>
+                <p><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></p>
+                <p><a href="#"><i class="fab fa-instagram"></i> Instagram</a></p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tutorium - Sistemas Orbix. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Audio Control
+        const audioControl = document.getElementById('audioControl');
+        const audioIcon = document.getElementById('audioIcon');
+        const backgroundAudio = document.getElementById('backgroundAudio');
+        let isPlaying = false;
+
+        // Crear audio ambiente usando Web Audio API
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        let oscillator = null;
+        let gainNode = null;
+
+        function createAmbientSound() {
+            if (oscillator) {
+                oscillator.stop();
+            }
+            
+            oscillator = audioContext.createOscillator();
+            gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // Configurar sonido ambiente suave
+            oscillator.frequency.setValueAtTime(220, audioContext.currentTime);
+            oscillator.type = 'sine';
+            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+            
+            // Modulación suave
+            const lfo = audioContext.createOscillator();
+            const lfoGain = audioContext.createGain();
+            lfo.connect(lfoGain);
+            lfoGain.connect(oscillator.frequency);
+            
+            lfo.frequency.setValueAtTime(0.5, audioContext.currentTime);
+            lfoGain.gain.setValueAtTime(10, audioContext.currentTime);
+            
+            oscillator.start();
+            lfo.start();
+        }
+
+        audioControl.addEventListener('click', () => {
+            if (isPlaying) {
+                if (oscillator) {
+                    oscillator.stop();
+                    oscillator = null;
+                }
+                audioIcon.className = 'fas fa-volume-mute';
+                isPlaying = false;
+            } else {
+                createAmbientSound();
+                audioIcon.className = 'fas fa-volume-up';
+                isPlaying = true;
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileMenuToggle.classList.toggle('active');
+        });
+
+        // Scroll Animations
+        function handleScrollAnimations() {
+            const scrollElements = document.querySelectorAll('.scroll-animate');
+            
+            scrollElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', handleScrollAnimations);
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(15, 15, 35, 0.98)';
+                header.style.boxShadow = '0 2px 30px rgba(255, 107, 107, 0.4)';
+            } else {
+                header.style.background = 'rgba(15, 15, 35, 0.95)';
+                header.style.boxShadow = '0 2px 30px rgba(15, 15, 35, 0.8)';
+            }
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Particle Effects
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.background = '#ff6b6b';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.opacity = '0.7';
+            particle.style.zIndex = '999';
+            
+            const startX = Math.random() * window.innerWidth;
+            const startY = window.innerHeight + 10;
+            
+            particle.style.left = startX + 'px';
+            particle.style.top = startY + 'px';
+            
+            document.body.appendChild(particle);
+            
+            let y = startY;
+            let x = startX;
+            let dx = (Math.random() - 0.5) * 2;
+            let dy = -Math.random() * 3 - 1;
+            
+            function animateParticle() {
+                y += dy;
+                x += dx;
+                
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                
+                if (y < -10 || x < -10 || x > window.innerWidth + 10) {
+                    document.body.removeChild(particle);
+                    return;
+                }
+                
+                requestAnimationFrame(animateParticle);
+            }
+            
+            animateParticle();
+        }
+
+        // Crear partículas periódicamente
+        setInterval(createParticle, 300);
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', () => {
+            handleScrollAnimations();
+            
+            // Mensaje de bienvenida
+            setTimeout(() => {
+                console.log('🎉 Bienvenido a Tutorium - Sistemas Orbix!');
+                console.log('🚀 Plataforma de aprendizaje con IA avanzada');
+                console.log('🎵 Haz clic en el botón de audio para activar el sonido ambiente');
+            }, 1000);
+        });
+
+        // Efectos de sonido al hacer hover
+        document.querySelectorAll('.nav-menu a, .hero-btn, .feature-card').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                if (isPlaying) {
+                    // Crear sonido sutil al hacer hover
+                    const hoverOscillator = audioContext.createOscillator();
+                    const hoverGain = audioContext.createGain();
+                    
+                    hoverOscillator.connect(hoverGain);
+                    hoverGain.connect(audioContext.destination);
+                    
+                    hoverOscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    hoverOscillator.type = 'sine';
+                    hoverGain.gain.setValueAtTime(0.02, audioContext.currentTime);
+                    hoverGain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+                    
+                    hoverOscillator.start();
+                    hoverOscillator.stop(audioContext.currentTime + 0.1);
+                }
+            });
+        });
+
+        // Verificar enlaces
+        console.log('🔗 Enlaces verificados:');
+        console.log('✅ Cursos: pages/cursos.html');
+        console.log('✅ Certificaciones: pages/certificaciones.html');
+        console.log('✅ Tutores IA: pages/tutores-ia.html');
+        console.log('✅ Progreso: pages/progreso.html');
+        console.log('✅ Panel Admin: pages/backup-panel.html');
+        console.log('✅ Login: pages/login.html');
+    </script>
+</body>
+</html>
+

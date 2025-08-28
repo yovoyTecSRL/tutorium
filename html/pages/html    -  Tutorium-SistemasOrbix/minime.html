@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>🤖 CyberDoctor Matrix AI</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Orbitron', monospace;
+      background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+      color: #00ff41;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 25% 25%, #00ff4120 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, #0066ff20 0%, transparent 50%);
+      animation: matrixPulse 4s ease-in-out infinite;
+    }
+    
+    @keyframes matrixPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.7; }
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .cyber-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 
+        0 0 10px #00ff41,
+        0 0 20px #00ff41,
+        0 0 30px #00ff41;
+      animation: titleGlow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes titleGlow {
+      from { text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 30px #00ff41; }
+      to { text-shadow: 0 0 20px #00ff41, 0 0 30px #00ff41, 0 0 40px #00ff41; }
+    }
+    
+    .doctor-avatar {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 3px solid #00ff41;
+      box-shadow: 
+        0 0 30px #00ff41,
+        inset 0 0 30px rgba(0, 255, 65, 0.3);
+      margin-bottom: 30px;
+      animation: avatarPulse 3s ease-in-out infinite;
+      transition: all 0.3s ease;
+    }
+    
+    .doctor-avatar.listening {
+      animation: listeningPulse 0.5s ease-in-out infinite;
+      border-color: #ff0066;
+      box-shadow: 
+        0 0 30px #ff0066,
+        inset 0 0 30px rgba(255, 0, 102, 0.3);
+    }
+    
+    @keyframes avatarPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    @keyframes listeningPulse {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.1) rotate(2deg); }
+    }
+    
+    .input-container {
+      position: relative;
+      margin: 20px 0;
+    }
+    
+    .cyber-input {
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ff41;
+      color: #00ff41;
+      padding: 15px 20px;
+      font-size: 16px;
+      font-family: 'Orbitron', monospace;
+      border-radius: 25px;
+      width: 400px;
+      outline: none;
+      text-align: center;
+      box-shadow: 
+        0 0 20px rgba(0, 255, 65, 0.3),
+        inset 0 0 20px rgba(0, 255, 65, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .cyber-input:focus {
+      border-color: #ff0066;
+      box-shadow: 
+        0 0 30px rgba(255, 0, 102, 0.5),
+        inset 0 0 20px rgba(255, 0, 102, 0.2);
+    }
+    
+    .button-container {
+      display: flex;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    
+    .cyber-button {
+      background: linear-gradient(45deg, #00ff41, #0066ff);
+      border: none;
+      color: #000;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-family: 'Orbitron', monospace;
+      font-weight: 700;
+      border-radius: 25px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 255, 65, 0.4);
+    }
+    
+    .cyber-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 255, 65, 0.6);
+    }
+    
+    .cyber-button:active {
+      transform: translateY(0);
+    }
+    
+    .mic-button {
+      background: linear-gradient(45deg, #ff0066, #ff3366);
+      box-shadow: 0 5px 15px rgba(255, 0, 102, 0.4);
+    }
+    
+    .mic-button:hover {
+      box-shadow: 0 8px 25px rgba(255, 0, 102, 0.6);
+    }
+    
+    .mic-button.recording {
+      animation: recordingPulse 0.8s ease-in-out infinite;
+    }
+    
+    @keyframes recordingPulse {
+      0%, 100% { background: linear-gradient(45deg, #ff0066, #ff3366); }
+      50% { background: linear-gradient(45deg, #ff3366, #ff6699); }
+    }
+    
+    .response-container {
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #00ff41;
+      border-radius: 20px;
+      padding: 30px;
+      margin-top: 30px;
+      max-width: 800px;
+      min-height: 150px;
+      box-shadow: 
+        0 0 30px rgba(0, 255, 65, 0.3),
+        inset 0 0 30px rgba(0, 255, 65, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .response-container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #00ff41, #0066ff, #ff0066, #00ff41);
+      border-radius: 20px;
+      z-index: -1;
+      animation: borderGlow 3s linear infinite;
+    }
+    
+    @keyframes borderGlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    #respuesta {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #00ff41;
+      text-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
+      font-weight: 400;
+    }
+    
+    .loading {
+      display: inline-block;
+      animation: dots 1.5s linear infinite;
+    }
+    
+    @keyframes dots {
+      0%, 20% { content: '⏳ Procesando'; }
+      40% { content: '⏳ Procesando.'; }
+      60% { content: '⏳ Procesando..'; }
+      80%, 100% { content: '⏳ Procesando...'; }
+    }
+    
+    .status-indicator {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 700;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ff41;
+      color: #00ff41;
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+    }
+    
+    .glitch {
+      animation: glitch 0.3s ease-in-out;
+    }
+    
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+    
+    @media (max-width: 768px) {
+      .cyber-input { width: 300px; }
+      .cyber-title { font-size: 2rem; }
+      .button-container { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="matrix-bg"></div>
+  <div class="status-indicator" id="status">🟢 Sistema Activo</div>
+  
+  <div class="container">
+    <h1 class="cyber-title">🤖 CYBERDOCTOR MATRIX AI</h1>
+    <img src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png" alt="CyberDoctor IA" class="doctor-avatar" id="avatar">
+    
+    <div class="input-container">
+      <input id="pregunta" class="cyber-input" placeholder="Escribe tu consulta médica o tecnológica..." />
+    </div>
+    
+    <div class="button-container">
+      <button onclick="consultarIA()" class="cyber-button">📤 ENVIAR</button>
+      <button onclick="toggleMicrophone()" class="cyber-button mic-button" id="micButton">🎤 HABLAR</button>
+    </div>
+    
+    <div class="response-container">
+      <p id="respuesta">💬 Hola, soy tu CyberDoctor IA. Estoy listo para ayudarte con consultas médicas y tecnológicas.</p>
+    </div>
+  </div>
+
+  <script>
+    let isListening = false;
+    let recognition;
+    let audioContext;
+    
+    // Initialize audio context and sound effects
+    function initAudio() {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    // Play sound effect
+    function playSound(frequency, duration, type = 'sine') {
+      if (!audioContext) initAudio();
+      
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = frequency;
+      oscillator.type = type;
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + duration);
+    }
+    
+    // Initialize speech recognition
+    function initSpeechRecognition() {
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'es-ES';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        
+        recognition.onstart = function() {
+          updateStatus('🎤 Escuchando...');
+          document.getElementById('avatar').classList.add('listening');
+          playSound(800, 0.2); // Reception sound
+        };
+        
+        recognition.onresult = function(event) {
+          const transcript = event.results[0][0].transcript;
+          document.getElementById('pregunta').value = transcript;
+          updateStatus('✅ Mensaje recibido');
+          playSound(1000, 0.3, 'square'); // Success sound
+          
+          // Auto-send after receiving voice input
+          setTimeout(() => {
+            consultarIA();
+          }, 500);
+        };
+        
+        recognition.onerror = function(event) {
+          updateStatus('❌ Error de micrófono');
+          document.getElementById('avatar').classList.remove('listening');
+          playSound(400, 0.5, 'sawtooth'); // Error sound
+        };
+        
+        recognition.onend = function() {
+          isListening = false;
+          document.getElementById('micButton').classList.remove('recording');
+          document.getElementById('avatar').classList.remove('listening');
+          updateStatus('🟢 Sistema Activo');
+        };
+      }
+    }
+    
+    function toggleMicrophone() {
+      if (!recognition) {
+        initSpeechRecognition();
+      }
+      
+      if (!isListening) {
+        recognition.start();
+        isListening = true;
+        document.getElementById('micButton').classList.add('recording');
+        document.getElementById('micButton').innerHTML = '🛑 PARAR';
+      } else {
+        recognition.stop();
+        isListening = false;
+        document.getElementById('micButton').classList.remove('recording');
+        document.getElementById('micButton').innerHTML = '🎤 HABLAR';
+      }
+    }
+    
+    function updateStatus(message) {
+      document.getElementById('status').textContent = message;
+    }
+    
+    async function consultarIA() {
+      const pregunta = document.getElementById("pregunta").value;
+      if (!pregunta.trim()) return;
+      
+      // Visual and audio feedback
+      document.getElementById("respuesta").innerHTML = '<span class="loading">⏳ Procesando tu consulta...</span>';
+      updateStatus('🔄 Procesando...');
+      playSound(600, 0.4); // Processing sound
+      
+      // Add glitch effect
+      document.querySelector('.container').classList.add('glitch');
+      setTimeout(() => {
+        document.querySelector('.container').classList.remove('glitch');
+      }, 300);
+
+      try {
+        const respuesta = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer YOUR_OPENAI_API_KEY_HERE"
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+              {
+                role: "system",
+                content: "Actúas como un CyberDoctor futurista del año 2077, experto en biotecnología, cibernética, medicina avanzada y tecnología cuántica. Respondes con precisión científica, un toque cyberpunk y empatía humana. Usa emojis tecnológicos ocasionalmente."
+              },
+              {
+                role: "user",
+                content: pregunta
+              }
+            ]
+          })
+        });
+
+        const data = await respuesta.json();
+        const mensaje = data.choices[0].message.content;
+        
+        // Typewriter effect
+        typeWriterEffect(mensaje);
+        
+        // TTS with cyberpunk voice
+        setTimeout(() => {
+          speakResponse(mensaje);
+        }, 1000);
+        
+        updateStatus('✅ Respuesta generada');
+        playSound(1200, 0.5, 'triangle'); // Success sound
+        
+        // Clear input
+        document.getElementById("pregunta").value = "";
+
+      } catch (error) {
+        console.error("Error al consultar la IA:", error);
+        document.getElementById("respuesta").innerHTML = "❌ Error en la conexión con CyberDoctor Matrix AI.";
+        updateStatus('❌ Error de conexión');
+        playSound(300, 1, 'sawtooth'); // Error sound
+      }
+    }
+    
+    function typeWriterEffect(text) {
+      const respuestaElement = document.getElementById("respuesta");
+      respuestaElement.innerHTML = "";
+      let i = 0;
+      
+      function typeChar() {
+        if (i < text.length) {
+          respuestaElement.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(typeChar, 30);
+        }
+      }
+      
+      typeChar();
+    }
+    
+    function speakResponse(text) {
+      if ('speechSynthesis' in window) {
+        // Cancel any ongoing speech
+        speechSynthesis.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'es-ES';
+        utterance.rate = 0.9;
+        utterance.pitch = 0.8;
+        utterance.volume = 0.8;
+        
+        // Try to find a more robotic voice
+        const voices = speechSynthesis.getVoices();
+        const spanishVoice = voices.find(voice => voice.lang.includes('es')) || voices[0];
+        if (spanishVoice) {
+          utterance.voice = spanishVoice;
+        }
+        
+        utterance.onstart = function() {
+          updateStatus('🔊 Reproduciendo...');
+          playSound(500, 0.2, 'triangle');
+        };
+        
+        utterance.onend = function() {
+          updateStatus('🟢 Sistema Activo');
+        };
+        
+        speechSynthesis.speak(utterance);
+      }
+    }
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      initAudio();
+      initSpeechRecognition();
+      
+      // Enter key support
+      document.getElementById('pregunta').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          consultarIA();
+        }
+      });
+    });
+    
+    // Load voices when available
+    if ('speechSynthesis' in window) {
+      speechSynthesis.onvoiceschanged = function() {
+        // Voices are now loaded
+      };
+    }
+  </script>
+</body>
+
+
+
+
+
+</html>

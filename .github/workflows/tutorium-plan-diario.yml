@@ -1,0 +1,80 @@
+name: "Tutorium — Plan Diario (sin Odoo)"
+
+on:
+  schedule:
+    # L-V 12:00 UTC = 06:00 Costa Rica (UTC-6)
+    - cron: '0 12 * * 1-5'
+  workflow_dispatch: # Permite ejecución manual
+
+jobs:
+  generate-daily-plan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r tools/requirements.txt
+        
+    - name: Generate daily plan
+      run: |
+        python tools/tutorium_daily_plan.py --area all --level prod > plan.md
+        
+    - name: Create or update issue
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const planContent = fs.readFileSync('plan.md', 'utf8');
+          
+          // Buscar issue existente
+          const issues = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            labels: 'tutorium,auto',
+            state: 'open'
+          });
+          
+          const existingIssue = issues.data.find(issue => 
+            issue.title.includes('Plan Diario — Tutorium (sin Odoo)')
+          );
+          
+          const issueTitle = 'Plan Diario — Tutorium (sin Odoo)';
+          const issueBody = `${planContent}\n\n---\n*Issue actualizado automáticamente por GitHub Actions*`;
+          
+          if (existingIssue) {
+            // Actualizar issue existente
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: existingIssue.number,
+              title: issueTitle,
+              body: issueBody
+            });
+            console.log(`Issue actualizado: #${existingIssue.number}`);
+          } else {
+            // Crear nuevo issue
+            const newIssue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: issueBody,
+              labels: ['tutorium', 'auto']
+            });
+            console.log(`Nuevo issue creado: #${newIssue.data.number}`);
+          }
+        
+    - name: Upload plan as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: daily-plan
+        path: plan.md
+        retention-days: 30

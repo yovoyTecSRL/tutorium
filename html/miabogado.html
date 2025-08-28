@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>⚖️ Mi Asistente Legal IA</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+      color: #1e293b;
+      min-height: 100vh;
+      position: relative;
+    }
+    
+    .legal-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: 
+        linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),
+        radial-gradient(circle at 20% 30%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .legal-header {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        0 0 0 2px rgba(249, 115, 22, 0.3);
+      text-align: center;
+      border: 3px solid #f97316;
+      max-width: 600px;
+      width: 100%;
+    }
+    
+    .legal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .legal-subtitle {
+      font-size: 1.1rem;
+      color: #475569;
+      font-weight: 400;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    
+    .justice-symbol {
+      font-size: 3rem;
+      color: #f97316;
+      margin: 15px 0;
+      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+    }
+    
+    .lawyer-avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 15px;
+      border: 4px solid #f97316;
+      box-shadow: 
+        0 10px 25px rgba(249, 115, 22, 0.3),
+        0 0 0 5px rgba(255, 255, 255, 0.9);
+      margin-bottom: 30px;
+      transition: all 0.3s ease;
+      background: white;
+      padding: 5px;
+      object-fit: cover;
+    }
+    
+    .lawyer-avatar.listening {
+      border-color: #dc2626;
+      box-shadow: 
+        0 10px 25px rgba(220, 38, 38, 0.4),
+        0 0 0 5px rgba(255, 255, 255, 0.9),
+        0 0 20px rgba(220, 38, 38, 0.3);
+      transform: scale(1.05);
+    }
+    
+    .input-section {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 15px;
+      padding: 30px;
+      margin: 20px 0;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      border: 2px solid #e2e8f0;
+      width: 100%;
+      max-width: 650px;
+    }
+    
+    .legal-input {
+      background: #ffffff;
+      border: 2px solid #cbd5e0;
+      color: #1e293b;
+      padding: 18px 24px;
+      font-size: 16px;
+      font-family: 'Source Sans Pro', sans-serif;
+      border-radius: 10px;
+      width: 100%;
+      outline: none;
+      box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.06),
+        0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      font-weight: 400;
+    }
+    
+    .legal-input:focus {
+      border-color: #f97316;
+      box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.06),
+        0 0 0 3px rgba(249, 115, 22, 0.2),
+        0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .legal-input::placeholder {
+      color: #94a3b8;
+      font-style: italic;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .legal-button {
+      background: linear-gradient(145deg, #1e40af 0%, #3b82f6 100%);
+      border: none;
+      color: white;
+      padding: 16px 32px;
+      font-size: 15px;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 6px 16px rgba(30, 64, 175, 0.3),
+        0 2px 4px rgba(0, 0, 0, 0.1);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      min-width: 140px;
+    }
+    
+    .legal-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 10px 25px rgba(30, 64, 175, 0.4),
+        0 4px 8px rgba(0, 0, 0, 0.15);
+      background: linear-gradient(145deg, #3b82f6 0%, #60a5fa 100%);
+    }
+    
+    .legal-button:active {
+      transform: translateY(0);
+    }
+    
+    .mic-button {
+      background: linear-gradient(145deg, #f97316 0%, #fb923c 100%);
+      box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
+    }
+    
+    .mic-button:hover {
+      background: linear-gradient(145deg, #fb923c 0%, #fdba74 100%);
+      box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4);
+    }
+    
+    .mic-button.recording {
+      animation: recordingPulse 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes recordingPulse {
+      0%, 100% { 
+        background: linear-gradient(145deg, #f97316 0%, #fb923c 100%);
+        box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
+      }
+      50% { 
+        background: linear-gradient(145deg, #fdba74 0%, #fed7aa 100%);
+        box-shadow: 0 10px 25px rgba(249, 115, 22, 0.5);
+      }
+    }
+    
+    .response-section {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border: 2px solid #e2e8f0;
+      border-radius: 15px;
+      padding: 35px;
+      margin-top: 30px;
+      max-width: 900px;
+      width: 100%;
+      min-height: 200px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+    
+    .response-section::before {
+      content: '📋';
+      position: absolute;
+      top: -18px;
+      left: 35px;
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      padding: 8px 12px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border: 2px solid #f97316;
+    }
+    
+    #respuesta {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #1e293b;
+      font-weight: 400;
+      text-align: justify;
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+    
+    .loading-text {
+      display: inline-block;
+      color: #1e40af;
+      font-weight: 600;
+      font-style: italic;
+    }
+    
+    .status-bar {
+      position: fixed;
+      top: 25px;
+      right: 25px;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-size: 13px;
+      font-weight: 600;
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border: 2px solid #f97316;
+      color: #1e40af;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+    }
+    
+    .legal-footer {
+      margin-top: 40px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 13px;
+      background: linear-gradient(145deg, rgba(30, 64, 175, 0.2), rgba(59, 130, 246, 0.2));
+      padding: 20px 30px;
+      border-radius: 25px;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(249, 115, 22, 0.3);
+      max-width: 600px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .scales-decoration {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      font-size: 2.5rem;
+      color: rgba(249, 115, 22, 0.4);
+      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+    }
+    
+    @media (max-width: 768px) {
+      .legal-input { font-size: 15px; padding: 16px 20px; }
+      .legal-title { font-size: 2.2rem; }
+      .button-group { flex-direction: column; align-items: center; }
+      .legal-button { width: 200px; }
+      .input-section, .response-section { margin: 15px; padding: 25px; }
+      .legal-header { padding: 30px 25px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="legal-bg"></div>
+  <div class="scales-decoration">⚖️</div>
+  <div class="status-bar" id="status">🟢 Sistema Legal Activo</div>
+  
+  <div class="container">
+    <div class="legal-header">
+      <h1 class="legal-title">⚖️ Mi Asistente Legal IA</h1>
+      <p class="legal-subtitle">Consultoría jurídica inteligente y profesional<br>Asesoría legal especializada con inteligencia artificial</p>
+      <div class="justice-symbol">⚖️</div>
+    </div>
+    
+    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face" alt="Abogado Profesional" class="lawyer-avatar" id="avatar">
+    
+    <div class="input-section">
+      <input id="pregunta" class="legal-input" placeholder="Describe tu consulta legal, pregunta jurídica o situación que requiere asesoría..." />
+      
+      <div class="button-group">
+        <button onclick="consultarAbogado()" class="legal-button">📋 Consultar</button>
+        <button onclick="toggleMicrophone()" class="legal-button mic-button" id="micButton">🎤 Hablar</button>
+      </div>
+    </div>
+    
+    <div class="response-section">
+      <p id="respuesta">👋 Bienvenido al sistema de asistencia legal profesional. Soy su asistente jurídico especializado, preparado para brindarle orientación en diversas áreas del derecho incluyendo civil, penal, laboral, comercial y constitucional. Por favor, describa detalladamente su consulta legal para proporcionarle el mejor asesoramiento posible.</p>
+    </div>
+    
+    <div class="legal-footer">
+      <p>⚠️ <strong>Aviso Legal:</strong> Esta herramienta proporciona orientación legal general. Para casos específicos y complejos, recomendamos consultar con un abogado certificado y colegiado.</p>
+    </div>
+  </div>
+
+  <script>
+    let isListening = false;
+    let recognition;
+    let audioContext;
+    
+    // Initialize audio context and sound effects
+    function initAudio() {
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    // Play sound effect
+    function playSound(frequency, duration, type = 'sine') {
+      if (!audioContext) initAudio();
+      
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = frequency;
+      oscillator.type = type;
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + duration);
+    }
+    
+    // Initialize speech recognition
+    function initSpeechRecognition() {
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'es-ES';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        
+        recognition.onstart = function() {
+          updateStatus('🎤 Escuchando...');
+          document.getElementById('avatar').classList.add('listening');
+          playSound(800, 0.2); // Reception sound
+        };
+        
+        recognition.onresult = function(event) {
+          const transcript = event.results[0][0].transcript;
+          document.getElementById('pregunta').value = transcript;
+          updateStatus('✅ Mensaje recibido');
+          playSound(1000, 0.3, 'square'); // Success sound
+          
+          // Auto-send after receiving voice input
+          setTimeout(() => {
+            consultarAbogado();
+          }, 500);
+        };
+        
+        recognition.onerror = function(event) {
+          updateStatus('❌ Error de micrófono');
+          document.getElementById('avatar').classList.remove('listening');
+          playSound(400, 0.5, 'sawtooth'); // Error sound
+        };
+        
+        recognition.onend = function() {
+          isListening = false;
+          document.getElementById('micButton').classList.remove('recording');
+          document.getElementById('avatar').classList.remove('listening');
+          updateStatus('🟢 Sistema Legal Activo');
+        };
+      }
+    }
+    
+    function toggleMicrophone() {
+      if (!recognition) {
+        initSpeechRecognition();
+      }
+      
+      if (!isListening) {
+        recognition.start();
+        isListening = true;
+        document.getElementById('micButton').classList.add('recording');
+        document.getElementById('micButton').innerHTML = '🛑 PARAR';
+      } else {
+        recognition.stop();
+        isListening = false;
+        document.getElementById('micButton').classList.remove('recording');
+        document.getElementById('micButton').innerHTML = '🎤 HABLAR';
+      }
+    }
+    
+    function updateStatus(message) {
+      document.getElementById('status').textContent = message;
+    }
+    
+    async function consultarAbogado() {
+      const pregunta = document.getElementById("pregunta").value;
+      if (!pregunta.trim()) return;
+      
+      // Visual and audio feedback
+      document.getElementById("respuesta").innerHTML = '<span class="loading">⏳ Procesando tu consulta...</span>';
+      updateStatus('🔄 Procesando...');
+      playSound(600, 0.4); // Processing sound
+      
+      // Add glitch effect
+      document.querySelector('.container').classList.add('glitch');
+      setTimeout(() => {
+        document.querySelector('.container').classList.remove('glitch');
+      }, 300);
+
+      try {
+        const respuesta = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer YOUR_OPENAI_API_KEY_HERE"
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+              {
+                role: "system",
+                content: "Actúas como un asistente legal experto, proporcionando asesoría en derecho civil, penal, laboral, comercial y constitucional. Respondes con precisión legal y empatía. Usa emojis legales ocasionalmente."
+              },
+              {
+                role: "user",
+                content: pregunta
+              }
+            ]
+          })
+        });
+
+        const data = await respuesta.json();
+        const mensaje = data.choices[0].message.content;
+        
+        // Typewriter effect
+        typeWriterEffect(mensaje);
+        
+        // TTS with legal voice
+        setTimeout(() => {
+          speakResponse(mensaje);
+        }, 1000);
+        
+        updateStatus('✅ Respuesta generada');
+        playSound(1200, 0.5, 'triangle'); // Success sound
+        
+        // Clear input
+        document.getElementById("pregunta").value = "";
+
+      } catch (error) {
+        console.error("Error al consultar el abogado:", error);
+        document.getElementById("respuesta").innerHTML = "❌ Error en la conexión con el asistente legal IA.";
+        updateStatus('❌ Error de conexión');
+        playSound(300, 1, 'sawtooth'); // Error sound
+      }
+    }
+    
+    function typeWriterEffect(text) {
+      const respuestaElement = document.getElementById("respuesta");
+      respuestaElement.innerHTML = "";
+      let i = 0;
+      
+      function typeChar() {
+        if (i < text.length) {
+          respuestaElement.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(typeChar, 30);
+        }
+      }
+      
+      typeChar();
+    }
+    
+    function speakResponse(text) {
+      if ('speechSynthesis' in window) {
+        // Cancel any ongoing speech
+        speechSynthesis.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'es-ES';
+        utterance.rate = 0.9;
+        utterance.pitch = 0.8;
+        utterance.volume = 0.8;
+        
+        // Try to find a more robotic voice
+        const voices = speechSynthesis.getVoices();
+        const spanishVoice = voices.find(voice => voice.lang.includes('es')) || voices[0];
+        if (spanishVoice) {
+          utterance.voice = spanishVoice;
+        }
+        
+        utterance.onstart = function() {
+          updateStatus('🔊 Reproduciendo...');
+          playSound(500, 0.2, 'triangle');
+        };
+        
+        utterance.onend = function() {
+          updateStatus('🟢 Sistema Legal Activo');
+        };
+        
+        speechSynthesis.speak(utterance);
+      }
+    }
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      initAudio();
+      initSpeechRecognition();
+      
+      // Enter key support
+      document.getElementById('pregunta').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          consultarAbogado();
+        }
+      });
+    });
+    
+    // Load voices when available
+    if ('speechSynthesis' in window) {
+      speechSynthesis.onvoiceschanged = function() {
+        // Voices are now loaded
+      };
+    }
+  </script>
+</body>
+
+
+
+
+
+</html>

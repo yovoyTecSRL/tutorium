@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorium - Sistemas Orbix | Plataforma E-Learning IA</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="assets/css/audio.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Particles Background */
+        .particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(42, 82, 152, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(30, 60, 114, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(230, 243, 255, 0.05) 0%, transparent 50%);
+            animation: particlesFloat 15s ease-in-out infinite;
+        }
+
+        @keyframes particlesFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(30, 60, 114, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid rgba(42, 82, 152, 0.8);
+            box-shadow: 0 2px 20px rgba(30, 60, 114, 0.4);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #e6f3ff;
+            animation: logoSpin 8s linear infinite;
+            box-shadow: 0 4px 15px rgba(42, 82, 152, 0.4);
+        }
+
+        @keyframes logoSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-text h1 {
+            font-size: 2.2em;
+            background: linear-gradient(45deg, #2a5298, #e6f3ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo-text p {
+            color: #e6f3ff;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu a {
+            color: #e6f3ff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 0.95em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-menu a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(230, 243, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-menu a:hover::before {
+            left: 100%;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(42, 82, 152, 0.8);
+            color: #e6f3ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.4);
+            border-color: #2a5298;
+        }
+
+        .register-btn {
+            background: linear-gradient(45deg, #2a5298, #1e3c72) !important;
+            color: #e6f3ff !important;
+            border: 2px solid #2a5298 !important;
+            box-shadow: 0 4px 15px rgba(42, 82, 152, 0.3) !important;
+            animation: registerPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes registerPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(42, 82, 152, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(42, 82, 152, 0); }
+        }
+
+        .register-btn:hover {
+            background: linear-gradient(45deg, #1e3c72, #2a5298) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: 0 10px 25px rgba(42, 82, 152, 0.5) !important;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 10px;
+            gap: 4px;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #e6f3ff;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            margin-bottom: 80px;
+            padding: 60px 0;
+            background: rgba(30, 60, 114, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(42, 82, 152, 0.1);
+            border: 1px solid rgba(42, 82, 152, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(42, 82, 152, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #2a5298;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(42, 82, 152, 0.3);
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            color: #e6f3ff;
+            font-weight: 500;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            margin-bottom: 80px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: rgba(30, 60, 114, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(42, 82, 152, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(42, 82, 152, 0.2);
+            border-color: #2a5298;
+        }
+
+        .testimonial-content {
+            color: #e6f3ff;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-author img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #2a5298;
+        }
+
+        .author-info h4 {
+            color: #e6f3ff;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: #2a5298;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .testimonial-rating {
+            color: #2a5298;
+            font-size: 1.2em;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(30, 60, 114, 0.2);
+            backdrop-filter: blur(15px);
+            padding: 60px 0 20px;
+            border-top: 3px solid rgba(42, 82, 152, 0.8);
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h4 {
+            color: #2a5298;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: #e6f3ff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+
+        .footer-section ul li a:hover {
+            color: #2a5298;
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo .logo-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+        }
+
+        .footer-logo h3 {
+            color: #2a5298;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        .footer-logo p {
+            color: #e6f3ff;
+            font-size: 0.9em;
+            margin: 0;
+        }
+
+        .footer-description {
+            color: #e6f3ff;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            background: rgba(42, 82, 152, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e6f3ff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background: #2a5298;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.4);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(42, 82, 152, 0.3);
+            color: #e6f3ff;
+            opacity: 0.8;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 10px;
+        }
+
+        .chat-tutor-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4) !important;
+            color: white !important;
+            animation: chatPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes chatPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
+        }
+
+        .chat-tutor-btn:hover {
+            background: linear-gradient(45deg, #ff5252, #26c6da) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4) !important;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 0;
+        }
+
+        .hero-title {
+            font-size: 4em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #2a5298, #e6f3ff, #1e3c72);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: titleGlow 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(42, 82, 152, 0.3);
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(42, 82, 152, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(42, 82, 152, 0.8); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.4em;
+            color: #e6f3ff;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+            color: #e6f3ff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(42, 82, 152, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(42, 82, 152, 0.6);
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            color: #2a5298;
+            border: 2px solid #2a5298;
+        }
+
+        .cta-btn.secondary:hover {
+            background: #2a5298;
+            color: #e6f3ff;
+        }
+
+        /* Features Grid */
+        .features-section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #2a5298;
+            margin-bottom: 50px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(42, 82, 152, 0.3);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(30, 60, 114, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid rgba(42, 82, 152, 0.3);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+        }
+
+        .feature-card:hover {
+            border-color: #2a5298;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(42, 82, 152, 0.3);
+            background: rgba(42, 82, 152, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 60px;
+            color: #2a5298;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(42, 82, 152, 0.3);
+        }
+
+        .feature-title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #e6f3ff;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            color: #e6f3ff;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* Learning Paths */
+        .learning-paths {
+            margin-bottom: 80px;
+        }
+
+        .paths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .path-card {
+            background: rgba(30, 60, 114, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid rgba(42, 82, 152, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .path-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(42, 82, 152, 0.2);
+            border-color: #2a5298;
+        }
+
+        .path-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+        }
+
+        .path-level {
+            background: #2a5298;
+            color: #e6f3ff;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(42, 82, 152, 0.3);
+        }
+
+        .path-title {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #e6f3ff;
+            font-weight: 600;
+        }
+
+        .path-description {
+            color: #e6f3ff;
+            margin-bottom: 20px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .path-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+        }
+
+        .path-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+            color: #e6f3ff;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(42, 82, 152, 0.3);
+        }
+
+        .path-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(42, 82, 152, 0.5);
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+        }
+
+        /* AI Assistant */
+        .ai-assistant {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #2a5298, #1e3c72);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #e6f3ff;
+            cursor: pointer;
+            z-index: 1000;
+            animation: assistantPulse 2s ease-in-out infinite;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(42, 82, 152, 0.4);
+        }
+
+        @keyframes assistantPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(42, 82, 152, 0.7); }
+            50% { transform: scale(1.1); box-shadow: 0 0 0 20px rgba(42, 82, 152, 0); }
+        }
+
+        .ai-assistant:hover {
+            transform: scale(1.2);
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5em;
+            }
+            
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(30, 60, 114, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 20px rgba(42, 82, 152, 0.3);
+                border-top: 2px solid rgba(42, 82, 152, 0.5);
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu a {
+                padding: 15px 20px;
+                font-size: 1em;
+                text-align: center;
+                margin-bottom: 5px;
+                border-radius: 10px;
+            }
+            
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .cta-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2em;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2.5em;
+            }
+        }
+
+        /* Chat Tutor Button Styles */
+        .chat-tutor-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e) !important;
+            border: 2px solid #ff6b6b !important;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-tutor-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .chat-tutor-btn:hover::before {
+            left: 100%;
+        }
+
+        .chat-tutor-btn:hover {
+            background: linear-gradient(45deg, #ff5252, #ff7979) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4) !important;
+        }
+
+        /* Chat Modal Styles */
+        .chat-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
+
+        .chat-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            height: 70vh;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            border: 2px solid #00f7ff;
+            box-shadow: 0 20px 60px rgba(0, 247, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(45deg, #00f7ff, #0066cc);
+            color: #000;
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: #000;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .chat-close:hover {
+            background: rgba(0, 0, 0, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+            animation: messageSlide 0.3s ease-in-out;
+        }
+
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            background: linear-gradient(45deg, #00f7ff, #0066cc);
+            color: #000;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .message.ai {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(0, 247, 255, 0.3);
+        }
+
+        .message.ai::before {
+            content: "🤖 Ae.N.K.I:";
+            color: #00f7ff;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(0, 247, 255, 0.3);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 25px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: #00f7ff;
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .mic-button {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mic-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .mic-button.recording {
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+            animation: recordingPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes recordingPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .send-button {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #00f7ff, #0066cc);
+            border: none;
+            border-radius: 50%;
+            color: #000;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 247, 255, 0.4);
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 15px;
+            color: #00f7ff;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .typing-dots {
+            display: inline-block;
+            animation: typingDots 1.5s infinite;
+        }
+
+        @keyframes typingDots {
+            0%, 60%, 100% { content: "..."; }
+            20% { content: "."; }
+            40% { content: ".."; }
+        }
+
+        /* Voice Recognition Status */
+        .voice-status {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #00f7ff;
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #00f7ff;
+            display: none;
+            z-index: 10001;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .voice-animation {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #00f7ff;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            position: relative;
+            animation: voicePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes voicePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+
+        .voice-animation::before {
+            content: "🎤";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div class="particles-bg"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>TUTORIUM</h1>
+                    <p>Sistemas Orbix E-Learning</p>
+                </div>
+            </div>
+            
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <nav class="nav-menu" id="navMenu">
+                <a href="pages/cursos.html"><i class="fas fa-book"></i> Cursos</a>
+                <a href="pages/certificaciones.html"><i class="fas fa-certificate"></i> Certificaciones</a>
+                <a href="pages/tutores-ia.html"><i class="fas fa-user-tie"></i> Tutores IA</a>
+                <a href="pages/examenes.html"><i class="fas fa-clipboard-check"></i> Exámenes</a>
+                <a href="pages/biblioteca.html"><i class="fas fa-book-open"></i> Biblioteca</a>
+                <a href="pages/foro.html"><i class="fas fa-comments"></i> Foro</a>
+                <a href="pages/progreso.html"><i class="fas fa-chart-line"></i> Mi Progreso</a>
+                <a href="pages/login.html"><i class="fas fa-sign-in-alt"></i> Acceder</a>
+                <a href="pages/registro.html" class="register-btn">
+                    <i class="fas fa-user-plus"></i> Registrarse
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title">TUTORIUM</h1>
+            <p class="hero-subtitle">
+                Plataforma E-Learning potenciada por IA de Sistemas Orbix. 
+                Aprende tecnología con tutores virtuales inteligentes y certificaciones reconocidas.
+            </p>
+            <div class="hero-cta">
+                <a href="pages/cursos.html" class="cta-btn">
+                    <i class="fas fa-play"></i>
+                    Comenzar Ahora
+                </a>
+                <a href="pages/tutores-ia.html" class="cta-btn">
+                    <i class="fas fa-robot"></i>
+                    Tutores IA
+                </a>
+                <a href="pages/demo.html" class="cta-btn secondary">
+                    <i class="fas fa-eye"></i>
+                    Ver Demo
+                </a>
+                <a href="pages/registro.html" class="cta-btn secondary">
+                    <i class="fas fa-user-plus"></i>
+                    Registrarse Gratis
+                </a>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">15,000+</div>
+                    <div class="stat-label">Estudiantes Activos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Cursos Disponibles</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Tutores IA</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Satisfacción</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <h2 class="section-title">🚀 Características Principales</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">Tutores IA Personalizados</h3>
+                    <p class="feature-description">
+                        Asistentes virtuales con IA que se adaptan a tu ritmo de aprendizaje y estilo personal.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">Aprendizaje Adaptativo</h3>
+                    <p class="feature-description">
+                        Sistema que ajusta la dificultad y contenido según tu progreso y preferencias.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3 class="feature-title">Certificaciones Válidas</h3>
+                    <p class="feature-description">
+                        Obtén certificaciones reconocidas por la industria y avaladas por Sistemas Orbix.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Comunidad Activa</h3>
+                    <p class="feature-description">
+                        Conecta con otros estudiantes, comparte proyectos y colabora en tiempo real.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Acceso Móvil</h3>
+                    <p class="feature-description">
+                        Aprende desde cualquier dispositivo con nuestra app móvil y sincronización cloud.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Analytics Avanzados</h3>
+                    <p class="feature-description">
+                        Seguimiento detallado de tu progreso con métricas e insights personalizados.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials-section">
+            <h2 class="section-title">💬 Lo que Dicen Nuestros Estudiantes</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "Los tutores IA de Tutorium han revolucionado mi manera de aprender. La personalización es increíble y el soporte 24/7 es invaluable."
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://via.placeholder.com/60x60" alt="María García">
+                        <div class="author-info">
+                            <h4>María García</h4>
+                            <p>Desarrollo Web Full Stack</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "Obtuve mi certificación en Inteligencia Artificial gracias a la plataforma. El contenido es actualizado y muy práctico."
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://via.placeholder.com/60x60" alt="Carlos Mendoza">
+                        <div class="author-info">
+                            <h4>Carlos Mendoza</h4>
+                            <p>Data Science & AI</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        "La flexibilidad de horarios y la calidad del contenido me permitieron estudiar mientras trabajaba. Altamente recomendado."
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://via.placeholder.com/60x60" alt="Ana Rodríguez">
+                        <div class="author-info">
+                            <h4>Ana Rodríguez</h4>
+                            <p>DevOps Engineer</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Paths -->
+        <section class="learning-paths">
+            <h2 class="section-title">📚 Rutas de Aprendizaje</h2>
+            <div class="paths-grid">
+                <div class="path-card">
+                    <div class="path-level">PRINCIPIANTE</div>
+                    <h3 class="path-title">Fundamentos de Programación</h3>
+                    <p class="path-description">
+                        Aprende los conceptos básicos de programación con Python, JavaScript y fundamentos de desarrollo.
+                    </p>
+                    <div class="path-stats">
+                        <span><i class="fas fa-clock"></i> 40 horas</span>
+                        <span><i class="fas fa-users"></i> 1,250 estudiantes</span>
+                    </div>
+                    <button class="path-btn">Comenzar Ruta</button>
+                </div>
+                <div class="path-card">
+                    <div class="path-level">INTERMEDIO</div>
+                    <h3 class="path-title">Desarrollo Web Full Stack</h3>
+                    <p class="path-description">
+                        Domina React, Node.js, bases de datos y deploy para convertirte en desarrollador completo.
+                    </p>
+                    <div class="path-stats">
+                        <span><i class="fas fa-clock"></i> 80 horas</span>
+                        <span><i class="fas fa-users"></i> 890 estudiantes</span>
+                    </div>
+                    <button class="path-btn">Comenzar Ruta</button>
+                </div>
+                <div class="path-card">
+                    <div class="path-level">AVANZADO</div>
+                    <h3 class="path-title">Inteligencia Artificial</h3>
+                    <p class="path-description">
+                        Machine Learning, Deep Learning y desarrollo de sistemas IA con Python y TensorFlow.
+                    </p>
+                    <div class="path-stats">
+                        <span><i class="fas fa-clock"></i> 120 horas</span>
+                        <span><i class="fas fa-users"></i> 567 estudiantes</span>
+                    </div>
+                    <button class="path-btn">Comenzar Ruta</button>
+                </div>
+                <div class="path-card">
+                    <div class="path-level">ESPECIALIZADO</div>
+                    <h3 class="path-title">DevOps y Cloud</h3>
+                    <p class="path-description">
+                        AWS, Docker, Kubernetes, CI/CD y arquitecturas cloud para infraestructura moderna.
+                    </p>
+                    <div class="path-stats">
+                        <span><i class="fas fa-clock"></i> 100 horas</span>
+                        <span><i class="fas fa-users"></i> 423 estudiantes</span>
+                    </div>
+                    <button class="path-btn">Comenzar Ruta</button>
+                </div>
+                <div class="path-card">
+                    <div class="path-level">EMPRESARIAL</div>
+                    <h3 class="path-title">Sistemas Orbix</h3>
+                    <p class="path-description">
+                        Aprende a implementar y administrar el framework Orbix en tu empresa.
+                    </p>
+                    <div class="path-stats">
+                        <span><i class="fas fa-clock"></i> 60 horas</span>
+                        <span><i class="fas fa-users"></i> 234 estudiantes</span>
+                    </div>
+                    <button class="path-btn">Comenzar Ruta</button>
+                </div>
+                <div class="path-card">
+                    <div class="path-level">CERTIFICACIÓN</div>
+                    <h3 class="path-title">Orbix Certified Professional</h3>
+                    <p class="path-description">
+                        Programa de certificación oficial para convertirte en experto Orbix reconocido.
+                    </p>
+                    <div class="path-stats">
+                        <span><i class="fas fa-clock"></i> 200 horas</span>
+                        <span><i class="fas fa-users"></i> 156 estudiantes</span>
+                    </div>
+                    <button class="path-btn">Comenzar Ruta</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h3>TUTORIUM</h3>
+                        <p>Sistemas Orbix E-Learning</p>
+                    </div>
+                </div>
+                <p class="footer-description">
+                    Plataforma educativa líder en tecnología con tutores IA y certificaciones reconocidas internacionalmente.
+                </p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Cursos</h4>
+                <ul>
+                    <li><a href="pages/cursos.html">Programación</a></li>
+                    <li><a href="pages/cursos.html">Desarrollo Web</a></li>
+                    <li><a href="pages/cursos.html">Inteligencia Artificial</a></li>
+                    <li><a href="pages/cursos.html">DevOps & Cloud</a></li>
+                    <li><a href="pages/cursos.html">Bases de Datos</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Plataforma</h4>
+                <ul>
+                    <li><a href="pages/tutores-ia.html">Tutores IA</a></li>
+                    <li><a href="pages/certificaciones.html">Certificaciones</a></li>
+                    <li><a href="pages/examenes.html">Exámenes</a></li>
+                    <li><a href="pages/biblioteca.html">Biblioteca</a></li>
+                    <li><a href="pages/foro.html">Foro Estudiantil</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Soporte</h4>
+                <ul>
+                    <li><a href="pages/ayuda.html">Centro de Ayuda</a></li>
+                    <li><a href="pages/contacto.html">Contáctanos</a></li>
+                    <li><a href="pages/preguntas.html">Preguntas Frecuentes</a></li>
+                    <li><a href="pages/politicas.html">Políticas</a></li>
+                    <li><a href="pages/terminos.html">Términos de Uso</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Tutorium - Sistemas Orbix. Todos los derechos reservados.</p>
+            <p>Desarrollado con 💙 por el equipo de Sistemas Orbix</p>
+        </div>
+    </footer>
+
+    <!-- AI Assistant -->
+    <div class="ai-assistant" onclick="toggleAssistant()">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <!-- Chat Modal -->
+    <div id="chatModal" class="chat-modal">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div>
+                    <i class="fas fa-robot"></i>
+                    Chat con Ae.N.K.I - Asistente Inteligente
+                </div>
+                <button class="chat-close" onclick="closeTutorChat()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai">
+                    ¡Hola! Soy Ae.N.K.I, tu Asistente Educativo Neural con Conocimiento Inteligente. 
+                    Estoy aquí para ayudarte con tus estudios en Tutorium. 
+                    Puedes escribirme o usar el micrófono para hablar conmigo. 
+                    ¿En qué puedo ayudarte hoy?
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typingIndicator">
+                <span>Ae.N.K.I está escribiendo</span>
+                <span class="typing-dots">...</span>
+            </div>
+            
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chatInput" 
+                       placeholder="Escribe tu mensaje o usa el micrófono..." 
+                       onkeypress="handleKeyPress(event)">
+                <button class="mic-button" id="micButton" onclick="toggleVoiceRecognition()">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="send-button" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voice Recognition Status -->
+    <div id="voiceStatus" class="voice-status">
+        <div class="voice-animation"></div>
+        <div id="voiceText">Escuchando...</div>
+    </div>
+
+    <script>
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeParticles();
+            initializeScrollEffects();
+            initializeAssistant();
+        });
+
+        // Crear partículas dinámicas
+        function initializeParticles() {
+            const particlesContainer = document.querySelector('.particles-bg');
+            const particleCount = 40;
+            const colors = ['#2a5298', '#1e3c72', '#e6f3ff'];
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 3 + 1 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animation = `particleFloat ${Math.random() * 15 + 8}s ease-in-out infinite`;
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.opacity = Math.random() * 0.8 + 0.2;
+                particle.style.boxShadow = `0 0 ${Math.random() * 10 + 5}px ${colors[Math.floor(Math.random() * colors.length)]}`;
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Efectos de scroll
+        function initializeScrollEffects() {
+            const cards = document.querySelectorAll('.feature-card, .path-card, .testimonial-card, .stat-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking on a link
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const navMenu = document.getElementById('navMenu');
+                    const menuToggle = document.querySelector('.mobile-menu-toggle');
+                    navMenu.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                });
+            });
+        });
+
+        // Asistente IA
+        function initializeAssistant() {
+            // Configurar reconocimiento de voz si está disponible
+            if ('webkitSpeechRecognition' in window) {
+                window.speechRecognition = new webkitSpeechRecognition();
+                window.speechRecognition.continuous = false;
+                window.speechRecognition.interimResults = false;
+                window.speechRecognition.lang = 'es-ES';
+            }
+        }
+
+        function toggleAssistant() {
+            // Aquí integrarías con la API de OpenAI usando las credenciales
+            alert('¡Hola! Soy tu asistente de aprendizaje IA. ¿En qué puedo ayudarte hoy?');
+            
+            // Ejemplo de integración con OpenAI API
+            // fetch('https://api.openai.com/v1/chat/completions', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Authorization': 'Bearer YOUR_OPENAI_API_KEY_HERE',
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         model: 'gpt-4',
+            //         messages: [{ role: 'user', content: 'Ayúdame con mi aprendizaje' }]
+            //     })
+            // });
+        }
+
+        // Navegación suave
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Estilo adicional para animaciones
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes particleFloat {
+                0%, 100% { 
+                    transform: translateY(0px) translateX(0px) scale(1); 
+                    opacity: 0.3; 
+                }
+                25% { 
+                    transform: translateY(-50px) translateX(25px) scale(1.2); 
+                    opacity: 0.6; 
+                }
+                50% { 
+                    transform: translateY(-100px) translateX(50px) scale(1.5); 
+                    opacity: 1; 
+                }
+                75% { 
+                    transform: translateY(-75px) translateX(75px) scale(1.3); 
+                    opacity: 0.8; 
+                }
+            }
+            
+            .header.scrolled {
+                background: rgba(30, 60, 114, 0.98);
+                box-shadow: 0 2px 20px rgba(42, 82, 152, 0.6);
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Scroll header effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+
+
+
+
+
+
+
+</html>

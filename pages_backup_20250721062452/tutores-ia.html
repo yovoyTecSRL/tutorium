@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutores IA - Tutorium Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/pages/tutores-ia.css">
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-robot"></i>
+                Tutorium IA
+            </a>
+            <nav class="nav-links">
+                <a href="../index.html">Inicio</a>
+                <a href="cursos.html">Cursos</a>
+                <a href="tutores-ia.html" class="active">Tutores IA</a>
+                <a href="progreso.html">Progreso</a>
+                <a href="certificaciones.html">Certificaciones</a>
+                <a href="panel-admin.html">Admin</a>
+            </nav>
+            <div class="user-menu">
+                <a href="login.html" class="login-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Iniciar Sesión
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Tutores de Inteligencia Artificial</h1>
+                <p>Aprende con asistentes virtuales especializados disponibles 24/7</p>
+                <div class="hero-features">
+                    <div class="feature">
+                        <i class="fas fa-brain"></i>
+                        <span>IA Avanzada</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-clock"></i>
+                        <span>Disponible 24/7</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Personalizado</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tutors-section">
+            <div class="container">
+                <h2>Nuestros Tutores IA</h2>
+                <div class="tutors-grid" id="tutorsGrid">
+                    <!-- Tutores se cargarán aquí -->
+                </div>
+            </div>
+        </section>
+
+        <section class="chat-section">
+            <div class="container">
+                <div class="chat-interface">
+                    <div class="chat-header">
+                        <div class="tutor-info">
+                            <img src="https://via.placeholder.com/40x40/4a90e2/ffffff?text=AI" alt="Tutor IA" class="tutor-avatar">
+                            <div>
+                                <h3 id="currentTutorName">Asistente General</h3>
+                                <span class="status online">En línea</span>
+                            </div>
+                        </div>
+                        <div class="chat-controls">
+                            <button class="control-btn" onclick="clearChat()">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="control-btn" onclick="toggleChat()">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message tutor-message">
+                            <div class="message-avatar">
+                                <img src="https://via.placeholder.com/32x32/4a90e2/ffffff?text=AI" alt="IA">
+                            </div>
+                            <div class="message-content">
+                                <p>¡Hola! Soy tu asistente de IA. ¿En qué puedo ayudarte hoy?</p>
+                                <span class="message-time">Ahora</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="messageInput" placeholder="Escribe tu pregunta...">
+                        <button id="sendButton" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="container">
+                <h2>Características de Nuestros Tutores IA</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-comments"></i>
+                        <h3>Conversación Natural</h3>
+                        <p>Interfaz de chat intuitiva que simula una conversación real con un tutor humano</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Explicaciones Claras</h3>
+                        <p>Desglosa conceptos complejos en explicaciones simples y comprensibles</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Progreso Personalizado</h3>
+                        <p>Adapta el contenido según tu nivel de conocimiento y ritmo de aprendizaje</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-book"></i>
+                        <h3>Recursos Adicionales</h3>
+                        <p>Proporciona enlaces, ejercicios y materiales complementarios relevantes</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="specialties-section">
+            <div class="container">
+                <h2>Especialidades Disponibles</h2>
+                <div class="specialties-grid">
+                    <div class="specialty-card">
+                        <i class="fas fa-code"></i>
+                        <h3>Programación</h3>
+                        <p>JavaScript, Python, Java, C++, React, Node.js</p>
+                    </div>
+                    <div class="specialty-card">
+                        <i class="fas fa-calculator"></i>
+                        <h3>Matemáticas</h3>
+                        <p>Álgebra, Cálculo, Estadística, Geometría</p>
+                    </div>
+                    <div class="specialty-card">
+                        <i class="fas fa-palette"></i>
+                        <h3>Diseño</h3>
+                        <p>UX/UI, Diseño Gráfico, Ilustración, Branding</p>
+                    </div>
+                    <div class="specialty-card">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>Negocios</h3>
+                        <p>Marketing, Finanzas, Gestión, Emprendimiento</p>
+                    </div>
+                    <div class="specialty-card">
+                        <i class="fas fa-flask"></i>
+                        <h3>Ciencias</h3>
+                        <p>Física, Química, Biología, Ingeniería</p>
+                    </div>
+                    <div class="specialty-card">
+                        <i class="fas fa-globe"></i>
+                        <h3>Idiomas</h3>
+                        <p>Inglés, Español, Francés, Alemán, Italiano</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Tutorium IA</h3>
+                    <p>Revolucionando el aprendizaje con inteligencia artificial</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Funciones</h4>
+                    <ul>
+                        <li><a href="#">Chat 24/7</a></li>
+                        <li><a href="#">Tutores Especializados</a></li>
+                        <li><a href="#">Evaluaciones</a></li>
+                        <li><a href="#">Progreso Personalizado</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Soporte</h4>
+                    <ul>
+                        <li><a href="#">Documentación</a></li>
+                        <li><a href="#">Contacto</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Reportar Problema</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Tutorium Academy. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/common.js"></script>
+    <script>
+        // Datos de los tutores IA
+        const tutors = [
+            {
+                id: 1,
+                name: "CodeBot",
+                specialty: "Programación",
+                description: "Experto en múltiples lenguajes de programación y frameworks modernos",
+                avatar: "https://via.placeholder.com/80x80/4a90e2/ffffff?text=CODE",
+                rating: 4.9,
+                conversations: 15234,
+                languages: ["JavaScript", "Python", "Java", "React", "Node.js"],
+                availability: "online"
+            },
+            {
+                id: 2,
+                name: "MathGenius",
+                specialty: "Matemáticas",
+                description: "Asistente especializado en matemáticas desde nivel básico hasta avanzado",
+                avatar: "https://via.placeholder.com/80x80/e74c3c/ffffff?text=MATH",
+                rating: 4.8,
+                conversations: 12876,
+                languages: ["Álgebra", "Cálculo", "Estadística", "Geometría"],
+                availability: "online"
+            },
+            {
+                id: 3,
+                name: "DesignPro",
+                specialty: "Diseño",
+                description: "Tutor especializado en diseño gráfico, UX/UI y herramientas creativas",
+                avatar: "https://via.placeholder.com/80x80/f39c12/ffffff?text=DESIGN",
+                rating: 4.7,
+                conversations: 9543,
+                languages: ["Photoshop", "Figma", "Illustrator", "UX/UI"],
+                availability: "online"
+            },
+            {
+                id: 4,
+                name: "BizMentor",
+                specialty: "Negocios",
+                description: "Consultor virtual para estrategias de negocio y emprendimiento",
+                avatar: "https://via.placeholder.com/80x80/27ae60/ffffff?text=BIZ",
+                rating: 4.6,
+                conversations: 7821,
+                languages: ["Marketing", "Finanzas", "Gestión", "Ventas"],
+                availability: "busy"
+            },
+            {
+                id: 5,
+                name: "ScienceBot",
+                specialty: "Ciencias",
+                description: "Asistente para ciencias naturales y aplicadas",
+                avatar: "https://via.placeholder.com/80x80/9b59b6/ffffff?text=SCI",
+                rating: 4.8,
+                conversations: 6789,
+                languages: ["Física", "Química", "Biología", "Ingeniería"],
+                availability: "online"
+            },
+            {
+                id: 6,
+                name: "LinguaBot",
+                specialty: "Idiomas",
+                description: "Tutor multilingüe para aprendizaje de idiomas",
+                avatar: "https://via.placeholder.com/80x80/34495e/ffffff?text=LANG",
+                rating: 4.9,
+                conversations: 11432,
+                languages: ["Inglés", "Español", "Francés", "Alemán"],
+                availability: "online"
+            }
+        ];
+
+        // Variables globales
+        let currentTutor = null;
+        let chatActive = false;
+
+        // Renderizar tutores
+        function renderTutors() {
+            const grid = document.getElementById('tutorsGrid');
+            grid.innerHTML = tutors.map(tutor => `
+                <div class="tutor-card">
+                    <div class="tutor-header">
+                        <img src="${tutor.avatar}" alt="${tutor.name}" class="tutor-avatar">
+                        <div class="tutor-status ${tutor.availability}">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                    </div>
+                    <div class="tutor-info">
+                        <h3>${tutor.name}</h3>
+                        <p class="specialty">${tutor.specialty}</p>
+                        <p class="description">${tutor.description}</p>
+                        <div class="tutor-stats">
+                            <div class="stat">
+                                <i class="fas fa-star"></i>
+                                <span>${tutor.rating}</span>
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-comments"></i>
+                                <span>${tutor.conversations.toLocaleString()}</span>
+                            </div>
+                        </div>
+                        <div class="tutor-languages">
+                            ${tutor.languages.map(lang => `<span class="language-tag">${lang}</span>`).join('')}
+                        </div>
+                        <button class="chat-btn ${tutor.availability === 'busy' ? 'disabled' : ''}" 
+                                onclick="startChat(${tutor.id})" 
+                                ${tutor.availability === 'busy' ? 'disabled' : ''}>
+                            <i class="fas fa-comment"></i>
+                            ${tutor.availability === 'busy' ? 'Ocupado' : 'Chatear'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Iniciar chat con tutor
+        function startChat(tutorId) {
+            const tutor = tutors.find(t => t.id === tutorId);
+            if (tutor) {
+                currentTutor = tutor;
+                document.getElementById('currentTutorName').textContent = tutor.name;
+                
+                // Limpiar chat y agregar mensaje de bienvenida
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = `
+                    <div class="message tutor-message">
+                        <div class="message-avatar">
+                            <img src="${tutor.avatar}" alt="${tutor.name}">
+                        </div>
+                        <div class="message-content">
+                            <p>¡Hola! Soy ${tutor.name}, tu tutor especializado en ${tutor.specialty}. ¿En qué puedo ayudarte hoy?</p>
+                            <span class="message-time">Ahora</span>
+                        </div>
+                    </div>
+                `;
+                
+                chatActive = true;
+                scrollToBottom();
+                
+                // Scroll hacia la sección de chat
+                document.querySelector('.chat-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Enviar mensaje
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message && chatActive) {
+                // Agregar mensaje del usuario
+                addMessage(message, 'user');
+                input.value = '';
+                
+                // Simular respuesta del tutor
+                setTimeout(() => {
+                    const response = generateTutorResponse(message);
+                    addMessage(response, 'tutor');
+                }, 1000 + Math.random() * 2000);
+            }
+        }
+
+        // Agregar mensaje al chat
+        function addMessage(content, type) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            if (type === 'user') {
+                messageDiv.className = 'message user-message';
+                messageDiv.innerHTML = `
+                    <div class="message-content">
+                        <p>${content}</p>
+                        <span class="message-time">${currentTime}</span>
+                    </div>
+                    <div class="message-avatar">
+                        <img src="https://via.placeholder.com/32x32/667eea/ffffff?text=U" alt="Usuario">
+                    </div>
+                `;
+            } else {
+                messageDiv.className = 'message tutor-message';
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">
+                        <img src="${currentTutor ? currentTutor.avatar : 'https://via.placeholder.com/32x32/4a90e2/ffffff?text=AI'}" alt="Tutor">
+                    </div>
+                    <div class="message-content">
+                        <p>${content}</p>
+                        <span class="message-time">${currentTime}</span>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Generar respuesta del tutor
+        function generateTutorResponse(userMessage) {
+            const responses = {
+                programming: [
+                    "Excelente pregunta sobre programación. Te voy a explicar paso a paso...",
+                    "Para resolver este problema de código, primero necesitamos entender...",
+                    "Esta es una consulta muy común en programación. La solución es...",
+                    "Déjame ayudarte con este concepto. En programación, esto significa..."
+                ],
+                mathematics: [
+                    "Perfecto, esta es una pregunta interesante de matemáticas. Vamos a resolverla...",
+                    "En matemáticas, este tipo de problema se resuelve aplicando...",
+                    "Excelente consulta. Para entender este concepto matemático...",
+                    "Te voy a explicar este tema de matemáticas de forma simple..."
+                ],
+                design: [
+                    "¡Genial! Esta es una pregunta muy relevante en diseño. Te explico...",
+                    "En diseño, este principio es fundamental. La clave está en...",
+                    "Excelente pregunta sobre diseño. Para lograr este efecto...",
+                    "Este aspecto del diseño es muy importante. Te voy a mostrar..."
+                ],
+                default: [
+                    "Interesante pregunta. Déjame ayudarte con eso...",
+                    "Entiendo tu consulta. Voy a explicarte de manera clara...",
+                    "Excelente pregunta. Te voy a dar una respuesta detallada...",
+                    "Te ayudo con gusto. Este tema es importante porque..."
+                ]
+            };
+
+            let responseArray = responses.default;
+            
+            if (currentTutor) {
+                const specialty = currentTutor.specialty.toLowerCase();
+                if (specialty.includes('programación')) responseArray = responses.programming;
+                else if (specialty.includes('matemáticas')) responseArray = responses.mathematics;
+                else if (specialty.includes('diseño')) responseArray = responses.design;
+            }
+
+            return responseArray[Math.floor(Math.random() * responseArray.length)];
+        }
+
+        // Funciones auxiliares
+        function scrollToBottom() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function clearChat() {
+            if (confirm('¿Estás seguro de que quieres limpiar el chat?')) {
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = `
+                    <div class="message tutor-message">
+                        <div class="message-avatar">
+                            <img src="https://via.placeholder.com/32x32/4a90e2/ffffff?text=AI" alt="IA">
+                        </div>
+                        <div class="message-content">
+                            <p>Chat limpiado. ¿En qué puedo ayudarte?</p>
+                            <span class="message-time">Ahora</span>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleChat() {
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.querySelector('.chat-input');
+            
+            if (chatMessages.style.display === 'none') {
+                chatMessages.style.display = 'block';
+                chatInput.style.display = 'flex';
+            } else {
+                chatMessages.style.display = 'none';
+                chatInput.style.display = 'none';
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTutors();
+            
+            // Enter para enviar mensaje
+            document.getElementById('messageInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+
+        // Animaciones
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.tutor-card, .feature-card, .specialty-card');
+            elements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll();
+    </script>
+</body>
+</html>
+
+
+<footer><a href="/index.html" class="btn-regresar">← Volver al Inicio</a></footer>

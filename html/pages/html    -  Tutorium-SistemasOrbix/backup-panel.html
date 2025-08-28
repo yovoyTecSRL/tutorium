@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Tutorium | Sistemas Orbix</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(83, 52, 131, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(15, 52, 96, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(22, 33, 62, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 60% 40%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+            animation: particlesFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes particlesFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid rgba(255, 107, 107, 0.3);
+            box-shadow: 0 2px 30px rgba(15, 15, 35, 0.8);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: #ffffff;
+            animation: logoSpin 8s linear infinite;
+        }
+
+        @keyframes logoSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-text h1 {
+            font-size: 2.2em;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .logo-text p {
+            color: #ffffff;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-menu a:hover {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .nav-menu a.active {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 3.5em;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 1.3em;
+            color: #ffffff;
+            opacity: 0.9;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 107, 107, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .dashboard-card:hover::before {
+            opacity: 1;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.3);
+            border-color: #ff6b6b;
+        }
+
+        .card-icon {
+            font-size: 3em;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .card-value {
+            font-size: 2.5em;
+            color: #4ecdc4;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .card-description {
+            color: #ffffff;
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255, 107, 107, 0.2);
+        }
+
+        .chart-title {
+            font-size: 1.5em;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .chart-canvas {
+            width: 100%;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* System Status */
+        .system-status {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255, 107, 107, 0.2);
+            margin-bottom: 40px;
+        }
+
+        .status-title {
+            font-size: 1.8em;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .status-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .status-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.2);
+        }
+
+        .status-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .status-online {
+            background: #4ecdc4;
+        }
+
+        .status-warning {
+            background: #f7dc6f;
+        }
+
+        .status-offline {
+            background: #ff6b6b;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .status-label {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            color: #4ecdc4;
+            font-size: 0.9em;
+        }
+
+        /* Admin Actions */
+        .admin-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .action-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255, 107, 107, 0.2);
+            text-align: center;
+        }
+
+        .action-title {
+            font-size: 1.3em;
+            color: #ffffff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .action-description {
+            color: #ffffff;
+            opacity: 0.8;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .action-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: #ffffff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .action-button.secondary {
+            background: transparent;
+            border: 2px solid #4ecdc4;
+            color: #4ecdc4;
+        }
+
+        .action-button.secondary:hover {
+            background: #4ecdc4;
+            color: #ffffff;
+        }
+
+        .action-button.danger {
+            background: linear-gradient(45deg, #ff6b6b, #ff4757);
+        }
+
+        .action-button.danger:hover {
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+        }
+
+        /* Recent Activity */
+        .recent-activity {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid rgba(255, 107, 107, 0.2);
+        }
+
+        .activity-title {
+            font-size: 1.8em;
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .activity-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .activity-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .activity-icon {
+            font-size: 1.5em;
+            color: #4ecdc4;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-message {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .activity-time {
+            color: #ffffff;
+            opacity: 0.6;
+            font-size: 0.85em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 2.5em;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #4ecdc4;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success/Error Messages */
+        .message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: #ffffff;
+            font-weight: 600;
+            z-index: 10000;
+            opacity: 0;
+            transform: translateY(-50px);
+            transition: all 0.3s ease;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message.success {
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+        }
+
+        .message.error {
+            background: linear-gradient(45deg, #ff6b6b, #ff4757);
+        }
+
+        .message.warning {
+            background: linear-gradient(45deg, #f7dc6f, #f4d03f);
+            color: #333;
+        }
+
+        /* Voice Control Panel */
+        .voice-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid rgba(255, 107, 107, 0.3);
+            z-index: 1000;
+            width: 300px;
+        }
+
+        .voice-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .voice-button.listening {
+            animation: pulse 1s infinite;
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1);
+        }
+
+        .voice-status {
+            color: #ffffff;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .voice-command {
+            color: #4ecdc4;
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+        }
+
+        .voice-commands-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .voice-commands-title {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="particles-bg"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Panel Admin</h1>
+                    <p>Sistemas Orbix</p>
+                </div>
+            </div>
+            <nav class="nav-menu">
+                <a href="../index.html">Inicio</a>
+                <a href="cursos.html">Cursos</a>
+                <a href="certificaciones.html">Certificaciones</a>
+                <a href="tutores-ia.html">Tutores IA</a>
+                <a href="progreso.html">Progreso</a>
+                <a href="panel-admin.html" class="active">Panel Admin</a>
+                <a href="login.html">Salir</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Panel de Administración</h1>
+            <p class="page-subtitle">Control total de la plataforma Tutorium</p>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card-title">Usuarios Activos</div>
+                <div class="card-value" id="activeUsers">1,247</div>
+                <div class="card-description">Conectados en las últimas 24h</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="card-title">Cursos Totales</div>
+                <div class="card-value" id="totalCourses">152</div>
+                <div class="card-description">Cursos disponibles</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <div class="card-title">Certificaciones</div>
+                <div class="card-value" id="totalCertifications">89</div>
+                <div class="card-description">Certificados emitidos hoy</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="card-title">Ingresos</div>
+                <div class="card-value" id="totalRevenue">$12,450</div>
+                <div class="card-description">Ingresos del mes</div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <h3 class="chart-title">Usuarios por Mes</h3>
+                <canvas id="usersChart" class="chart-canvas"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Cursos Más Populares</h3>
+                <canvas id="coursesChart" class="chart-canvas"></canvas>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="system-status">
+            <h3 class="status-title">Estado del Sistema</h3>
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="status-indicator status-online"></div>
+                    <div class="status-label">Servidor Web</div>
+                    <div class="status-value">Online - 99.9%</div>
+                </div>
+
+                <div class="status-item">
+                    <div class="status-indicator status-online"></div>
+                    <div class="status-label">Base de Datos</div>
+                    <div class="status-value">Online - 100%</div>
+                </div>
+
+                <div class="status-item">
+                    <div class="status-indicator status-warning"></div>
+                    <div class="status-label">API Externa</div>
+                    <div class="status-value">Lento - 85%</div>
+                </div>
+
+                <div class="status-item">
+                    <div class="status-indicator status-online"></div>
+                    <div class="status-label">CDN</div>
+                    <div class="status-value">Online - 98%</div>
+                </div>
+
+                <div class="status-item">
+                    <div class="status-indicator status-online"></div>
+                    <div class="status-label">Backup</div>
+                    <div class="status-value">Última: 02:00</div>
+                </div>
+
+                <div class="status-item">
+                    <div class="status-indicator status-online"></div>
+                    <div class="status-label">SSL</div>
+                    <div class="status-value">Válido - 89 días</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Actions -->
+        <div class="admin-actions">
+            <div class="action-card">
+                <h3 class="action-title">Gestión de Usuarios</h3>
+                <p class="action-description">Administrar usuarios, roles y permisos del sistema</p>
+                <button class="action-button" onclick="manageUsers()">
+                    <i class="fas fa-users-cog"></i> Gestionar Usuarios
+                </button>
+            </div>
+
+            <div class="action-card">
+                <h3 class="action-title">Gestión de Cursos</h3>
+                <p class="action-description">Crear, editar y eliminar cursos de la plataforma</p>
+                <button class="action-button" onclick="manageCourses()">
+                    <i class="fas fa-book-open"></i> Gestionar Cursos
+                </button>
+            </div>
+
+            <div class="action-card">
+                <h3 class="action-title">Configuración del Sistema</h3>
+                <p class="action-description">Ajustar configuraciones generales del sistema</p>
+                <button class="action-button secondary" onclick="systemConfig()">
+                    <i class="fas fa-cog"></i> Configurar Sistema
+                </button>
+            </div>
+
+            <div class="action-card">
+                <h3 class="action-title">Backup y Restauración</h3>
+                <p class="action-description">Realizar backup completo del sistema</p>
+                <button class="action-button" onclick="createBackup()">
+                    <i class="fas fa-download"></i> Crear Backup
+                </button>
+            </div>
+
+            <div class="action-card">
+                <h3 class="action-title">Logs del Sistema</h3>
+                <p class="action-description">Revisar logs y actividad del sistema</p>
+                <button class="action-button secondary" onclick="viewLogs()">
+                    <i class="fas fa-file-alt"></i> Ver Logs
+                </button>
+            </div>
+
+            <div class="action-card">
+                <h3 class="action-title">Reiniciar Sistema</h3>
+                <p class="action-description">Reiniciar servicios del sistema (usar con precaución)</p>
+                <button class="action-button danger" onclick="restartSystem()">
+                    <i class="fas fa-power-off"></i> Reiniciar Sistema
+                </button>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <h3 class="activity-title">Actividad Reciente</h3>
+            <div class="activity-list" id="activityList">
+                <!-- Activity items will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Message Container -->
+    <div id="messageContainer"></div>
+
+    <!-- Voice Control Panel -->
+    <div class="voice-control">
+        <button class="voice-button" id="voiceButton" onclick="toggleVoiceControl()">
+            <i class="fas fa-microphone" id="voiceIcon"></i>
+        </button>
+        <div class="voice-status" id="voiceStatus">Presiona para activar voz</div>
+        <div class="voice-commands-title">Comandos disponibles:</div>
+        <div class="voice-commands-list">
+            <div class="voice-command">"mostrar usuarios" - Ver estadísticas</div>
+            <div class="voice-command">"gestionar cursos" - Administrar cursos</div>
+            <div class="voice-command">"crear backup" - Hacer respaldo</div>
+            <div class="voice-command">"reiniciar sistema" - Restart sistema</div>
+            <div class="voice-command">"mostrar logs" - Ver registros</div>
+            <div class="voice-command">"actualizar datos" - Refrescar</div>
+            <div class="voice-command">"cambiar vista" - Cambiar visualización</div>
+            <div class="voice-command">"exportar datos" - Exportar información</div>
+            <div class="voice-command">"configurar sistema" - Configurar</div>
+            <div class="voice-command">"limpiar cache" - Limpiar memoria</div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Dashboard Data
+        const dashboardData = {
+            activeUsers: 1247,
+            totalCourses: 152,
+            totalCertifications: 89,
+            totalRevenue: 12450
+        };
+
+        // Activity Data
+        const recentActivity = [
+            { icon: 'fas fa-user-plus', message: 'Nuevo usuario registrado: María González', time: '2 min ago' },
+            { icon: 'fas fa-book', message: 'Curso "Python Avanzado" actualizado', time: '5 min ago' },
+            { icon: 'fas fa-certificate', message: 'Certificado emitido para JavaScript', time: '8 min ago' },
+            { icon: 'fas fa-cog', message: 'Configuración del sistema actualizada', time: '12 min ago' },
+            { icon: 'fas fa-download', message: 'Backup automático completado', time: '15 min ago' },
+            { icon: 'fas fa-user-edit', message: 'Perfil de usuario modificado', time: '18 min ago' },
+            { icon: 'fas fa-upload', message: 'Nuevo material subido a curso', time: '22 min ago' },
+            { icon: 'fas fa-bell', message: 'Notificación enviada a usuarios', time: '25 min ago' }
+        ];
+
+        // Initialize Dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate counters
+            animateCounters();
+            
+            // Create charts
+            createUsersChart();
+            createCoursesChart();
+            
+            // Populate activity
+            populateActivity();
+            
+            // Update system status
+            updateSystemStatus();
+            
+            // Start real-time updates
+            setInterval(updateRealTimeData, 30000); // Update every 30 seconds
+        });
+
+        // Animate dashboard counters
+        function animateCounters() {
+            const counters = [
+                { id: 'activeUsers', target: dashboardData.activeUsers, prefix: '', suffix: '' },
+                { id: 'totalCourses', target: dashboardData.totalCourses, prefix: '', suffix: '' },
+                { id: 'totalCertifications', target: dashboardData.totalCertifications, prefix: '', suffix: '' },
+                { id: 'totalRevenue', target: dashboardData.totalRevenue, prefix: '$', suffix: '' }
+            ];
+
+            counters.forEach(counter => {
+                const element = document.getElementById(counter.id);
+                let current = 0;
+                const increment = counter.target / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= counter.target) {
+                        current = counter.target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = counter.prefix + Math.floor(current).toLocaleString() + counter.suffix;
+                }, 20);
+            });
+        }
+
+        // Create users chart
+        function createUsersChart() {
+            const canvas = document.getElementById('usersChart');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = canvas.offsetWidth;
+            canvas.height = 300;
+            
+            const data = [
+                { month: 'Ene', users: 800 },
+                { month: 'Feb', users: 950 },
+                { month: 'Mar', users: 1100 },
+                { month: 'Abr', users: 1300 },
+                { month: 'May', users: 1200 },
+                { month: 'Jun', users: 1400 },
+                { month: 'Jul', users: 1600 }
+            ];
+
+            const maxUsers = Math.max(...data.map(d => d.users));
+            const barWidth = (canvas.width - 100) / data.length;
+            
+            // Draw bars
+            data.forEach((item, index) => {
+                const x = 50 + index * barWidth;
+                const barHeight = (item.users / maxUsers) * 200;
+                const y = canvas.height - barHeight - 50;
+                
+                // Create gradient
+                const gradient = ctx.createLinearGradient(0, y, 0, y + barHeight);
+                gradient.addColorStop(0, '#ff6b6b');
+                gradient.addColorStop(1, '#4ecdc4');
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x + 10, y, barWidth - 20, barHeight);
+                
+                // Draw labels
+                ctx.fillStyle = 'white';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(item.month, x + barWidth / 2, canvas.height - 25);
+                ctx.fillText(item.users, x + barWidth / 2, y - 10);
+            });
+
+            // Add interactivity
+            canvas.addEventListener('mousemove', function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                
+                data.forEach((item, index) => {
+                    const barX = 50 + index * barWidth;
+                    if (x >= barX && x <= barX + barWidth) {
+                        canvas.style.cursor = 'pointer';
+                        canvas.title = `${item.month}: ${item.users} usuarios`;
+                    }
+                });
+            });
+        }
+
+        // Create courses chart
+        function createCoursesChart() {
+            const canvas = document.getElementById('coursesChart');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = canvas.offsetWidth;
+            canvas.height = 300;
+            
+            const data = [
+                { course: 'Python', students: 450, color: '#ff6b6b' },
+                { course: 'JavaScript', students: 380, color: '#4ecdc4' },
+                { course: 'React', students: 320, color: '#45b7d1' },
+                { course: 'Node.js', students: 280, color: '#f093fb' },
+                { course: 'Machine Learning', students: 250, color: '#43e97b' }
+            ];
+
+            const total = data.reduce((sum, item) => sum + item.students, 0);
+            let currentAngle = 0;
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 80;
+
+            // Draw pie slices
+            data.forEach(item => {
+                const sliceAngle = (item.students / total) * 2 * Math.PI;
+                
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+                ctx.closePath();
+                ctx.fillStyle = item.color;
+                ctx.fill();
+                
+                // Draw labels
+                const labelAngle = currentAngle + sliceAngle / 2;
+                const labelX = centerX + Math.cos(labelAngle) * (radius + 30);
+                const labelY = centerY + Math.sin(labelAngle) * (radius + 30);
+                
+                ctx.fillStyle = 'white';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(item.course, labelX, labelY);
+                ctx.fillText(item.students, labelX, labelY + 15);
+                
+                currentAngle += sliceAngle;
+            });
+
+            // Add legend
+            data.forEach((item, index) => {
+                const legendX = 20;
+                const legendY = 20 + index * 25;
+                
+                ctx.fillStyle = item.color;
+                ctx.fillRect(legendX, legendY, 15, 15);
+                
+                ctx.fillStyle = 'white';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText(`${item.course}: ${item.students}`, legendX + 20, legendY + 12);
+            });
+        }
+
+        // Populate recent activity
+        function populateActivity() {
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = '';
+            
+            recentActivity.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon">
+                        <i class="${activity.icon}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-message">${activity.message}</div>
+                        <div class="activity-time">${activity.time}</div>
+                    </div>
+                `;
+                activityList.appendChild(activityItem);
+            });
+        }
+
+        // Update system status
+        function updateSystemStatus() {
+            // Simulate real-time status updates
+            const statusItems = document.querySelectorAll('.status-item');
+            statusItems.forEach(item => {
+                const indicator = item.querySelector('.status-indicator');
+                const value = item.querySelector('.status-value');
+                
+                // Simulate random status changes
+                if (Math.random() > 0.95) {
+                    indicator.className = 'status-indicator status-warning';
+                    setTimeout(() => {
+                        indicator.className = 'status-indicator status-online';
+                    }, 3000);
+                }
+            });
+        }
+
+        // Update real-time data
+        function updateRealTimeData() {
+            // Simulate real-time data updates
+            dashboardData.activeUsers += Math.floor(Math.random() * 10 - 5);
+            dashboardData.totalCertifications += Math.floor(Math.random() * 3);
+            
+            document.getElementById('activeUsers').textContent = dashboardData.activeUsers.toLocaleString();
+            document.getElementById('totalCertifications').textContent = dashboardData.totalCertifications.toLocaleString();
+            
+            // Add new activity
+            const newActivity = {
+                icon: 'fas fa-sync',
+                message: 'Datos actualizados automáticamente',
+                time: 'Ahora'
+            };
+            recentActivity.unshift(newActivity);
+            if (recentActivity.length > 8) {
+                recentActivity.pop();
+            }
+            populateActivity();
+        }
+
+        // Admin Functions
+        function manageUsers() {
+            showMessage('Módulo de gestión de usuarios cargado', 'success');
+            // Simulate loading
+            setTimeout(() => {
+                showMessage('Funcionalidad disponible próximamente', 'warning');
+            }, 1000);
+        }
+
+        function manageCourses() {
+            showMessage('Módulo de gestión de cursos cargado', 'success');
+            // Redirect to courses management
+            setTimeout(() => {
+                window.location.href = 'cursos.html';
+            }, 1000);
+        }
+
+        function systemConfig() {
+            showMessage('Abriendo configuración del sistema...', 'success');
+            // Simulate system configuration
+            setTimeout(() => {
+                showMessage('Configuración actualizada correctamente', 'success');
+            }, 2000);
+        }
+
+        function createBackup() {
+            showMessage('Iniciando backup del sistema...', 'success');
+            // Simulate backup process
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                if (progress <= 100) {
+                    showMessage(`Backup en progreso: ${progress}%`, 'warning');
+                } else {
+                    clearInterval(interval);
+                    showMessage('Backup completado exitosamente', 'success');
+                }
+            }, 500);
+        }
+
+        function viewLogs() {
+            showMessage('Cargando logs del sistema...', 'success');
+            // Simulate log viewing
+            setTimeout(() => {
+                showMessage('Logs disponibles en consola del navegador', 'success');
+                console.log('=== LOGS DEL SISTEMA ===');
+                console.log('2025-01-15 10:30:00 - Usuario conectado: admin');
+                console.log('2025-01-15 10:32:15 - Backup iniciado');
+                console.log('2025-01-15 10:35:22 - Curso actualizado: Python Avanzado');
+                console.log('2025-01-15 10:38:45 - Certificado emitido');
+            }, 1000);
+        }
+
+        function restartSystem() {
+            if (confirm('¿Está seguro de que desea reiniciar el sistema? Esta acción afectará a todos los usuarios.')) {
+                showMessage('Reiniciando sistema...', 'error');
+                // Simulate system restart
+                setTimeout(() => {
+                    showMessage('Sistema reiniciado correctamente', 'success');
+                }, 3000);
+            }
+        }
+
+        // Show message function
+        function showMessage(message, type) {
+            const messageContainer = document.getElementById('messageContainer');
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${type}`;
+            messageElement.textContent = message;
+            
+            messageContainer.appendChild(messageElement);
+            
+            setTimeout(() => {
+                messageElement.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                messageElement.classList.remove('show');
+                setTimeout(() => {
+                    messageContainer.removeChild(messageElement);
+                }, 300);
+            }, 3000);
+        }
+
+        // Console welcome message
+        console.log('🔧 Panel de Administración - Tutorium');
+        console.log('🚀 Sistema operativo al 100%');
+        console.log('📊 Todas las métricas funcionando correctamente');
+    </script>
+</body>
+</html>

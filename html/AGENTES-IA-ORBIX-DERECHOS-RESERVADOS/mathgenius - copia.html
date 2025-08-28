@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>🧮 MathGenius IA - Experto en Matemáticas</title>
+  <meta name="description" content="Experto en Matemáticas y Ciencias Exactas. Álgebra, cálculo, estadística, física y química con explicaciones visuales interactivas.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+      color: #1a202c;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    .math-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 25% 25%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+      animation: mathPulse 8s ease-in-out infinite;
+    }
+    
+    @keyframes mathPulse {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .header-section {
+      background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+      border-radius: 24px;
+      padding: 40px;
+      margin-bottom: 24px;
+      box-shadow: 
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      text-align: center;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      max-width: 800px;
+      width: 100%;
+      position: relative;
+    }
+    
+    .status-indicator {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: #8b5cf6;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .math-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, #8b5cf6, #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 32px;
+      color: white;
+      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .math-avatar.listening {
+      animation: listeningPulse 1s ease-in-out infinite;
+      box-shadow: 0 10px 25px rgba(245, 158, 11, 0.5);
+    }
+    
+    @keyframes listeningPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .main-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1a202c;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      font-size: 1rem;
+      color: #4a5568;
+      margin-bottom: 16px;
+      line-height: 1.5;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .specialties {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    
+    .specialty-tag {
+      background: #faf5ff;
+      color: #6b21a8;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid rgba(107, 33, 168, 0.2);
+    }
+    
+    .specialty-tag.calculus { background: #ecfdf5; color: #065f46; border-color: rgba(6, 95, 70, 0.2); }
+    .specialty-tag.physics { background: #eff6ff; color: #1e40af; border-color: rgba(30, 64, 175, 0.2); }
+    
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 24px;
+    }
+    
+    .stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #8b5cf6;
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 0.875rem;
+      color: #4a5568;
+      font-weight: 500;
+    }
+    
+    .rating-display {
+      color: #8b5cf6;
+      font-weight: 600;
+    }
+    
+    .conversation-area {
+      background: white;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      margin-bottom: 24px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .conversation-controls {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .control-button {
+      background: #8b5cf6;
+      border: none;
+      color: white;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.3);
+      min-width: 120px;
+    }
+    
+    .control-button:hover {
+      background: #7c3aed;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 10px -1px rgba(139, 92, 246, 0.4);
+    }
+    
+    .mic-button {
+      background: #f59e0b;
+      box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.3);
+    }
+    
+    .mic-button:hover {
+      background: #d97706;
+      box-shadow: 0 6px 10px -1px rgba(245, 158, 11, 0.4);
+    }
+    
+    .mic-button.recording {
+      animation: recordingPulse 1s ease-in-out infinite;
+    }
+    
+    @keyframes recordingPulse {
+      0%, 100% { background: #f59e0b; }
+      50% { background: #fbbf24; }
+    }
+    
+    .solve-button {
+      background: #10b981;
+      box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+    }
+    
+    .solve-button:hover {
+      background: #059669;
+      box-shadow: 0 6px 10px -1px rgba(16, 185, 129, 0.4);
+    }
+    
+    .conversation-display {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 24px;
+      min-height: 300px;
+      max-height: 500px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+    
+    .message {
+      margin-bottom: 16px;
+      padding: 16px 20px;
+      border-radius: 16px;
+      animation: messageSlide 0.3s ease-out;
+      line-height: 1.6;
+    }
+    
+    @keyframes messageSlide {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .user-message {
+      background: #faf5ff;
+      color: #1a202c;
+      margin-left: 20px;
+      border-left: 4px solid #8b5cf6;
+    }
+    
+    .teacher-message {
+      background: #f3e8ff;
+      color: #1a202c;
+      margin-right: 20px;
+      border-left: 4px solid #7c3aed;
+    }
+    
+    .formula-message {
+      background: #1f2937;
+      color: #a78bfa;
+      margin-right: 20px;
+      border-left: 4px solid #8b5cf6;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      white-space: pre-wrap;
+    }
+    
+    .input-area {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    
+    .message-input {
+      flex: 1;
+      padding: 16px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .message-input:focus {
+      border-color: #8b5cf6;
+    }
+    
+    .send-button {
+      background: #8b5cf6;
+      border: none;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .send-button:hover {
+      background: #7c3aed;
+      transform: translateY(-1px);
+    }
+    
+    .footer-info {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 16px 24px;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      max-width: 600px;
+    }
+    
+    .status-bar {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #8b5cf6;
+      color: #1a202c;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+    }
+    
+    @media (max-width: 768px) {
+      .main-title { font-size: 2rem; }
+      .conversation-controls { flex-direction: column; align-items: center; }
+      .control-button { width: 200px; }
+      .stats-section { grid-template-columns: 1fr; }
+      .input-area { flex-direction: column; }
+      .message-input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="math-bg"></div>
+  <div class="status-bar" id="status">🟢 MathGenius Online</div>
+  
+  <div class="container">
+    <div class="header-section">
+      <div class="status-indicator">
+        <div class="status-dot"></div>
+        En Línea
+      </div>
+      
+      <div class="math-avatar" id="mathAvatar">🧮</div>
+      
+      <h1 class="main-title">MathGenius IA</h1>
+      <p class="subtitle">Experto en Matemáticas y Ciencias Exactas<br>Álgebra, cálculo, estadística, física y química con explicaciones visuales interactivas.</p>
+      
+      <div class="specialties">
+        <span class="specialty-tag">Álgebra</span>
+        <span class="specialty-tag calculus">Cálculo</span>
+        <span class="specialty-tag physics">Física</span>
+        <span class="specialty-tag">Estadística</span>
+      </div>
+    </div>
+
+    <div class="stats-section">
+      <div class="stat-card">
+        <span class="stat-number rating-display">4.9</span>
+        <span class="stat-label">Rating</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" id="problemsCount">3,240</span>
+        <span class="stat-label">Problemas</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">24/7</span>
+        <span class="stat-label">Disponible</span>
+      </div>
+    </div>
+
+    <div class="conversation-area">
+      <div class="conversation-controls">
+        <button onclick="connectTutor()" class="control-button" id="connectButton">🔗 Conectar</button>
+        <button onclick="toggleMicrophone()" class="control-button mic-button" id="micButton">🎤 Hablar</button>
+        <button onclick="solveMode()" class="control-button solve-button">📊 Resolver</button>
+        <button onclick="formulaMode()" class="control-button">📐 Fórmulas</button>
+      </div>
+
+      <div class="conversation-display" id="conversationDisplay">
+        <div class="teacher-message">
+          🧮 ¡Hola! Soy MathGenius IA, tu experto en matemáticas y ciencias exactas. Puedo ayudarte con álgebra, cálculo, estadística, física, química y mucho más. Explico paso a paso y proporciono visualizaciones interactivas. ¿Qué problema matemático resolveremos hoy?
+        </div>
+      </div>
+
+      <div class="input-area">
+        <input type="text" class="message-input" id="messageInput" 
+               placeholder="Escribe tu problema matemático o ecuación..." 
+               onkeypress="handleKeyPress(event)">
+        <button class="send-button" onclick="sendMessage()">📤</button>
+      </div>
+    </div>
+
+    <div class="footer-info">
+      Álgebra, cálculo, estadística, física y química con explicaciones visuales interactivas.
+    </div>
+  </div>
+
+  <script>
+    let isListening = false;
+    let isConnected = false;
+    let recognition;
+    let audioContext;
+    let problemsCount = 3240;
+
+    function initAudio() {
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (e) {
+        console.warn('Audio context not supported');
+      }
+    }
+
+    function playSound(frequency, duration, type = 'sine') {
+      if (!audioContext) return;
+      
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = frequency;
+      oscillator.type = type;
+      
+      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + duration);
+    }
+
+    function initSpeechRecognition() {
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'es-ES';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        
+        recognition.onstart = function() {
+          updateStatus('🎤 Escuchando matemáticas...');
+          document.getElementById('mathAvatar').classList.add('listening');
+          playSound(800, 0.3);
+        };
+        
+        recognition.onresult = function(event) {
+          const transcript = event.results[0][0].transcript;
+          document.getElementById('messageInput').value = transcript;
+          updateStatus('✅ Calculando...');
+          playSound(1000, 0.4, 'triangle');
+          setTimeout(() => sendMessage(), 500);
+        };
+        
+        recognition.onerror = function(event) {
+          updateStatus('❌ Error de input');
+          document.getElementById('mathAvatar').classList.remove('listening');
+          playSound(400, 0.6, 'sawtooth');
+        };
+        
+        recognition.onend = function() {
+          isListening = false;
+          document.getElementById('micButton').classList.remove('recording');
+          document.getElementById('mathAvatar').classList.remove('listening');
+          document.getElementById('micButton').innerHTML = '🎤 Hablar';
+          updateStatus(isConnected ? '🟢 Conectado' : '🟢 MathGenius Online');
+        };
+      }
+    }
+
+    function connectTutor() {
+      isConnected = true;
+      document.getElementById('connectButton').innerHTML = '✅ Conectado';
+      document.getElementById('connectButton').style.background = '#8b5cf6';
+      updateStatus('🟢 Conectado');
+      problemsCount++;
+      document.getElementById('problemsCount').textContent = problemsCount.toLocaleString();
+      
+      const greeting = "¡Perfecto! Calculadora activada. Soy experto en todas las ramas de las matemáticas: álgebra, cálculo diferencial e integral, estadística, geometría, trigonometría, física y química. Puedo resolver ecuaciones, explicar teoremas y crear visualizaciones. ¿Qué problema resolveremos?";
+      
+      addMessage(greeting, 'formula');
+      speakMessage(greeting);
+    }
+
+    function toggleMicrophone() {
+      if (!recognition) {
+        initSpeechRecognition();
+      }
+      
+      if (!isListening) {
+        recognition.start();
+        isListening = true;
+        document.getElementById('micButton').classList.add('recording');
+        document.getElementById('micButton').innerHTML = '🛑 Stop';
+      } else {
+        recognition.stop();
+        isListening = false;
+        document.getElementById('micButton').classList.remove('recording');
+        document.getElementById('micButton').innerHTML = '🎤 Hablar';
+      }
+    }
+
+    function solveMode() {
+      const message = "📊 MODO RESOLVER ACTIVADO\n∫ Resolutor de problemas matemáticos\n∑ Paso a paso detallado\n∀ Verificación de resultados\n∃ Explicaciones visuales\n\nf(x) = Introduce tu problema";
+      addMessage(message, 'formula');
+      speakMessage("Modo resolver activado. Envía tu problema matemático y lo resolveré paso a paso con explicaciones detalladas.");
+    }
+
+    function formulaMode() {
+      const message = "📐 BANCO DE FÓRMULAS\n\n• Álgebra: ax² + bx + c = 0\n• Cálculo: ∫f(x)dx, d/dx[f(x)]\n• Trigonometría: sin²θ + cos²θ = 1\n• Física: F = ma, E = mc²\n• Estadística: μ = Σx/n\n\n¿Qué fórmula necesitas?";
+      addMessage(message, 'formula');
+      speakMessage("Banco de fórmulas activado. Tengo acceso a fórmulas de álgebra, cálculo, trigonometría, física y estadística. ¿Cuál necesitas?");
+    }
+
+    function handleKeyPress(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    function addMessage(text, type) {
+      const container = document.getElementById('conversationDisplay');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${type}-message`;
+      messageDiv.textContent = text;
+      container.appendChild(messageDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const message = input.value.trim();
+      
+      if (!message) return;
+      
+      addMessage(message, 'user');
+      input.value = '';
+      
+      updateStatus('🔄 Calculando...');
+      
+      try {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer YOUR_OPENAI_API_KEY_HERE"
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+              {
+                role: "system",
+                content: "Eres MathGenius IA, experto en matemáticas y ciencias exactas. Dominas álgebra, cálculo, estadística, geometría, trigonometría, física y química. Resuelves problemas paso a paso, explicas conceptos claramente y proporcionas fórmulas cuando es necesario. Eres didáctico y paciente, adaptando tu nivel al estudiante."
+              },
+              {
+                role: "user",
+                content: message
+              }
+            ]
+          })
+        });
+
+        const data = await response.json();
+        const reply = data.choices[0].message.content;
+        
+        // Determine message type based on content
+        const messageType = reply.includes('=') || reply.includes('∫') || reply.includes('∑') || reply.includes('²') || reply.includes('√') ? 'formula' : 'teacher';
+        addMessage(reply, messageType);
+        speakMessage(reply);
+        
+        updateStatus(isConnected ? '🟢 Conectado' : '🟢 MathGenius Online');
+
+      } catch (error) {
+        console.error("Error:", error);
+        addMessage("❌ ERROR MATEMÁTICO\nDivisión por cero en el servidor\nf(error) = conexión_perdida\nIntenta nuevamente...", 'formula');
+        updateStatus('❌ Error');
+      }
+    }
+
+    function speakMessage(text) {
+      if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'es-ES';
+        utterance.rate = 0.85;
+        utterance.pitch = 1.1;
+        utterance.volume = 0.8;
+        
+        const voices = speechSynthesis.getVoices();
+        const preferredVoice = voices.find(voice => 
+          voice.lang.includes('es') && voice.name.includes('Female')
+        ) || voices.find(voice => voice.lang.includes('es')) || voices[0];
+        
+        if (preferredVoice) {
+          utterance.voice = preferredVoice;
+        }
+        
+        speechSynthesis.speak(utterance);
+      }
+    }
+
+    function updateStatus(message) {
+      document.getElementById('status').textContent = message;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initAudio();
+      initSpeechRecognition();
+    });
+
+    if ('speechSynthesis' in window) {
+      speechSynthesis.onvoiceschanged = function() {
+        console.log('Voices loaded for MathGenius IA');
+      };
+    }
+  </script>
+</body>
+</html>

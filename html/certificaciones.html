@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificaciones - Tutorium Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .certifications-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .tab-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .certifications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .cert-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .cert-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .cert-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .cert-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .cert-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .cert-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cert-detail {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .cert-detail i {
+            color: #667eea;
+        }
+
+        .cert-progress {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e1e8ed;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .cert-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .achievements-section {
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .achievements-title {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .achievement-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .achievement-icon {
+            font-size: 3rem;
+            color: #f39c12;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .achievement-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .certificate-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .certificate-preview {
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e6f3ff 100%);
+        }
+
+        .certificate-header {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .certificate-name {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .certificate-course {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .certificate-date {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .certifications-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .cert-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Tutorium Academy
+            </a>
+            <nav class="nav-links">
+                <a href="../index.html">Inicio</a>
+                <a href="../cursos.html">Cursos</a>
+                <a href="progreso.html">Mi Progreso</a>
+                <a href="tutores-ia.html">Tutores IA</a>
+                <a href="login.html">Iniciar Sesión</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-certificate"></i> Certificaciones</h1>
+            <p>Obtén certificaciones oficiales que validen tus conocimientos y habilidades adquiridas</p>
+        </div>
+
+        <div class="certifications-tabs">
+            <button class="tab-btn active" onclick="showTab('available')">
+                <i class="fas fa-star"></i> Disponibles
+            </button>
+            <button class="tab-btn" onclick="showTab('in-progress')">
+                <i class="fas fa-clock"></i> En Progreso
+            </button>
+            <button class="tab-btn" onclick="showTab('completed')">
+                <i class="fas fa-trophy"></i> Completadas
+            </button>
+        </div>
+
+        <div id="available-tab" class="certifications-grid">
+            <div class="cert-card">
+                <div class="cert-icon">
+                    <i class="fab fa-python"></i>
+                </div>
+                <h3 class="cert-title">Certificación en Python Avanzado</h3>
+                <p class="cert-description">
+                    Domina Python desde conceptos básicos hasta desarrollo avanzado con frameworks modernos.
+                </p>
+                <div class="cert-details">
+                    <div class="cert-detail">
+                        <i class="fas fa-clock"></i>
+                        <span>40 horas</span>
+                    </div>
+                    <div class="cert-detail">
+                        <i class="fas fa-star"></i>
+                        <span>Nivel Avanzado</span>
+                    </div>
+                    <div class="cert-detail">
+                        <i class="fas fa-certificate"></i>
+                        <span>Certificado Oficial</span>
+                    </div>
+                </div>
+                <div class="cert-progress">
+                    <div class="progress-label">
+                        <span>Progreso</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="cert-actions">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-play"></i>
+                        Comenzar
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-info"></i>
+                        Más Info
+                    </a>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">
+                    <i class="fab fa-js"></i>
+                </div>
+                <h3 class="cert-title">Certificación en JavaScript Full Stack</h3>
+                <p class="cert-description">
+                    Conviértete en un desarrollador full stack con JavaScript, Node.js y React.
+                </p>
+                <div class="cert-details">
+                    <div class="cert-detail">
+                        <i class="fas fa-clock"></i>
+                        <span>60 horas</span>
+                    </div>
+                    <div class="cert-detail">
+                        <i class="fas fa-star"></i>
+                        <span>Nivel Intermedio</span>
+                    </div>
+                    <div class="cert-detail">
+                        <i class="fas fa-certificate"></i>
+                        <span>Certificado Oficial</span>
+                    </div>
+                </div>
+                <div class="cert-progress">
+                    <div class="progress-label">
+                        <span>Progreso</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="cert-actions">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-play"></i>
+                        Comenzar
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-info"></i>
+                        Más Info
+                    </a>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3 class="cert-title">Certificación en Bases de Datos</h3>
+                <p class="cert-description">
+                    Aprende diseño, implementación y administración de bases de datos SQL y NoSQL.
+                </p>
+                <div class="cert-details">
+                    <div class="cert-detail">
+                        <i class="fas fa-clock"></i>
+                        <span>35 horas</span>
+                    </div>
+                    <div class="cert-detail">
+                        <i class="fas fa-star"></i>
+                        <span>Nivel Intermedio</span>
+                    </div>
+                    <div class="cert-detail">
+                        <i class="fas fa-certificate"></i>
+                        <span>Certificado Oficial</span>
+                    </div>
+                </div>
+                <div class="cert-progress">
+                    <div class="progress-label">
+                        <span>Progreso</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="cert-actions">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-play"></i>
+                        Comenzar
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-info"></i>
+                        Más Info
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="in-progress-tab" class="certifications-grid" style="display: none;">
+            <div class="cert-card">
+                <div class="cert-icon">
+                    <i class="fab fa-react"></i>
+                </div>
+                <h3 class="cert-title">Certificación en React.js</h3>
+                <p class="cert-description">
+                    Desarrollo de aplicaciones web modernas con React y el ecosistema completo.
+                </p>
+                <div class="cert-details">
+                    <div class="cert-detail">
+                        <i class="fas fa-clock"></i>
+                        <span>45 horas</span>
+                    </div>
+                    <div class="cert-detail">
+                        <i class="fas fa-star"></i>
+                        <span>Nivel Avanzado</span>
+                    </div>
+                    <div class="cert-detail">
+                        <i class="fas fa-calendar"></i>
+                        <span>Iniciado: 10 Jul 2025</span>
+                    </div>
+                </div>
+                <div class="cert-progress">
+                    <div class="progress-label">
+                        <span>Progreso</span>
+                        <span>65%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 65%"></div>
+                    </div>
+                </div>
+                <div class="cert-actions">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-play"></i>
+                        Continuar
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-chart-line"></i>
+                        Ver Progreso
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="completed-tab" class="certifications-grid" style="display: none;">
+            <div class="cert-card">
+                <div class="cert-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3 class="cert-title">Certificación en HTML5 y CSS3</h3>
+                <p class="cert-description">
+                    Desarrollo web frontend con tecnologías modernas y mejores prácticas.
+                </p>
+                <div class="cert-details">
+                    <div class="cert-detail">
+                        <i class="fas fa-calendar"></i>
+                        <span>Completado: 5 Jul 2025</span>
+                    </div>
+                    <div class="cert-detail">
+                        <i class="fas fa-star"></i>
+                        <span>Calificación: 95%</span>
+                    </div>
+                    <div class="cert-detail">
+                        <i class="fas fa-trophy"></i>
+                        <span>Certificado Obtenido</span>
+                    </div>
+                </div>
+                <div class="cert-progress">
+                    <div class="progress-label">
+                        <span>Progreso</span>
+                        <span>100%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="cert-actions">
+                    <a href="#" class="btn btn-primary" onclick="showCertificate()">
+                        <i class="fas fa-certificate"></i>
+                        Ver Certificado
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-download"></i>
+                        Descargar PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="achievements-section">
+            <h2 class="achievements-title">
+                <i class="fas fa-trophy"></i> Logros Obtenidos
+            </h2>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3 class="achievement-title">Primer Certificado</h3>
+                    <p class="achievement-date">5 de Julio, 2025</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3 class="achievement-title">Racha de 7 días</h3>
+                    <p class="achievement-date">12 de Julio, 2025</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="achievement-title">Puntuación Perfecta</h3>
+                    <p class="achievement-date">8 de Julio, 2025</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Certificate Modal -->
+    <div class="certificate-modal" id="certificateModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeCertificate()">&times;</span>
+            <div class="certificate-preview">
+                <div class="certificate-header">CERTIFICADO DE FINALIZACIÓN</div>
+                <div class="certificate-name">Juan Pérez</div>
+                <div class="certificate-course">HTML5 y CSS3 Avanzado</div>
+                <div class="certificate-date">Completado el 5 de Julio, 2025</div>
+            </div>
+            <div class="cert-actions">
+                <a href="#" class="btn btn-primary">
+                    <i class="fas fa-download"></i>
+                    Descargar PDF
+                </a>
+                <a href="#" class="btn btn-secondary">
+                    <i class="fas fa-share"></i>
+                    Compartir
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.getElementById('available-tab').style.display = 'none';
+            document.getElementById('in-progress-tab').style.display = 'none';
+            document.getElementById('completed-tab').style.display = 'none';
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').style.display = 'grid';
+            
+            // Update active button
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function showCertificate() {
+            document.getElementById('certificateModal').style.display = 'flex';
+        }
+
+        function closeCertificate() {
+            document.getElementById('certificateModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('certificateModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Animate progress bars on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+
+
+
+
+
+</html>

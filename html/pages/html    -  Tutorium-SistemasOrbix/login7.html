@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Tutorium Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #667eea;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group .icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 1.1rem;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+            font-size: 1.1rem;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e1e8ed;
+        }
+
+        .divider span {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0 15px;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .social-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .google-btn {
+            color: #db4437;
+        }
+
+        .github-btn {
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remember-me input {
+            width: auto;
+        }
+
+        .forgot-password {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .signup-link {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .signup-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .success-message {
+            color: #27ae60;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-home">
+        <i class="fas fa-arrow-left"></i>
+        Volver al Inicio
+    </a>
+
+    <div class="login-container">
+        <div class="logo">
+            <h1><i class="fas fa-graduation-cap"></i> Tutorium</h1>
+            <p>Accede a tu cuenta para continuar aprendiendo</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" required>
+                <i class="fas fa-envelope icon"></i>
+                <div class="error-message" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required>
+                <i class="fas fa-eye-slash password-toggle" id="passwordToggle"></i>
+                <div class="error-message" id="passwordError"></div>
+            </div>
+
+            <div class="options">
+                <label class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <span>Recordarme</span>
+                </label>
+                <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <button type="submit" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i>
+                Iniciar Sesión
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>O continúa con</span>
+        </div>
+
+        <div class="social-login">
+            <button class="social-btn google-btn" onclick="loginWithGoogle()">
+                <i class="fab fa-google"></i>
+                Google
+            </button>
+            <button class="social-btn github-btn" onclick="loginWithGitHub()">
+                <i class="fab fa-github"></i>
+                GitHub
+            </button>
+        </div>
+
+        <div class="signup-link">
+            ¿No tienes una cuenta? <a href="../registro.html">Regístrate aquí</a>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        const passwordToggle = document.getElementById('passwordToggle');
+        const passwordInput = document.getElementById('password');
+
+        passwordToggle.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            
+            // Clear previous errors
+            document.getElementById('emailError').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
+            
+            // Basic validation
+            if (!email || !password) {
+                if (!email) showError('emailError', 'Por favor ingresa tu correo electrónico');
+                if (!password) showError('passwordError', 'Por favor ingresa tu contraseña');
+                return;
+            }
+            
+            // Show loading
+            const loginBtn = document.querySelector('.login-btn');
+            const originalText = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Iniciando sesión...';
+            loginBtn.disabled = true;
+            
+            try {
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // For demo purposes, accept any valid email format
+                if (email.includes('@')) {
+                    // Store user session
+                    const userData = {
+                        email: email,
+                        name: email.split('@')[0],
+                        loginTime: new Date().toISOString(),
+                        remember: remember
+                    };
+                    
+                    if (remember) {
+                        localStorage.setItem('tutoriumUser', JSON.stringify(userData));
+                    } else {
+                        sessionStorage.setItem('tutoriumUser', JSON.stringify(userData));
+                    }
+                    
+                    // Success message
+                    showSuccess('Inicio de sesión exitoso. Redirigiendo...');
+                    
+                    // Redirect to dashboard or courses
+                    setTimeout(() => {
+                        window.location.href = '../cursos.html';
+                    }, 1000);
+                    
+                } else {
+                    showError('emailError', 'Correo electrónico no válido');
+                }
+                
+            } catch (error) {
+                showError('passwordError', 'Error al iniciar sesión. Por favor intenta nuevamente.');
+            } finally {
+                // Restore button
+                loginBtn.innerHTML = originalText;
+                loginBtn.disabled = false;
+            }
+        });
+
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function showSuccess(message) {
+            // You can implement a success message display here
+            console.log('Success:', message);
+        }
+
+        // Social login functions
+        async function loginWithGoogle() {
+            try {
+                // Simulate OAuth flow
+                const loginBtn = document.querySelector('.google-btn');
+                const originalText = loginBtn.innerHTML;
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Conectando...';
+                loginBtn.disabled = true;
+                
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Mock successful Google login
+                const userData = {
+                    email: 'usuario@gmail.com',
+                    name: 'Usuario Google',
+                    loginTime: new Date().toISOString(),
+                    provider: 'google',
+                    remember: true
+                };
+                
+                localStorage.setItem('tutoriumUser', JSON.stringify(userData));
+                window.location.href = '../cursos.html';
+                
+            } catch (error) {
+                alert('Error al conectar con Google. Por favor intenta nuevamente.');
+            }
+        }
+
+        async function loginWithGitHub() {
+            try {
+                // Simulate OAuth flow
+                const loginBtn = document.querySelector('.github-btn');
+                const originalText = loginBtn.innerHTML;
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Conectando...';
+                loginBtn.disabled = true;
+                
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Mock successful GitHub login
+                const userData = {
+                    email: 'usuario@github.com',
+                    name: 'Usuario GitHub',
+                    loginTime: new Date().toISOString(),
+                    provider: 'github',
+                    remember: true
+                };
+                
+                localStorage.setItem('tutoriumUser', JSON.stringify(userData));
+                window.location.href = '../cursos.html';
+                
+            } catch (error) {
+                alert('Error al conectar con GitHub. Por favor intenta nuevamente.');
+            }
+        }
+
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedUser = localStorage.getItem('tutoriumUser') || sessionStorage.getItem('tutoriumUser');
+            if (storedUser) {
+                // User is already logged in, redirect to courses
+                window.location.href = '../cursos.html';
+            }
+        });
+    </script>
+<footer><a href="/index.html" class="btn-regresar">← Volver al Inicio</a></footer>
+</body>
+
+
+
+
+
+
+
+
+</html>

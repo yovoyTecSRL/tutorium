@@ -1,0 +1,41 @@
+{
+  "name": "tutorium-language-api",
+  "version": "1.0.0",
+  "description": "API backend para el sistema de puntuación de idiomas de Tutorium",
+  "main": "server.js",
+  "dependencies": {
+    "flask": "^2.3.0",
+    "flask-cors": "^4.0.0",
+    "requests": "^2.31.0"
+  },
+  "devDependencies": {
+    "pytest": "^7.4.0",
+    "black": "^23.0.0",
+    "flake8": "^6.0.0"
+  },
+  "scripts": {
+    "start": "python tools/language_api.py",
+    "test": "pytest tests/",
+    "lint": "flake8 tools/ tests/",
+    "format": "black tools/ tests/",
+    "dev": "python tools/language_api.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xtre/tutorium.sistemasorbix.com"
+  },
+  "keywords": [
+    "education",
+    "language-learning",
+    "api",
+    "scoring",
+    "pronunciation",
+    "grammar"
+  ],
+  "author": "Tutorium Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xtre/tutorium.sistemasorbix.com/issues"
+  },
+  "homepage": "https://tutorium.sistemasorbix.com"
+}

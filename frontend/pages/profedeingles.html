@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>🎓 Mi Profe de Inglés IA - Sistema Avanzado de Aprendizaje</title>
+  <meta name="description" content="Tu tutor personalizado de inglés con IA. Conversación en tiempo real con corrección instantánea, análisis de pronunciación y puntuación inteligente.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #2d3748;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    .english-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+      animation: englishPulse 8s ease-in-out infinite;
+    }
+    
+    @keyframes englishPulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .header-section {
+      background: linear-gradient(145deg, #ffffff 0%, #f7fafc 100%);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      border: 3px solid #4299e1;
+      max-width: 800px;
+      width: 100%;
+    }
+    
+    .main-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #2b6cb0;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      color: #4a5568;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    
+    .teacher-avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 4px solid #4299e1;
+      box-shadow: 0 10px 25px rgba(66, 153, 225, 0.3);
+      margin: 20px 0;
+      transition: all 0.3s ease;
+      object-fit: cover;
+    }
+    
+    .teacher-avatar.listening {
+      border-color: #e53e3e;
+      box-shadow: 0 10px 25px rgba(229, 62, 62, 0.5);
+      animation: listeningPulse 1s ease-in-out infinite;
+    }
+    
+    @keyframes listeningPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .score-dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .score-card {
+      background: linear-gradient(145deg, #ffffff 0%, #f7fafc 100%);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border: 2px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    .score-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .score-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .score-label {
+      font-size: 0.9rem;
+      color: #4a5568;
+      font-weight: 600;
+    }
+
+    .grammar-score { color: #38a169; }
+    .pronunciation-score { color: #3182ce; }
+    .vocabulary-score { color: #805ad5; }
+    .fluency-score { color: #d69e2e; }
+
+    .level-indicator {
+      background: linear-gradient(145deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      margin: 10px 0;
+      display: inline-block;
+    }
+
+    .language-switch {
+      background: linear-gradient(145deg, #805ad5 0%, #6b46c1 100%);
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      margin: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(128, 90, 213, 0.3);
+    }
+
+    .language-switch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(128, 90, 213, 0.4);
+    }
+
+    .advice-panel {
+      background: linear-gradient(145deg, #fff5f5 0%, #fed7d7 100%);
+      border: 2px solid #fc8181;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .advice-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #c53030;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .advice-content {
+      color: #742a2a;
+      line-height: 1.6;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #38a169 0%, #68d391 100%);
+      transition: width 0.3s ease;
+    }
+
+    /* Visualizador de Audio */
+    .audio-visualizer {
+      background: linear-gradient(145deg, #1a202c 0%, #2d3748 100%);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .wave-bars {
+      display: flex;
+      justify-content: center;
+      align-items: end;
+      gap: 4px;
+      height: 60px;
+      margin-bottom: 15px;
+    }
+
+    .bar {
+      width: 8px;
+      background: linear-gradient(to top, #667eea 0%, #764ba2 100%);
+      border-radius: 4px;
+      transition: height 0.1s ease;
+      height: 10px;
+      animation: waveAnimation 1.5s ease-in-out infinite;
+    }
+
+    .bar:nth-child(1) { animation-delay: 0s; }
+    .bar:nth-child(2) { animation-delay: 0.1s; }
+    .bar:nth-child(3) { animation-delay: 0.2s; }
+    .bar:nth-child(4) { animation-delay: 0.3s; }
+    .bar:nth-child(5) { animation-delay: 0.4s; }
+    .bar:nth-child(6) { animation-delay: 0.3s; }
+    .bar:nth-child(7) { animation-delay: 0.2s; }
+    .bar:nth-child(8) { animation-delay: 0.1s; }
+
+    @keyframes waveAnimation {
+      0%, 100% { height: 10px; }
+      50% { height: 40px; }
+    }
+
+    .listening-text {
+      color: #e2e8f0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    /* Mejoras para los botones */
+    .control-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .mic-button.active {
+      background: linear-gradient(145deg, #48bb78 0%, #38a169 100%);
+      box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
+      animation: micActive 0.8s ease-in-out infinite;
+    }
+
+    @keyframes micActive {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Estados de conexión */
+    .connection-status {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #e2e8f0;
+      color: #4a5568;
+      backdrop-filter: blur(5px);
+      z-index: 999;
+    }
+
+    .connection-status.connected {
+      border-color: #38a169;
+      color: #22543d;
+    }
+
+    .connection-status.error {
+      border-color: #e53e3e;
+      color: #742a2a;
+    }
+
+    /* Estilos para ejercicios interactivos */
+    .exercise-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .real-time-feedback {
+      background: linear-gradient(145deg, #f0fff4 0%, #c6f6d5 100%);
+      border: 2px solid #48bb78;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .real-time-feedback h3 {
+      color: #22543d;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    /* Indicador de nivel */
+    .level-indicator {
+      background: linear-gradient(145deg, #e6fffa 0%, #b2f5ea 100%);
+      border: 2px solid #4fd1c7;
+      border-radius: 25px;
+      padding: 10px 20px;
+      text-align: center;
+      font-weight: 700;
+      color: #234e52;
+      margin: 15px 0;
+      animation: levelGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes levelGlow {
+      0%, 100% { box-shadow: 0 5px 15px rgba(79, 209, 199, 0.3); }
+      50% { box-shadow: 0 5px 25px rgba(79, 209, 199, 0.6); }
+    }
+    
+    .conversation-controls {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    
+    .control-button {
+      background: linear-gradient(145deg, #4299e1 0%, #3182ce 100%);
+      border: none;
+      color: white;
+      padding: 15px 25px;
+      font-size: 14px;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      min-width: 120px;
+    }
+    
+    .control-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(66, 153, 225, 0.4);
+    }
+    
+    .mic-button {
+      background: linear-gradient(145deg, #e53e3e 0%, #c53030 100%);
+      box-shadow: 0 5px 15px rgba(229, 62, 62, 0.3);
+    }
+    
+    .mic-button:hover {
+      box-shadow: 0 8px 20px rgba(229, 62, 62, 0.4);
+    }
+    
+    .mic-button.recording {
+      animation: recordingPulse 1s ease-in-out infinite;
+    }
+    
+    @keyframes recordingPulse {
+      0%, 100% { background: linear-gradient(145deg, #e53e3e 0%, #c53030 100%); }
+      50% { background: linear-gradient(145deg, #fc8181 0%, #f56565 100%); }
+    }
+    
+    .conversation-display {
+      background: #f7fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 25px;
+      min-height: 300px;
+      max-height: 500px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      width: 100%;
+      max-width: 800px;
+    }
+    
+    .message {
+      margin-bottom: 15px;
+      padding: 15px 20px;
+      border-radius: 12px;
+      animation: messageSlide 0.3s ease-out;
+    }
+    
+    @keyframes messageSlide {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .user-message {
+      background: linear-gradient(145deg, #bee3f8, #90cdf4);
+      color: #1a365d;
+      margin-left: 30px;
+      border-bottom-right-radius: 4px;
+    }
+    
+    .teacher-message {
+      background: linear-gradient(145deg, #c6f6d5, #9ae6b4);
+      color: #22543d;
+      margin-right: 30px;
+      border-bottom-left-radius: 4px;
+    }
+
+    .correction-message {
+      background: linear-gradient(145deg, #fed7d7, #feb2b2);
+      color: #742a2a;
+      margin-right: 30px;
+      border-bottom-left-radius: 4px;
+      border-left: 4px solid #e53e3e;
+    }
+    
+    .status-bar {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #4299e1;
+      color: #2b6cb0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+    }
+    
+    @media (max-width: 768px) {
+      .main-title { font-size: 2.2rem; }
+      .conversation-controls { flex-direction: column; align-items: center; }
+      .control-button { width: 200px; }
+      .score-dashboard { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="english-bg"></div>
+  <div class="status-bar" id="status">🟢 Sistema Activo</div>
+  
+  <div class="container">
+    <div class="header-section">
+      <h1 class="main-title">🎓 Mi Profe de Inglés IA</h1>
+      <p class="subtitle">Conversación por voz en tiempo real con análisis inteligente de pronunciación</p>
+      <img class="teacher-avatar" id="teacherAvatar" src="https://images.unsplash.com/photo-1589578527966-198d5f41c179?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="English Teacher">
+      
+      <!-- Dashboard de Puntuación en Tiempo Real -->
+      <div class="score-dashboard" id="scoreDashboard" style="display: none;">
+        <div class="score-card">
+          <div class="score-value pronunciation-score" id="pronunciationScore">--</div>
+          <div class="score-label">Pronunciación</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="pronunciationProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="score-card">
+          <div class="score-value grammar-score" id="grammarScore">--</div>
+          <div class="score-label">Gramática</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="grammarProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="score-card">
+          <div class="score-value vocabulary-score" id="vocabularyScore">--</div>
+          <div class="score-label">Vocabulario</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="vocabularyProgress" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="score-card">
+          <div class="score-value fluency-score" id="fluencyScore">--</div>
+          <div class="score-label">Fluidez</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="fluencyProgress" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="level-indicator" id="levelIndicator" style="display: none;">
+        <span id="currentLevel">Evaluando...</span>
+      </div>
+    </div>
+
+    <!-- Panel de Consejos y Correcciones -->
+    <div class="advice-panel" id="advicePanel" style="display: none;">
+      <div class="advice-title">
+        💡 Consejos de Pronunciación
+      </div>
+      <div class="advice-content" id="adviceContent">
+        Habla claro y despacio para obtener mejor análisis de pronunciación.
+      </div>
+    </div>
+
+    <div class="conversation-controls">
+      <button onclick="startVoiceConversation()" class="control-button" id="startButton">🚀 Iniciar Chat de Voz</button>
+      <button onclick="toggleListening()" class="control-button mic-button" id="micButton" disabled>🎤 Presiona y Habla</button>
+      <button onclick="switchLanguage()" class="control-button" id="langButton">�🇸 English</button>
+      <button onclick="adjustSpeed()" class="control-button" id="speedButton">🐌 Velocidad Normal</button>
+      <button onclick="clearConversation()" class="control-button">🗑️ Nueva Conversación</button>
+    </div>
+
+    <!-- Visualizador de Audio en Tiempo Real -->
+    <div class="audio-visualizer" id="audioVisualizer" style="display: none;">
+      <div class="wave-bars" id="waveBars">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <div class="listening-text" id="listeningText">Escuchando...</div>
+    </div>
+
+    <div class="conversation-display" id="conversationDisplay">
+      <div class="teacher-message">
+        🎙️ <strong>¡Hola! Soy tu profesor de inglés con IA.</strong><br>
+        Para comenzar, presiona "Iniciar Chat de Voz" y luego "Presiona y Habla" para tener una conversación completamente por voz.<br>
+        <small>📢 Analizaré tu pronunciación, gramática y fluidez en tiempo real.</small>
+      </div>
+    </div>
+
+    <!-- Panel de Retroalimentación en Tiempo Real -->
+    <div class="real-time-feedback">
+      <h3>💬 Conversación en Tiempo Real</h3>
+      <div id="feedback" style="
+        background: linear-gradient(145deg, #f7fafc 0%, #edf2f7 100%);
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 15px 0;
+        min-height: 200px;
+        max-height: 300px;
+        overflow-y: auto;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      ">
+        <p style="color: #718096; text-align: center; margin-top: 80px;">
+          🎤 Presiona el micrófono para comenzar tu conversación en inglés
+        </p>
+      </div>
+    </div>
+
+    <!-- Panel de Ejercicios Interactivos -->
+    <div class="exercise-panel" style="
+      background: linear-gradient(145deg, #fff5f5 0%, #fed7d7 100%);
+      border: 2px solid #fc8181;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      width: 100%;
+      max-width: 800px;
+    ">
+      <h3 style="color: #c53030; margin-bottom: 15px;">🎯 Ejercicios de Pronunciación</h3>
+      <div class="exercise-content" style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <button class="exercise-btn" onclick="practicePhrase('Hello, how are you today?')" style="
+          background: linear-gradient(145deg, #4299e1 0%, #3182ce 100%);
+          border: none;
+          color: white;
+          padding: 12px 20px;
+          border-radius: 25px;
+          cursor: pointer;
+          font-weight: 600;
+          margin: 5px;
+          transition: all 0.3s ease;
+          box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
+        ">
+          🗣️ Practica: "Hello, how are you today?"
+        </button>
+        <button class="exercise-btn" onclick="practicePhrase('The weather is beautiful today')" style="
+          background: linear-gradient(145deg, #48bb78 0%, #38a169 100%);
+          border: none;
+          color: white;
+          padding: 12px 20px;
+          border-radius: 25px;
+          cursor: pointer;
+          font-weight: 600;
+          margin: 5px;
+          transition: all 0.3s ease;
+          box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+        ">
+          🌤️ Practica: "The weather is beautiful today"
+        </button>
+        <button class="exercise-btn" onclick="practicePhrase('I would like to improve my English')" style="
+          background: linear-gradient(145deg, #ed8936 0%, #dd6b20 100%);
+          border: none;
+          color: white;
+          padding: 12px 20px;
+          border-radius: 25px;
+          cursor: pointer;
+          font-weight: 600;
+          margin: 5px;
+          transition: all 0.3s ease;
+          box-shadow: 0 5px 15px rgba(237, 137, 54, 0.3);
+        ">
+          📚 Practica: "I would like to improve my English"
+        </button>
+        <button class="exercise-btn" onclick="practicePhrase('Thank you very much for your help')" style="
+          background: linear-gradient(145deg, #805ad5 0%, #6b46c1 100%);
+          border: none;
+          color: white;
+          padding: 12px 20px;
+          border-radius: 25px;
+          cursor: pointer;
+          font-weight: 600;
+          margin: 5px;
+          transition: all 0.3s ease;
+          box-shadow: 0 5px 15px rgba(128, 90, 213, 0.3);
+        ">
+          🙏 Practica: "Thank you very much for your help"
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function practicePhrase(phrase) {
+      if (window.voiceTeacher) {
+        window.voiceTeacher.speakText(`Now practice saying: ${phrase}. I'll listen to your pronunciation.`);
+        setTimeout(() => {
+          if (window.voiceTeacher.recognition && !window.voiceTeacher.isListening) {
+            window.voiceTeacher.recognition.start();
+          }
+        }, 3000);
+      }
+    }
+  </script>
+
+  <script>
+    let isListening = false;
+    let isConversationActive = false;
+    let currentLanguage = 'en-US';
+    let recognition;
+    let audioContext;
+
+    function initAudio() {
+      try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (e) {
+        console.warn('Audio context not supported');
+      }
+    }
+
+    function playSound(frequency, duration, type = 'sine') {
+      if (!audioContext) return;
+      
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = frequency;
+      oscillator.type = type;
+      
+      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + duration);
+    }
+
+    function initSpeechRecognition() {
+      if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = currentLanguage;
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        
+        recognition.onstart = function() {
+          updateStatus('🎤 Listening...');
+          document.getElementById('teacherAvatar').classList.add('listening');
+          playSound(600, 0.3);
+        };
+        
+        recognition.onresult = function(event) {
+          const transcript = event.results[0][0].transcript;
+          const confidence = event.results[0][0].confidence;
+          
+          addMessage(transcript, 'user');
+          analyzeUserInput(transcript, confidence);
+          
+          updateStatus('✅ Analizando...');
+          playSound(800, 0.4, 'triangle');
+        };
+        
+        recognition.onerror = function(event) {
+          updateStatus('❌ Error de micrófono');
+          document.getElementById('teacherAvatar').classList.remove('listening');
+          playSound(300, 0.6, 'sawtooth');
+        };
+        
+        recognition.onend = function() {
+          isListening = false;
+          document.getElementById('micButton').classList.remove('recording');
+          document.getElementById('teacherAvatar').classList.remove('listening');
+          document.getElementById('micButton').innerHTML = '🎤 Hablar';
+          
+          updateStatus(isConversationActive ? '🟢 Conversación Activa' : '🟢 Sistema Activo');
+        };
+      }
+    }
+
+    function startConversation() {
+      isConversationActive = true;
+      document.getElementById('startButton').innerHTML = '⏹️ Parar';
+      document.getElementById('startButton').onclick = stopConversation;
+      updateStatus('🟢 Conversación Activa');
+      
+      const greeting = "Perfect! Let's practice English together. You can ask me anything about grammar, vocabulary, or just have a casual conversation. What would you like to talk about?";
+      
+      addMessage(greeting, 'teacher');
+      speakMessage(greeting);
+    }
+
+    function stopConversation() {
+      isConversationActive = false;
+      document.getElementById('startButton').innerHTML = '🚀 Iniciar';
+      document.getElementById('startButton').onclick = startConversation;
+      updateStatus('🟢 Sistema Activo');
+      
+      if (isListening) {
+        recognition.stop();
+      }
+    }
+
+    function toggleMicrophone() {
+      if (!recognition) {
+        initSpeechRecognition();
+      }
+      
+      if (!isListening) {
+        recognition.start();
+        isListening = true;
+        document.getElementById('micButton').classList.add('recording');
+        document.getElementById('micButton').innerHTML = '🛑 Parar';
+      } else {
+        recognition.stop();
+        isListening = false;
+        document.getElementById('micButton').classList.remove('recording');
+        document.getElementById('micButton').innerHTML = '🎤 Hablar';
+      }
+    }
+
+    function switchLanguage() {
+      currentLanguage = currentLanguage === 'en-US' ? 'es-ES' : 'en-US';
+      
+      if (recognition) {
+        recognition.lang = currentLanguage;
+      }
+      
+      updateStatus(`🌐 Idioma: ${currentLanguage === 'en-US' ? 'English' : 'Español'}`);
+    }
+
+    function addMessage(text, type) {
+      const container = document.getElementById('conversationDisplay');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${type}-message`;
+      messageDiv.textContent = text;
+      container.appendChild(messageDiv);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    async function analyzeUserInput(text, confidence) {
+      try {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer YOUR_OPENAI_API_KEY_HERE"
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+              {
+                role: "system",
+                content: "You are an expert English teacher specializing in real-time conversation practice. Analyze the student's English for grammar errors, pronunciation issues, and provide immediate constructive feedback. If there are errors, first correct them, then respond naturally to continue the conversation. Be encouraging and educational."
+              },
+              {
+                role: "user",
+                content: `Analyze this English text (confidence: ${confidence}): "${text}"`
+              }
+            ]
+          })
+        });
+
+        const data = await response.json();
+        const feedback = data.choices[0].message.content;
+        
+        addMessage(feedback, 'teacher');
+        speakMessage(feedback);
+
+      } catch (error) {
+        console.error("Error analyzing input:", error);
+        const errorMsg = "Sorry, I had trouble analyzing your input. Could you please try again?";
+        addMessage(errorMsg, 'teacher');
+        speakMessage(errorMsg);
+      }
+    }
+
+    function clearConversation() {
+      document.getElementById('conversationDisplay').innerHTML = `
+        <div class="teacher-message">
+          👋 Hello! I'm your AI English teacher. Let's start practicing! Try saying something in English and I'll help you improve your pronunciation, grammar, and vocabulary. Ready to begin?
+        </div>
+      `;
+    }
+
+    function speakMessage(text) {
+      if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = currentLanguage;
+        utterance.rate = 0.85;
+        utterance.pitch = 1;
+        utterance.volume = 0.8;
+        
+        const voices = speechSynthesis.getVoices();
+        const preferredVoice = voices.find(voice => 
+          voice.lang.includes(currentLanguage.split('-')[0])
+        ) || voices[0];
+        
+        if (preferredVoice) {
+          utterance.voice = preferredVoice;
+        }
+        
+        speechSynthesis.speak(utterance);
+      }
+    }
+
+    function updateStatus(message) {
+      document.getElementById('status').textContent = message;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initAudio();
+      initSpeechRecognition();
+    });
+
+    if ('speechSynthesis' in window) {
+      speechSynthesis.onvoiceschanged = function() {
+        console.log('Voices loaded');
+      };
+    }
+  </script>
+  <script>
+    class VoiceEnglishTeacher {
+      constructor() {
+        this.recognition = null;
+        this.synthesis = window.speechSynthesis;
+        this.isListening = false;
+        this.currentLanguage = 'en-US';
+        this.speechRate = 1;
+        this.scores = {
+          pronunciation: 75,
+          grammar: 70,
+          vocabulary: 65,
+          fluency: 68
+        };
+        this.conversations = [];
+        this.audioContext = null;
+        this.analyser = null;
+        this.audioData = null;
+        
+        this.initializeVoiceRecognition();
+        this.initializeAudioVisualizer();
+        this.setupEventListeners();
+        this.updateUI();
+      }
+
+      initializeVoiceRecognition() {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+          this.showConnectionStatus('Reconocimiento de voz no soportado', 'error');
+          return;
+        }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        this.recognition = new SpeechRecognition();
+        
+        this.recognition.continuous = true;
+        this.recognition.interimResults = true;
+        this.recognition.lang = this.currentLanguage;
+
+        this.recognition.onstart = () => {
+          this.showConnectionStatus('Conectado - Escuchando', 'connected');
+          this.updateListeningState(true);
+        };
+
+        this.recognition.onresult = (event) => {
+          let finalTranscript = '';
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            if (event.results[i].isFinal) {
+              finalTranscript += event.results[i][0].transcript;
+            }
+          }
+          
+          if (finalTranscript) {
+            this.processSpeech(finalTranscript);
+          }
+        };
+
+        this.recognition.onerror = (event) => {
+          console.error('Error de reconocimiento:', event.error);
+          this.showConnectionStatus('Error de conexión', 'error');
+          this.updateListeningState(false);
+        };
+
+        this.recognition.onend = () => {
+          this.showConnectionStatus('Desconectado', 'disconnected');
+          this.updateListeningState(false);
+        };
+      }
+
+      async initializeAudioVisualizer() {
+        try {
+          this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          const source = this.audioContext.createMediaStreamSource(stream);
+          this.analyser = this.audioContext.createAnalyser();
+          this.analyser.fftSize = 32;
+          source.connect(this.analyser);
+          this.audioData = new Uint8Array(this.analyser.frequencyBinCount);
+          this.animateAudioBars();
+        } catch (error) {
+          console.error('Error al inicializar visualizador de audio:', error);
+        }
+      }
+
+      animateAudioBars() {
+        if (!this.analyser) return;
+        
+        this.analyser.getByteFrequencyData(this.audioData);
+        const bars = document.querySelectorAll('.bar');
+        
+        for (let i = 0; i < bars.length; i++) {
+          const value = this.audioData[i] || 0;
+          const height = (value / 255) * 50 + 10;
+          bars[i].style.height = height + 'px';
+        }
+        
+        if (this.isListening) {
+          requestAnimationFrame(() => this.animateAudioBars());
+        }
+      }
+
+      processSpeech(text) {
+        const analysis = this.analyzeEnglish(text);
+        this.updateScores(analysis);
+        this.addToConversation('user', text, analysis);
+        
+        // Generar respuesta del profesor
+        const response = this.generateTeacherResponse(text, analysis);
+        this.speakText(response);
+        this.addToConversation('teacher', response);
+      }
+
+      analyzeEnglish(text) {
+        const analysis = {
+          pronunciation: this.analyzePronunciation(text),
+          grammar: this.analyzeGrammar(text),
+          vocabulary: this.analyzeVocabulary(text),
+          fluency: this.analyzeFluency(text),
+          suggestions: []
+        };
+
+        // Generar sugerencias basadas en el análisis
+        if (analysis.pronunciation < 70) {
+          analysis.suggestions.push("Practica la pronunciación de las palabras más difíciles");
+        }
+        if (analysis.grammar < 70) {
+          analysis.suggestions.push("Revisa la estructura gramatical de tus oraciones");
+        }
+        if (analysis.vocabulary < 70) {
+          analysis.suggestions.push("Intenta usar vocabulario más variado");
+        }
+
+        return analysis;
+      }
+
+      analyzePronunciation(text) {
+        // Simulación de análisis de pronunciación
+        const commonWords = ['the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of'];
+        const words = text.toLowerCase().split(' ');
+        let correctWords = 0;
+        
+        words.forEach(word => {
+          if (commonWords.includes(word) || word.length > 3) {
+            correctWords++;
+          }
+        });
+        
+        return Math.min(95, (correctWords / words.length) * 100);
+      }
+
+      analyzeGrammar(text) {
+        // Análisis básico de gramática
+        let score = 80;
+        const sentences = text.split(/[.!?]+/);
+        
+        sentences.forEach(sentence => {
+          sentence = sentence.trim();
+          if (sentence.length === 0) return;
+          
+          // Verificar que empiece con mayúscula
+          if (!/^[A-Z]/.test(sentence)) score -= 10;
+          
+          // Verificar estructura básica (sujeto + verbo)
+          const words = sentence.split(' ');
+          if (words.length < 2) score -= 5;
+        });
+        
+        return Math.max(0, Math.min(100, score));
+      }
+
+      analyzeVocabulary(text) {
+        const words = text.toLowerCase().split(' ');
+        const uniqueWords = new Set(words);
+        const vocabularyRichness = (uniqueWords.size / words.length) * 100;
+        
+        // Bonus por palabras largas o complejas
+        let complexWords = 0;
+        words.forEach(word => {
+          if (word.length > 6) complexWords++;
+        });
+        
+        const complexityBonus = (complexWords / words.length) * 20;
+        return Math.min(100, vocabularyRichness + complexityBonus);
+      }
+
+      analyzeFluency(text) {
+        const words = text.split(' ');
+        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+        
+        // Análisis de longitud de oraciones
+        const avgSentenceLength = words.length / sentences.length;
+        let fluencyScore = Math.min(90, avgSentenceLength * 8);
+        
+        // Penalizar repeticiones excesivas
+        const wordFreq = {};
+        words.forEach(word => {
+          wordFreq[word] = (wordFreq[word] || 0) + 1;
+        });
+        
+        const repetitions = Object.values(wordFreq).filter(freq => freq > 2).length;
+        fluencyScore -= repetitions * 5;
+        
+        return Math.max(30, fluencyScore);
+      }
+
+      updateScores(analysis) {
+        // Actualizar scores con promedio ponderado
+        this.scores.pronunciation = Math.round((this.scores.pronunciation * 0.7) + (analysis.pronunciation * 0.3));
+        this.scores.grammar = Math.round((this.scores.grammar * 0.7) + (analysis.grammar * 0.3));
+        this.scores.vocabulary = Math.round((this.scores.vocabulary * 0.7) + (analysis.vocabulary * 0.3));
+        this.scores.fluency = Math.round((this.scores.fluency * 0.7) + (analysis.fluency * 0.3));
+        
+        this.updateUI();
+        this.updateAdvicePanel(analysis.suggestions);
+      }
+
+      generateTeacherResponse(userText, analysis) {
+        const responses = [
+          "Excellent pronunciation! Keep practicing.",
+          "Very good! Your grammar is improving.",
+          "Interesting use of vocabulary. Can you tell me more?",
+          "I like how you structure your ideas.",
+          "Perfect! Your fluency is impressive."
+        ];
+        
+        const avgScore = (analysis.pronunciation + analysis.grammar + analysis.vocabulary + analysis.fluency) / 4;
+        
+        if (avgScore > 80) {
+          return responses[Math.floor(Math.random() * responses.length)];
+        } else if (avgScore > 60) {
+          return "Good work! " + (analysis.suggestions[0] || "Keep practicing.");
+        } else {
+          return "Don't worry, practice makes perfect. " + (analysis.suggestions[0] || "Let's try again.");
+        }
+      }
+
+      speakText(text) {
+        if (!this.synthesis) return;
+        
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = this.currentLanguage;
+        utterance.rate = this.speechRate;
+        utterance.pitch = 1.1;
+        utterance.volume = 0.8;
+        
+        this.synthesis.speak(utterance);
+      }
+
+      addToConversation(speaker, text, analysis = null) {
+        this.conversations.push({
+          speaker,
+          text,
+          analysis,
+          timestamp: new Date()
+        });
+        
+        this.updateConversationDisplay();
+      }
+
+      updateConversationDisplay() {
+        const display = document.getElementById('feedback');
+        if (!display) return;
+        
+        display.innerHTML = this.conversations.slice(-3).map(conv => {
+          const isUser = conv.speaker === 'user';
+          const scoreInfo = conv.analysis ? 
+            `<div style="font-size: 12px; color: #666; margin-top: 5px;">
+              📊 P:${conv.analysis.pronunciation}% G:${conv.analysis.grammar}% V:${conv.analysis.vocabulary}% F:${conv.analysis.fluency}%
+            </div>` : '';
+          
+          return `
+            <div style="margin: 10px 0; padding: 10px; border-radius: 8px; background: ${isUser ? '#e3f2fd' : '#f3e5f5'};">
+              <strong>${isUser ? '🎤 Tú' : '👨‍🏫 Profesor'}:</strong> ${conv.text}
+              ${scoreInfo}
+            </div>
+          `;
+        }).join('');
+        
+        display.scrollTop = display.scrollHeight;
+      }
+
+      updateUI() {
+        // Actualizar barras de progreso
+        const pronunciationFill = document.getElementById('pronunciation-fill');
+        const grammarFill = document.getElementById('grammar-fill');
+        const vocabularyFill = document.getElementById('vocabulary-fill');
+        const fluencyFill = document.getElementById('fluency-fill');
+        
+        if (pronunciationFill) pronunciationFill.style.width = this.scores.pronunciation + '%';
+        if (grammarFill) grammarFill.style.width = this.scores.grammar + '%';
+        if (vocabularyFill) vocabularyFill.style.width = this.scores.vocabulary + '%';
+        if (fluencyFill) fluencyFill.style.width = this.scores.fluency + '%';
+        
+        // Actualizar valores numéricos
+        const pronunciationValue = document.getElementById('pronunciation-value');
+        const grammarValue = document.getElementById('grammar-value');
+        const vocabularyValue = document.getElementById('vocabulary-value');
+        const fluencyValue = document.getElementById('fluency-value');
+        
+        if (pronunciationValue) pronunciationValue.textContent = this.scores.pronunciation + '%';
+        if (grammarValue) grammarValue.textContent = this.scores.grammar + '%';
+        if (vocabularyValue) vocabularyValue.textContent = this.scores.vocabulary + '%';
+        if (fluencyValue) fluencyValue.textContent = this.scores.fluency + '%';
+        
+        // Actualizar nivel general
+        const avgScore = Math.round((this.scores.pronunciation + this.scores.grammar + this.scores.vocabulary + this.scores.fluency) / 4);
+        const levelElement = document.getElementById('level-indicator');
+        let level = 'Principiante';
+        if (avgScore > 80) level = 'Avanzado';
+        else if (avgScore > 60) level = 'Intermedio';
+        
+        if (levelElement) levelElement.textContent = `Nivel: ${level} (${avgScore}%)`;
+      }
+
+      updateAdvicePanel(suggestions) {
+        const panel = document.getElementById('advice-content');
+        if (!panel || !suggestions.length) return;
+        
+        panel.innerHTML = suggestions.map(suggestion => 
+          `<p>💡 ${suggestion}</p>`
+        ).join('');
+      }
+
+      updateListeningState(listening) {
+        this.isListening = listening;
+        const micBtn = document.getElementById('mic-btn');
+        const listeningText = document.querySelector('.listening-text');
+        
+        if (listening) {
+          if (micBtn) {
+            micBtn.classList.add('active');
+            micBtn.textContent = '🔴 Escuchando...';
+          }
+          if (listeningText) listeningText.textContent = 'Escuchando tu pronunciación...';
+          this.animateAudioBars();
+        } else {
+          if (micBtn) {
+            micBtn.classList.remove('active');
+            micBtn.textContent = '🎤 Comenzar Conversación';
+          }
+          if (listeningText) listeningText.textContent = 'Presiona el micrófono para empezar';
+        }
+      }
+
+      showConnectionStatus(message, type) {
+        let statusEl = document.querySelector('.connection-status');
+        if (!statusEl) {
+          statusEl = document.createElement('div');
+          statusEl.className = 'connection-status';
+          document.body.appendChild(statusEl);
+        }
+        
+        statusEl.textContent = message;
+        statusEl.className = `connection-status ${type}`;
+        
+        if (type === 'error') {
+          setTimeout(() => statusEl.remove(), 3000);
+        }
+      }
+
+      setupEventListeners() {
+        // Botón de micrófono
+        const micBtn = document.getElementById('mic-btn');
+        if (micBtn) {
+          micBtn.addEventListener('click', () => {
+            if (this.isListening) {
+              this.recognition?.stop();
+            } else {
+              this.recognition?.start();
+            }
+          });
+        }
+
+        // Cambio de idioma
+        const langBtn = document.getElementById('lang-btn');
+        if (langBtn) {
+          langBtn.addEventListener('click', () => {
+            this.currentLanguage = this.currentLanguage === 'en-US' ? 'es-ES' : 'en-US';
+            if (this.recognition) {
+              this.recognition.lang = this.currentLanguage;
+            }
+            langBtn.textContent = 
+              this.currentLanguage === 'en-US' ? '🇺🇸 Inglés' : '🇪🇸 Español';
+          });
+        }
+
+        // Velocidad de habla
+        const speedBtn = document.getElementById('speed-btn');
+        if (speedBtn) {
+          speedBtn.addEventListener('click', () => {
+            this.speechRate = this.speechRate === 1 ? 0.8 : this.speechRate === 0.8 ? 1.2 : 1;
+            speedBtn.textContent = `⚡ Velocidad: ${this.speechRate}x`;
+          });
+        }
+
+        // Limpiar conversación
+        const clearBtn = document.getElementById('clear-btn');
+        if (clearBtn) {
+          clearBtn.addEventListener('click', () => {
+            this.conversations = [];
+            this.updateConversationDisplay();
+            this.speakText("Conversation restarted. Let's start again!");
+          });
+        }
+      }
+
+      // Método para inicializar el saludo
+      start() {
+        this.speakText("Hello! I'm your virtual English teacher. Talk to me to practice your pronunciation and grammar.");
+      }
+    }
+
+    // Inicializar cuando la página cargue
+    document.addEventListener('DOMContentLoaded', () => {
+      window.voiceTeacher = new VoiceEnglishTeacher();
+      
+      // Pequeño delay para que todo se cargue correctamente
+      setTimeout(() => {
+        window.voiceTeacher.start();
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

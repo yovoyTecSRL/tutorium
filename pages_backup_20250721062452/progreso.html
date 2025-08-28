@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Progreso - Tutorium Academy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            color: #667eea;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .progress-section {
+            margin-bottom: 2rem;
+        }
+
+        .progress-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+
+        .progress-info {
+            flex: 1;
+        }
+
+        .progress-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .progress-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar-container {
+            width: 150px;
+            height: 8px;
+            background: #e1e8ed;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .progress-percentage {
+            font-weight: 600;
+            color: #667eea;
+            min-width: 40px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 1rem;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9ff;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            color: #f39c12;
+        }
+
+        .achievement-info {
+            flex: 1;
+        }
+
+        .achievement-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .achievement-date {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .activity-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .activity-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .activity-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+        }
+
+        .activity-item::after {
+            content: '';
+            position: absolute;
+            left: -1.44rem;
+            top: 1.2rem;
+            width: 2px;
+            height: calc(100% - 0.5rem);
+            background: #e1e8ed;
+        }
+
+        .activity-item:last-child::after {
+            display: none;
+        }
+
+        .activity-time {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .activity-description {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .goals-section {
+            margin-top: 2rem;
+        }
+
+        .goal-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9ff;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .goal-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .goal-checkbox.completed {
+            background: #667eea;
+            color: white;
+        }
+
+        .goal-text {
+            flex: 1;
+            color: #333;
+        }
+
+        .goal-text.completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .goal-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .study-streak {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .streak-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .streak-text {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-top: 1rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .calendar-day.study-day {
+            background: #667eea;
+            color: white;
+        }
+
+        .calendar-day.today {
+            background: #f39c12;
+            color: white;
+        }
+
+        .performance-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .performance-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Tutorium Academy
+            </a>
+            <nav class="nav-links">
+                <a href="../index.html">Inicio</a>
+                <a href="cursos.html">Cursos</a>
+                <a href="certificaciones.html">Certificaciones</a>
+                <a href="tutores-ia.html">Tutores IA</a>
+                <a href="progreso.html" class="active">Mi Progreso</a>
+                <a href="panel-admin.html">Panel Admin</a>
+                <a href="login.html">Iniciar Sesión</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-chart-line"></i> Mi Progreso</h1>
+            <p>Monitorea tu avance académico y alcanza tus objetivos de aprendizaje</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="card-title">Progreso General</h3>
+                </div>
+                <div class="stat-value">78%</div>
+                <div class="stat-label">Completado este mes</div>
+                <div class="progress-bar-container" style="width: 100%; margin-top: 1rem;">
+                    <div class="progress-bar" style="width: 78%;"></div>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="card-title">Cursos Activos</h3>
+                </div>
+                <div class="stat-value">5</div>
+                <div class="stat-label">Cursos en progreso</div>
+                <div class="progress-section">
+                    <div class="progress-item">
+                        <div class="progress-info">
+                            <div class="progress-title">Python Avanzado</div>
+                            <div class="progress-subtitle">Módulo 8 de 12</div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 67%;"></div>
+                        </div>
+                        <div class="progress-percentage">67%</div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="progress-info">
+                            <div class="progress-title">JavaScript Full Stack</div>
+                            <div class="progress-subtitle">Módulo 5 de 10</div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: 50%;"></div>
+                        </div>
+                        <div class="progress-percentage">50%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="card-title">Tiempo de Estudio</h3>
+                </div>
+                <div class="stat-value">42h</div>
+                <div class="stat-label">Este mes</div>
+                <div class="chart-container">
+                    <canvas id="studyTimeChart"></canvas>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="card-title">Calificaciones</h3>
+                </div>
+                <div class="stat-value">8.7</div>
+                <div class="stat-label">Promedio general</div>
+                <div class="chart-container">
+                    <canvas id="gradesChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="study-streak">
+            <div class="streak-number">12</div>
+            <div class="streak-text">Días consecutivos estudiando</div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3 class="card-title">Logros Recientes</h3>
+                </div>
+                <div class="achievements-grid">
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">Primer Curso Completado</div>
+                            <div class="achievement-date">Hace 2 días</div>
+                        </div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">Racha de 10 días</div>
+                            <div class="achievement-date">Hoy</div>
+                        </div>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">Puntuación Perfecta</div>
+                            <div class="achievement-date">Hace 1 semana</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <h3 class="card-title">Calendario de Estudio</h3>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-day">L</div>
+                    <div class="calendar-day">M</div>
+                    <div class="calendar-day">M</div>
+                    <div class="calendar-day">J</div>
+                    <div class="calendar-day">V</div>
+                    <div class="calendar-day">S</div>
+                    <div class="calendar-day">D</div>
+                    <div class="calendar-day">1</div>
+                    <div class="calendar-day study-day">2</div>
+                    <div class="calendar-day study-day">3</div>
+                    <div class="calendar-day study-day">4</div>
+                    <div class="calendar-day study-day">5</div>
+                    <div class="calendar-day study-day">6</div>
+                    <div class="calendar-day">7</div>
+                    <div class="calendar-day">8</div>
+                    <div class="calendar-day study-day">9</div>
+                    <div class="calendar-day study-day">10</div>
+                    <div class="calendar-day study-day">11</div>
+                    <div class="calendar-day study-day">12</div>
+                    <div class="calendar-day study-day">13</div>
+                    <div class="calendar-day">14</div>
+                    <div class="calendar-day today">15</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3 class="card-title">Análisis de Rendimiento</h3>
+            </div>
+            <div class="performance-tabs">
+                <button class="tab-btn active" onclick="showTab('weekly')">Semanal</button>
+                <button class="tab-btn" onclick="showTab('monthly')">Mensual</button>
+                <button class="tab-btn" onclick="showTab('yearly')">Anual</button>
+            </div>
+            <div id="weekly" class="tab-content active">
+                <div class="chart-container">
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+            </div>
+            <div id="monthly" class="tab-content">
+                <div class="chart-container">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+            <div id="yearly" class="tab-content">
+                <div class="chart-container">
+                    <canvas id="yearlyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3 class="card-title">Actividad Reciente</h3>
+                </div>
+                <div class="activity-timeline">
+                    <div class="activity-item">
+                        <div class="activity-time">Hace 2 horas</div>
+                        <div class="activity-description">Completaste el módulo "Funciones Avanzadas en Python"</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-time">Hace 5 horas</div>
+                        <div class="activity-description">Obtuviste 95% en el quiz de JavaScript</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-time">Ayer</div>
+                        <div class="activity-description">Participaste en la sesión de tutoría con Ae.N.K.I</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-time">Hace 2 días</div>
+                        <div class="activity-description">Completaste el proyecto final de HTML5</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-target"></i>
+                    </div>
+                    <h3 class="card-title">Objetivos del Mes</h3>
+                </div>
+                <div class="goals-section">
+                    <div class="goal-item">
+                        <div class="goal-checkbox completed" onclick="toggleGoal(this)">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="goal-text completed">Completar curso de Python Avanzado</div>
+                        <div class="goal-date">15 Jul</div>
+                    </div>
+                    <div class="goal-item">
+                        <div class="goal-checkbox" onclick="toggleGoal(this)"></div>
+                        <div class="goal-text">Obtener certificación en JavaScript</div>
+                        <div class="goal-date">20 Jul</div>
+                    </div>
+                    <div class="goal-item">
+                        <div class="goal-checkbox" onclick="toggleGoal(this)"></div>
+                        <div class="goal-text">Estudiar 40 horas este mes</div>
+                        <div class="goal-date">31 Jul</div>
+                    </div>
+                    <div class="goal-item">
+                        <div class="goal-checkbox" onclick="toggleGoal(this)"></div>
+                        <div class="goal-text">Completar 3 proyectos prácticos</div>
+                        <div class="goal-date">25 Jul</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+        });
+
+        function initializeCharts() {
+            // Study Time Chart
+            const studyTimeCtx = document.getElementById('studyTimeChart').getContext('2d');
+            new Chart(studyTimeCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+                    datasets: [{
+                        label: 'Horas de Estudio',
+                        data: [8, 12, 15, 7],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Grades Chart
+            const gradesCtx = document.getElementById('gradesChart').getContext('2d');
+            new Chart(gradesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Python', 'JS', 'HTML', 'CSS', 'React'],
+                    datasets: [{
+                        label: 'Calificaciones',
+                        data: [9.2, 8.5, 9.8, 8.7, 8.3],
+                        backgroundColor: [
+                            '#667eea',
+                            '#764ba2',
+                            '#667eea',
+                            '#764ba2',
+                            '#667eea'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            });
+
+            // Weekly Chart
+            const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+            new Chart(weeklyCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Python', 'JavaScript', 'HTML/CSS', 'React', 'Otros'],
+                    datasets: [{
+                        data: [30, 25, 20, 15, 10],
+                        backgroundColor: [
+                            '#667eea',
+                            '#764ba2',
+                            '#f39c12',
+                            '#27ae60',
+                            '#e74c3c'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Monthly Chart
+            const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+            new Chart(monthlyCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul'],
+                    datasets: [{
+                        label: 'Progreso Mensual',
+                        data: [65, 70, 75, 80, 78, 85, 88],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Yearly Chart
+            const yearlyCtx = document.getElementById('yearlyChart').getContext('2d');
+            new Chart(yearlyCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2022', '2023', '2024', '2025'],
+                    datasets: [{
+                        label: 'Cursos Completados',
+                        data: [5, 8, 12, 15],
+                        backgroundColor: '#667eea'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Update active button
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function toggleGoal(element) {
+            const goalText = element.nextElementSibling;
+            
+            if (element.classList.contains('completed')) {
+                element.classList.remove('completed');
+                element.innerHTML = '';
+                goalText.classList.remove('completed');
+            } else {
+                element.classList.add('completed');
+                element.innerHTML = '<i class="fas fa-check"></i>';
+                goalText.classList.add('completed');
+            }
+        }
+
+        // Animate progress bars on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+<footer><a href="/index.html" class="btn-regresar">← Volver al Inicio</a></footer>

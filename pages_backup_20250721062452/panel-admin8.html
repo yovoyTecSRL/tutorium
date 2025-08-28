@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Tutorium | Sistemas Orbix</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/pages/panel-admin.css">
+</head>
+<body>
+    <div class="particles-bg"></div>
+    
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-cog"></i>
+                    <span>Admin Panel</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#usuarios" class="nav-link" data-section="usuarios">
+                            <i class="fas fa-users"></i>
+                            <span>Usuarios</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#cursos" class="nav-link" data-section="cursos">
+                            <i class="fas fa-book"></i>
+                            <span>Cursos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#instructores" class="nav-link" data-section="instructores">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <span>Instructores</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#certificaciones" class="nav-link" data-section="certificaciones">
+                            <i class="fas fa-certificate"></i>
+                            <span>Certificaciones</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#reportes" class="nav-link" data-section="reportes">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Reportes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#configuracion" class="nav-link" data-section="configuracion">
+                            <i class="fas fa-settings"></i>
+                            <span>Configuración</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <img src="https://via.placeholder.com/40x40" alt="Admin" class="user-avatar">
+                    <div class="user-details">
+                        <span class="user-name">Admin</span>
+                        <span class="user-role">Administrador</span>
+                    </div>
+                </div>
+                <a href="../index.html" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Salir</span>
+                </a>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <nav class="breadcrumb">
+                        <span id="breadcrumbText">Inicio / Dashboard</span>
+                    </nav>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="Buscar...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="header-actions">
+                        <button class="action-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-count">3</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-envelope"></i>
+                            <span class="notification-count">5</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="content-area">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>2,847</h3>
+                                <p>Usuarios Activos</p>
+                                <span class="stat-trend positive">+12%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>156</h3>
+                                <p>Cursos Publicados</p>
+                                <span class="stat-trend positive">+8%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>$45,890</h3>
+                                <p>Ingresos del Mes</p>
+                                <span class="stat-trend positive">+15%</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>892</h3>
+                                <p>Certificaciones</p>
+                                <span class="stat-trend positive">+23%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3>Cursos Más Populares</h3>
+                                <button class="btn-secondary">Ver todos</button>
+                            </div>
+                            <div class="popular-courses">
+                                <div class="course-item">
+                                    <img src="https://via.placeholder.com/60x60" alt="Curso">
+                                    <div class="course-info">
+                                        <h4>Desarrollo Web Full Stack</h4>
+                                        <p>1,234 estudiantes</p>
+                                    </div>
+                                    <div class="course-stats">
+                                        <span class="rating">4.8 ⭐</span>
+                                        <span class="price">$89.99</span>
+                                    </div>
+                                </div>
+                                <div class="course-item">
+                                    <img src="https://via.placeholder.com/60x60" alt="Curso">
+                                    <div class="course-info">
+                                        <h4>Diseño UX/UI</h4>
+                                        <p>876 estudiantes</p>
+                                    </div>
+                                    <div class="course-stats">
+                                        <span class="rating">4.7 ⭐</span>
+                                        <span class="price">$69.99</span>
+                                    </div>
+                                </div>
+                                <div class="course-item">
+                                    <img src="https://via.placeholder.com/60x60" alt="Curso">
+                                    <div class="course-info">
+                                        <h4>Marketing Digital</h4>
+                                        <p>654 estudiantes</p>
+                                    </div>
+                                    <div class="course-stats">
+                                        <span class="rating">4.6 ⭐</span>
+                                        <span class="price">Gratis</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="dashboard-card">
+                            <div class="card-header">
+                                <h3>Actividad Reciente</h3>
+                                <button class="btn-secondary">Ver todo</button>
+                            </div>
+                            <div class="activity-feed">
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p>Nuevo usuario registrado: Juan Pérez</p>
+                                        <span class="activity-time">Hace 5 minutos</span>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p>Nuevo curso publicado: Python Avanzado</p>
+                                        <span class="activity-time">Hace 2 horas</span>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-certificate"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p>Certificación completada por María García</p>
+                                        <span class="activity-time">Hace 4 horas</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Usuarios Section -->
+                <section id="usuarios" class="content-section">
+                    <div class="section-header">
+                        <h2>Gestión de Usuarios</h2>
+                        <button class="btn-primary" onclick="openUserModal()">
+                            <i class="fas fa-plus"></i> Nuevo Usuario
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="table-filters">
+                            <input type="text" placeholder="Buscar usuarios..." class="filter-input">
+                            <select class="filter-select">
+                                <option value="">Todos los roles</option>
+                                <option value="admin">Administrador</option>
+                                <option value="instructor">Instructor</option>
+                                <option value="student">Estudiante</option>
+                            </select>
+                        </div>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>Email</th>
+                                    <th>Rol</th>
+                                    <th>Fecha Registro</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <!-- Usuarios se cargarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <!-- Cursos Section -->
+                <section id="cursos" class="content-section">
+                    <div class="section-header">
+                        <h2>Gestión de Cursos</h2>
+                        <button class="btn-primary" onclick="openCourseModal()">
+                            <i class="fas fa-plus"></i> Nuevo Curso
+                        </button>
+                    </div>
+                    
+                    <div class="courses-grid" id="coursesGrid">
+                        <!-- Cursos se cargarán aquí -->
+                    </div>
+                </section>
+                
+                <!-- Instructores Section -->
+                <section id="instructores" class="content-section">
+                    <div class="section-header">
+                        <h2>Gestión de Instructores</h2>
+                        <button class="btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Instructor
+                        </button>
+                    </div>
+                    
+                    <div class="instructors-grid" id="instructorsGrid">
+                        <!-- Instructores se cargarán aquí -->
+                    </div>
+                </section>
+                
+                <!-- Certificaciones Section -->
+                <section id="certificaciones" class="content-section">
+                    <div class="section-header">
+                        <h2>Gestión de Certificaciones</h2>
+                        <button class="btn-primary">
+                            <i class="fas fa-plus"></i> Nueva Certificación
+                        </button>
+                    </div>
+                    
+                    <div class="certificates-list" id="certificatesList">
+                        <!-- Certificaciones se cargarán aquí -->
+                    </div>
+                </section>
+                
+                <!-- Reportes Section -->
+                <section id="reportes" class="content-section">
+                    <div class="section-header">
+                        <h2>Reportes y Analíticas</h2>
+                        <button class="btn-secondary">
+                            <i class="fas fa-download"></i> Exportar
+                        </button>
+                    </div>
+                    
+                    <div class="reports-grid">
+                        <div class="report-card">
+                            <h3>Reporte de Ventas</h3>
+                            <p>Análisis de ingresos por curso</p>
+                            <button class="btn-primary">Generar</button>
+                        </div>
+                        <div class="report-card">
+                            <h3>Reporte de Usuarios</h3>
+                            <p>Estadísticas de registro y actividad</p>
+                            <button class="btn-primary">Generar</button>
+                        </div>
+                        <div class="report-card">
+                            <h3>Reporte de Cursos</h3>
+                            <p>Popularidad y calificaciones</p>
+                            <button class="btn-primary">Generar</button>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Configuración Section -->
+                <section id="configuracion" class="content-section">
+                    <div class="section-header">
+                        <h2>Configuración del Sistema</h2>
+                    </div>
+                    
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <h3>Configuración General</h3>
+                            <div class="config-item">
+                                <label>Nombre del Sitio</label>
+                                <input type="text" value="Tutorium Academy">
+                            </div>
+                            <div class="config-item">
+                                <label>Email de Contacto</label>
+                                <input type="email" value="admin@tutorium.com">
+                            </div>
+                            <button class="btn-primary">Guardar</button>
+                        </div>
+                        
+                        <div class="config-card">
+                            <h3>Configuración de Pagos</h3>
+                            <div class="config-item">
+                                <label>Método de Pago</label>
+                                <select>
+                                    <option>PayPal</option>
+                                    <option>Stripe</option>
+                                    <option>Mercado Pago</option>
+                                </select>
+                            </div>
+                            <div class="config-item">
+                                <label>Comisión (%)</label>
+                                <input type="number" value="10">
+                            </div>
+                            <button class="btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    
+    <script src="../js/common.js"></script>
+    <script>
+        // Datos de ejemplo
+        const usersData = [
+            { id: 1, name: 'Juan Pérez', email: 'juan@email.com', role: 'student', date: '2024-01-15', status: 'active' },
+            { id: 2, name: 'María García', email: 'maria@email.com', role: 'instructor', date: '2024-01-10', status: 'active' },
+            { id: 3, name: 'Carlos López', email: 'carlos@email.com', role: 'student', date: '2024-01-08', status: 'inactive' },
+            { id: 4, name: 'Ana Martínez', email: 'ana@email.com', role: 'admin', date: '2024-01-05', status: 'active' }
+        ];
+
+        const coursesData = [
+            { id: 1, title: 'Desarrollo Web Full Stack', instructor: 'María García', students: 1234, rating: 4.8, price: 89.99, status: 'published' },
+            { id: 2, title: 'Diseño UX/UI', instructor: 'Carlos López', students: 876, rating: 4.7, price: 69.99, status: 'published' },
+            { id: 3, title: 'Marketing Digital', instructor: 'Ana Martínez', students: 654, rating: 4.6, price: 0, status: 'draft' }
+        ];
+
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSidebar();
+            initializeParticles();
+            renderUsers();
+            renderCourses();
+        });
+
+        // Inicializar sidebar
+        function initializeSidebar() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.content-section');
+            
+            sidebarToggle.addEventListener('click', function() {
+                document.querySelector('.sidebar').classList.toggle('collapsed');
+            });
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remover clase active de todos los links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+                    
+                    // Agregar clase active al link clickeado
+                    this.classList.add('active');
+                    
+                    // Mostrar sección correspondiente
+                    const sectionId = this.dataset.section;
+                    const targetSection = document.getElementById(sectionId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                        
+                        // Actualizar título y breadcrumb
+                        document.getElementById('pageTitle').textContent = this.querySelector('span').textContent;
+                        document.getElementById('breadcrumbText').textContent = `Inicio / ${this.querySelector('span').textContent}`;
+                    }
+                });
+            });
+        }
+
+        // Inicializar partículas de fondo
+        function initializeParticles() {
+            const particlesContainer = document.querySelector('.particles-bg');
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.cssText = `
+                    position: absolute;
+                    width: 2px;
+                    height: 2px;
+                    background: rgba(255, 255, 255, 0.3);
+                    border-radius: 50%;
+                    animation: float ${Math.random() * 3 + 2}s infinite ease-in-out;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation-delay: ${Math.random() * 2}s;
+                `;
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Renderizar usuarios
+        function renderUsers() {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = usersData.map(user => `
+                <tr>
+                    <td>
+                        <div class="user-cell">
+                            <img src="https://via.placeholder.com/40x40" alt="${user.name}">
+                            <span>${user.name}</span>
+                        </div>
+                    </td>
+                    <td>${user.email}</td>
+                    <td><span class="role-badge ${user.role}">${user.role}</span></td>
+                    <td>${new Date(user.date).toLocaleDateString()}</td>
+                    <td><span class="status-badge ${user.status}">${user.status}</span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick="editUser(${user.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-icon" onclick="deleteUser(${user.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Renderizar cursos
+        function renderCourses() {
+            const grid = document.getElementById('coursesGrid');
+            grid.innerHTML = coursesData.map(course => `
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>${course.title}</h3>
+                        <span class="course-status ${course.status}">${course.status}</span>
+                    </div>
+                    <div class="course-info">
+                        <p><i class="fas fa-user"></i> ${course.instructor}</p>
+                        <p><i class="fas fa-users"></i> ${course.students} estudiantes</p>
+                        <p><i class="fas fa-star"></i> ${course.rating} ⭐</p>
+                        <p><i class="fas fa-dollar-sign"></i> ${course.price === 0 ? 'Gratis' : `$${course.price}`}</p>
+                    </div>
+                    <div class="course-actions">
+                        <button class="btn-secondary" onclick="editCourse(${course.id})">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn-danger" onclick="deleteCourse(${course.id})">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Funciones de gestión
+        function editUser(id) {
+            alert(`Editando usuario ID: ${id}`);
+        }
+
+        function deleteUser(id) {
+            if (confirm('¿Estás seguro de eliminar este usuario?')) {
+                alert(`Usuario ID: ${id} eliminado`);
+            }
+        }
+
+        function editCourse(id) {
+            alert(`Editando curso ID: ${id}`);
+        }
+
+        function deleteCourse(id) {
+            if (confirm('¿Estás seguro de eliminar este curso?')) {
+                alert(`Curso ID: ${id} eliminado`);
+            }
+        }
+
+        function openUserModal() {
+            alert('Abriendo modal para crear nuevo usuario');
+        }
+
+        function openCourseModal() {
+            alert('Abriendo modal para crear nuevo curso');
+        }
+
+        // Animación CSS para partículas
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
+
+
+<footer><a href="/index.html" class="btn-regresar">← Volver al Inicio</a></footer>
