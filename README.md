@@ -16,6 +16,7 @@ Tutorium es una plataforma educativa web moderna que utiliza inteligencia artifi
 - **🌐 Multiidioma**: Soporte completo para español e inglés con detección automática
 - **🎙️ Reconocimiento de Voz**: Análisis de pronunciación en tiempo real
 - **📝 Corrección Automática**: Detección y corrección de errores gramaticales y sintácticos
+- **🛡️ Orbix Security Suite**: Auditoría de seguridad y análisis forense integrado
 
 ## � Tecnologías Utilizadas
 
@@ -256,6 +257,9 @@ curl http://localhost:5000/api/health
 python tools/start.py check              # Verificar sistema
 ./deploy-simple.bat                      # Deploy básico
 ./ssl-simple.ps1                         # Configurar SSL
+
+# Despliegue seguro con auditoría (recomendado)
+scripts/linux/secure-deploy.sh           # Deploy con seguridad integrada
 ```
 
 ### Despliegue Manual
@@ -277,6 +281,83 @@ python tools/start.py check              # Verificar sistema
    python tools/start.py setup
    python tools/start.py serve &
    ```
+
+## 🛡️ Orbix Security Suite
+
+Tutorium incluye un conjunto completo de herramientas de seguridad para auditoría y análisis forense del sistema.
+
+### Características de Seguridad
+
+- **Auditoría no destructiva**: Análisis completo sin modificar el sistema
+- **Detección de webshells**: Identificación de archivos maliciosos en webroot
+- **Análisis de rootkits**: Integración con rkhunter y chkrootkit
+- **Monitoreo de procesos**: Detección de actividad sospechosa
+- **Análisis de logs**: Revisión de accesos y autenticación
+- **Reportes estructurados**: Salida en JSON, Markdown y texto plano
+
+### Scripts Disponibles
+
+#### 1. Auditoría de Seguridad (`orbix_audit.sh`)
+
+```bash
+# Auditoría completa del sistema
+sudo scripts/linux/orbix_audit.sh
+
+# Modo rápido (omite scans largos)
+sudo scripts/linux/orbix_audit.sh --quick
+
+# Instalar herramientas automáticamente
+sudo scripts/linux/orbix_audit.sh --install-tools
+```
+
+**Salida**: Paquete forense en `/tmp/orbix-sentinel-YYYYMMDD-HHMMSS.tar.gz`
+
+#### 2. Análisis Forense (`orbix_analysis.sh`)
+
+```bash
+# Analizar paquete más reciente
+scripts/linux/orbix_analysis.sh
+
+# Analizar paquete específico
+scripts/linux/orbix_analysis.sh --package /tmp/orbix-sentinel-*.tar.gz
+```
+
+**Salida**: Reportes estructurados en `/tmp/orbix-analysis-YYYYMMDD-HHMMSS/`
+
+### Reportes Generados
+
+- **`summary.md`**: Resumen ejecutivo con evaluación de compromiso
+- **`findings.json`**: Hallazgos estructurados machine-readable
+- **`critical_findings.txt`**: Lista de issues críticos
+- **`issues.md`**: Tickets priorizados (P0, P1, P2) listos para Jira/GitHub
+
+### Integración con Despliegue
+
+El script `secure-deploy.sh` incluye auditoría automática:
+
+```bash
+# Despliegue con auditoría pre y post-deployment
+scripts/linux/secure-deploy.sh
+```
+
+### Uso en Producción
+
+```bash
+# Instalación en servidor
+scp scripts/linux/orbix_*.sh root@servidor:/usr/local/bin/
+ssh root@servidor 'chmod +x /usr/local/bin/orbix_*.sh'
+
+# Auditoría programada (crontab)
+0 2 * * * /usr/local/bin/orbix_audit.sh --quick && /usr/local/bin/orbix_analysis.sh
+
+# Respuesta a incidentes
+sudo orbix_audit.sh && orbix_analysis.sh
+grep -i "P0" /tmp/orbix-analysis-*/issues.md
+```
+
+### Documentación Completa
+
+Ver: `scripts/linux/ORBIX_SECURITY_SUITE.md` para documentación detallada.
 
 ## 🎯 Uso del Sistema de Puntuación
 
